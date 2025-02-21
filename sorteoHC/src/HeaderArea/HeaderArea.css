@@ -1,0 +1,73 @@
+/* Contenedor principal del header */
+.header-container {
+  width: 100%;
+  margin: 0 auto;
+  padding: 0;
+  position: relative;
+}
+
+.top-bar {
+  position: relative; /* Necesario para posicionar .nav-bar dentro */
+  width: 100%;
+  height: 10vh; /* Ajusta según tu preferencia */
+  background-color: #0062a5;
+}
+
+/* Barra de navegación negra */
+.nav-bar {
+  /* Se posiciona absoluta dentro de .top-bar */
+  position: absolute;
+  top: 10%;    /* 10% de espacio desde arriba */
+  bottom: 10%; /* 10% de espacio desde abajo */
+  left: 0%;    /* 5% de espacio lateral izquierdo */
+  right: 0%;   /* 5% de espacio lateral derecho */
+
+  background-color: #212121;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end; /* Enlaces a la derecha, ajusta según necesites */
+  
+}
+
+/* Lista del menú */
+.nav-bar ul {
+  list-style: none;
+  display: flex;
+  justify-content: flex-end; /* Alinea los enlaces a la derecha */
+  align-items: center;
+  margin: 0;
+  padding: 0 2rem; /* Espacio lateral interno */
+}
+
+/* Elementos de la lista */
+.nav-bar li {
+  position: relative;
+  padding: 1rem 2rem; /* Ajusta el espaciado a tu gusto */
+  font-family: sans-serif;
+  font-size: 1rem; /* Ajusta el tamaño de fuente */
+  color: #ffffff;
+}
+
+/* Separador vertical entre cada item (excepto el último) */
+.nav-bar li:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 25%;
+  bottom: 25%;
+  width: 1px;
+  background-color: #555; /* Color del separador */
+}
+
+/* Enlaces */
+.nav-bar a {
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+/* Hover en enlaces */
+.nav-bar a:hover {
+  color: #cccccc;
+}

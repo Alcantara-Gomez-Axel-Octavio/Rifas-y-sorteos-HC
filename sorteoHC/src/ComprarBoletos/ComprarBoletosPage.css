@@ -1,0 +1,65 @@
+.Contenido_Todo_Tutoriales{
+    width: 100%;
+    max-width: 100%;
+    margin: auto;
+    position: relative;
+    background: #fff;
+
+}
+
+.Presentacion-contenedor-1 {
+  
+    background-size: auto;
+    height: 200vh;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    justify-content: center; /* Centra los elementos hijos horizontalmente */
+    font-size: 20px;
+
+  }
+  
+  .Presentacion-contenedor-2 {
+    max-width: 25%;
+    align-items: center;
+    text-align: left;
+    
+  }
+  
+  .Presentacion-contenedor-2 h1 {
+    font-size: 2.5em;
+    color: #0f98f8;
+    margin-bottom: 20px;
+    
+  }
+  
+  .Presentacion-contenedor-2 p {
+    
+    font-size: 1.2em;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .boton-contacto {
+    display: inline-block;
+    font-size: 1em;
+    color: #0f98f8;
+    text-decoration: none;
+    border: 1px solid #0f98f8;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  .boton-contacto:hover {
+    background-color: #0f98f8;
+    color: #fff;
+  }
+
+  .Presentacion-contenedor-3 img {
+    position: left;
+    max-width: 60vh;
+    height: auto;
+  }
+
+

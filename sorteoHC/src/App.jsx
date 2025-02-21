@@ -1,7 +1,9 @@
-import { useState } from 'react'
+
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
+import { useState, useEffect } from 'react'
+import { MyRoutes } from './Routers/Routers';
 
 function App() {
   const [data, setData] = useState([]);
@@ -14,13 +16,8 @@ function App() {
   }, []);
 
   return (
-    <div>
-      <h1>Datos desde MySQL</h1>
-      <ul>
-        {data.map((item, index) => (
-          <li key={index}>{JSON.stringify(item)}</li>
-        ))}
-      </ul>
+    <div className="App">
+      <MyRoutes/>      
     </div>
   );
 }
