@@ -5,36 +5,31 @@ import "./HeaderArea.css";
 function HeaderArea() {
   return (
     <header className="header-container">
-      {/* Barra azul superior */}
       <div className="top-bar">
+        {/* Barra azul superior o lo que necesites */}
         
-    
-        
-
-        {/* Barra negra de navegación */}
-      <nav className="nav-bar">
-        <ul>
-          <li>
-            <Link to="/">Inicio</Link>
-          </li>
-          <li>
-            <Link to="/Preguntas-frecuentes">Preguntas frecuentes</Link>
-          </li>
-          <li>
-            <Link to="/contacto">Contacto</Link>
-          </li>
-          <li>
-            <Link to="/MetodosDePago">Métodos de Pago</Link>
-          </li>
-          <li>
-            <Link to="/ComprarBoletos">Comprar boletos</Link>
-          </li>
-        </ul>
-      </nav>
-        
+        <nav className="nav-bar">
+          <ul>
+            <li>
+              <Link to="/">Inicio</Link>
+            </li>
+            
+            <li>
+              <a href="#faq-section">Preguntas frecuentes</a>
+            </li>
+            
+            <li>
+            <a href="#contacto-section">Contacto</a>
+            </li>
+            <li>
+              <Link to="/MetodosDePago">Métodos de Pago</Link>
+            </li>
+            <li>
+              <Link to="/ComprarBoletos">Comprar boletos</Link>
+            </li>
+          </ul>
+        </nav>
       </div>
-      
-      
     </header>
   );
 }
