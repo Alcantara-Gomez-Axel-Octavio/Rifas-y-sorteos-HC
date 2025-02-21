@@ -66,7 +66,7 @@
 }
 
 .Presentacion-contenedor-1 {
-  
+    padding-top: 60vh;
     background-size: auto;
     height: 80vh;
     display: flex;
@@ -77,26 +77,36 @@
 
   }
   
-  .Presentacion-contenedor-2 {
-    max-width: 25%;
-    align-items: center;
-    text-align: left;
-    
-  }
-  
-  .Presentacion-contenedor-2 h1 {
-    font-size: 2.5em;
-    color: #0f98f8;
-    margin-bottom: 20px;
-    
-  }
-  
-  .Presentacion-contenedor-2 p {
-    
-    font-size: 1.2em;
-    color: #333;
-    margin-bottom: 20px;
-  }
+.Presentacion-contenedor-2 {
+  min-width: 80%; /* Aumenta el ancho para un mayor impacto visual */
+  background-color: rgba(255, 255, 255, 0.85); /* Fondo blanco con transparencia */
+  padding: 2rem;
+  border-radius: 10px; /* Bordes redondeados para suavizar el contenedor */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Sombra sutil para dar profundidad */
+  text-align: center; /* Centra el contenido para un look más moderno */
+  margin: 1rem; /* Un margen para separarlo del resto si es necesario */
+}
+
+.Presentacion-contenedor-2 h1 {
+  font-size: 2.5em;
+  color: #0f98f8;
+  margin-bottom: 20px;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.2); 
+}
+
+.Presentacion-contenedor-2 h2 {
+  font-size: 1.4em;
+  color: #0f98f8;
+  margin-bottom: 20px;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.2); 
+}
+
+.Presentacion-contenedor-2 p {
+  font-size: 1.2em;
+  color: #333;
+  margin-bottom: 20px;
+}
+
   
   .boton-contacto {
     display: inline-block;
