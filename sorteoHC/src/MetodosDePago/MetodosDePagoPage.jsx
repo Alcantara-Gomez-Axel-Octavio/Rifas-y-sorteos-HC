@@ -23,10 +23,15 @@ function MetodosDePago(){
                 Whatsapp (614) 362 2916</p></h2>
             </div>
 
-            <div className="ContenedorMetodoBoton">
-                <img src={metodosDePago} alt="Metodos de pago" className="Imagen_Pago"/>
+            
 
-            </div>
+                <div className="ContenedorMetodo">
+                    <img src={metodosDePago} alt="Metodos de pago" className="Imagen_Pago"/>
+                    <button className="BotonDescargar">Pregunta En el whatsApp (614) 362 2916</button>
+                </div>
+                
+
+            
 
         </div>
     )
