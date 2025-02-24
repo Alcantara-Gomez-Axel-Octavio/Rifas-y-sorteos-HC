@@ -1,0 +1,133 @@
+.FullScreeen {
+    min-height: 100vh; /*  Se asegura de ocupar al menos el 100% de la pantalla */
+    width: 100vw;   /* Ocupa el 100% del ancho de la ventana */
+    display: flex;           /* Usamos flexbox para el diseño */
+    flex-direction: column;  /* Los elementos dentro se dispondrán en columna */
+    background: linear-gradient(to right, rgb(124, 60, 227), rgb(121, 121, 223));
+}
+
+.Header {
+    position: fixed;
+    width: 100%;  /* Ocupa todo el ancho de la ventana */
+    top: 0;       /* Fija el header en la parte superior */
+    left: 0;      /* Alinea el header al borde izquierdo */
+    z-index: 1000; /* Asegura que el header esté por encima de otros elementos */
+    background-color: #fff;  /* Fondo blanco para el header */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);  /* Agrega una sombra sutil */
+}
+
+.Contenedor_logo {
+    display: flex;  /* Usamos flexbox para centrar el contenido */
+    margin-top: 120px;  /* Espacio superior para evitar que se superponga al header */
+    text-align: center;  /* Centra el contenido dentro del logo */
+    padding: 30px 0;  /* Espaciado interno */
+    align-items: center;  /* Centra verticalmente el contenido */
+    justify-content: center;        /* Centra horizontalmente */
+    
+
+
+}
+
+.ContenedorInformacion{
+    display: flex;
+    flex-direction: column; /* Cambiado para alinear el texto y la imagen en columna */
+    align-items: center; /* Centra los elementos horizontalmente */
+    justify-content: center; /* Centra los elementos verticalmente */
+    margin-top: 0px;
+    padding: 10px 0;
+    width: 70%;
+    margin: 0 auto;
+}
+
+.Contenedor_logo img {
+    justify-content: center;
+    max-width: 100%;  /* El logo se ajustará al 100% del contenedor */
+    height: auto;     /* Mantiene la proporción original del logo */
+    width: 350px;     /* Establece un tamaño fijo pero responsivo */
+    object-fit: contain;  /* Ajusta el tamaño del logo sin deformarlo */
+
+}
+.Cuadro_Info{
+    background-color: #0062a5; /* Color de fondo */
+    color: white; /* Color del texto */
+    padding: 20px; /* Espaciado interno */
+    width: 100%;    
+    height: auto;
+
+}
+
+.Cuadro_Info h1{
+    font-size: 40px; /* Tamaño de fuente */
+    margin: 0; /* Elimina el margen por defecto */
+    font-style: bold; /* Establece el texto en negrita */   
+    font-family: sans-serif; /* Fuente del texto */
+}
+
+.Contenedor_Deposito{
+    display: flex;
+    flex-direction: column; /* Cambiado para alinear el texto y la imagen en columna */
+    align-items: center; /* Centra los elementos horizontalmente */
+    justify-content: center; /* Centra los elementos verticalmente */
+    margin-top: 0px;
+    padding: 10px 0;
+    width: 70%;
+    margin: 0 auto;
+
+}
+
+.ContenedorTexto{
+    color: rgb(0, 0, 0); /* Color del texto */
+    font-size: 50px; /* Tamaño de fuente */
+    margin: 0; /* Elimina el margen por defecto */
+    font-style: bold; /* Establece el texto en negrita */   
+    font-family: sans-serif; /* Fuente del texto */
+
+}
+
+.ContenedorImagen{
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column; /* Asegura que los elementos dentro estén en columna */
+    justify-content: center; /* Centra la imagen */
+    align-items: center; /* Asegura que la imagen esté centrada verticalmente */
+    border: 5px solid #1500ff; /* Borde azul (agregué el punto y coma al final) */
+    border-radius: 10px; /* Bordes redondeados */
+}
+
+
+.Imagen_Pago{
+    width: auto;
+    height: auto;
+}
+
+.ContenedorTextoPago{
+    background-color: red;
+    width: auto;
+    height: 100px;
+}
+
+
+.CuadroPreguntas{
+    background-color: #0062a5; /* Color de fondo */
+    padding: 100px; /* Espaciado interno */
+    width: 100%;    
+    height: auto;
+    display: flex;
+    flex-direction: column; /* Cambiado para alinear el texto y la imagen en columna */
+    align-items: center; /* Centra los elementos horizontalmente */
+    justify-content: center; /* Centra los elementos verticalmente */
+    margin-top: 20px;
+    padding: 10px 0;
+
+}
+
+.CuadroPreguntas text{
+    color: #ffffff; /* Color del texto */
+    font-size: 50px; /* Tamaño de fuente */
+    margin: 0; /* Elimina el margen por defecto */
+    font-style: bold; /* Establece el texto en negrita */   
+    font-family: sans-serif; /* Fuente del texto */
+}
