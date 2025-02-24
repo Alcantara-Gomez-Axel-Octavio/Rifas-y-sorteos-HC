@@ -1,98 +1,133 @@
-.Contenido_Todo_Tutoriales{
-   
-        width: 100%;
-        max-width: 100%;
-        margin: auto;
-        position: relative;
+.FullScreeen {
+    min-height: 100vh; /*  Se asegura de ocupar al menos el 100% de la pantalla */
+    width: 100vw;   /* Ocupa el 100% del ancho de la ventana */
+    display: flex;           /* Usamos flexbox para el diseño */
+    flex-direction: column;  /* Los elementos dentro se dispondrán en columna */
+    background: linear-gradient(to right, rgb(124, 60, 227), rgb(121, 121, 223));
+}
+
+.Header {
+    position: fixed;
+    width: 100%;  /* Ocupa todo el ancho de la ventana */
+    top: 0;       /* Fija el header en la parte superior */
+    left: 0;      /* Alinea el header al borde izquierdo */
+    z-index: 1000; /* Asegura que el header esté por encima de otros elementos */
+    background-color: #fff;  /* Fondo blanco para el header */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);  /* Agrega una sombra sutil */
+}
+
+.Contenedor_logo {
+    display: flex;  /* Usamos flexbox para centrar el contenido */
+    margin-top: 120px;  /* Espacio superior para evitar que se superponga al header */
+    text-align: center;  /* Centra el contenido dentro del logo */
+    padding: 30px 0;  /* Espaciado interno */
+    align-items: center;  /* Centra verticalmente el contenido */
+    justify-content: center;        /* Centra horizontalmente */
     
 
-}
-.Header{
-    height: auto;
-    width: 100%;
+
 }
 
-.Videos{
-    width: 90vw;
-    height: 64vh;
+.ContenedorInformacion{
+    display: flex;
+    flex-direction: column; /* Cambiado para alinear el texto y la imagen en columna */
+    align-items: center; /* Centra los elementos horizontalmente */
+    justify-content: center; /* Centra los elementos verticalmente */
+    margin-top: 0px;
+    padding: 10px 0;
+    width: 70%;
+    margin: 0 auto;
+}
+
+.Contenedor_logo img {
+    justify-content: center;
+    max-width: 100%;  /* El logo se ajustará al 100% del contenedor */
+    height: auto;     /* Mantiene la proporción original del logo */
+    width: 350px;     /* Establece un tamaño fijo pero responsivo */
+    object-fit: contain;  /* Ajusta el tamaño del logo sin deformarlo */
+
+}
+.Cuadro_Info{
+    background-color: #0062a5; /* Color de fondo */
+    color: white; /* Color del texto */
+    padding: 20px; /* Espaciado interno */
+    width: 100%;    
+    height: auto;
+
+}
+
+.Cuadro_Info h1{
+    font-size: 40px; /* Tamaño de fuente */
+    margin: 0; /* Elimina el margen por defecto */
+    font-style: bold; /* Establece el texto en negrita */   
+    font-family: sans-serif; /* Fuente del texto */
+}
+
+.Contenedor_Deposito{
+    display: flex;
+    flex-direction: column; /* Cambiado para alinear el texto y la imagen en columna */
+    align-items: center; /* Centra los elementos horizontalmente */
+    justify-content: center; /* Centra los elementos verticalmente */
+    margin-top: 0px;
+    padding: 10px 0;
+    width: 70%;
     margin: 0 auto;
 
 }
 
-.video{
-        width: 100%;
-        height: 100%;
-        border-top-left-radius: 20px;
-        border-top-right-radius: 20px;
-        overflow: hidden; /* Esto asegura que el contenido redondeado se recorte correctamente */
+.ContenedorTexto{
+    color: rgb(0, 0, 0); /* Color del texto */
+    font-size: 50px; /* Tamaño de fuente */
+    margin: 0; /* Elimina el margen por defecto */
+    font-style: bold; /* Establece el texto en negrita */   
+    font-family: sans-serif; /* Fuente del texto */
+
+}
+
+.ContenedorImagen{
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column; /* Asegura que los elementos dentro estén en columna */
+    justify-content: center; /* Centra la imagen */
+    align-items: center; /* Asegura que la imagen esté centrada verticalmente */
+    border: 5px solid #1500ff; /* Borde azul (agregué el punto y coma al final) */
+    border-radius: 10px; /* Bordes redondeados */
 }
 
 
-.dentroVideos{
-    width: 40%;
-    height: 80%;
-    margin: 0 25px;
+.Imagen_Pago{
+    width: auto;
+    height: auto;
 }
 
-.VideosDivision{
-    background-color: #d4d5d6; /* Color de fondo del botón */
-    color: #000000; /* Color del texto */
-    border: none; /* Sin borde */ 
-    border-bottom-left-radius: 40px; 
-    border-bottom-right-radius: 40px;  
-    padding: 0; /* Eliminar el relleno */
-    margin: 0; /* Eliminar el margen // Espaciado interno */
-    cursor: pointer; /* Cursor de puntero */
-    font-family: sans-serif;
-    font-size: 20px; /* Se corrige px */
-    font-weight: bold;
-    width: 100%;
-    height: 20vh;
-    transition: all 700ms;
-}
-
-.VideosDivision:hover {
-    background: rgb(125, 125, 126);
-    color: #ffffff;
-    text-align: center;
-}
-
-.CajaTextos{
-    width: 40%;
-    height: 90%;
-    float: right;
-    
-   
-}
-.TituloVideos{
-    width: 100%;
-    height: 25%;
-    float: right;
-    text-align: right;
-    padding-right: 20px;
-   
+.ContenedorTextoPago{
+    background-color: red;
+    width: auto;
+    height: 100px;
 }
 
 
-.VerMasVideos{
-    width: 100%;
-    height: 25%;
-    float: right;
+.CuadroPreguntas{
+    background-color: #0062a5; /* Color de fondo */
+    padding: 100px; /* Espaciado interno */
+    width: 100%;    
+    height: auto;
+    display: flex;
+    flex-direction: column; /* Cambiado para alinear el texto y la imagen en columna */
+    align-items: center; /* Centra los elementos horizontalmente */
+    justify-content: center; /* Centra los elementos verticalmente */
+    margin-top: 20px;
+    padding: 10px 0;
+
 }
 
-.BotonModal button{
-    padding: 10px 40px;
-    border: 2px solid #fff;
-    background: #46A2FD;
-    font-size: 14px;
-    font-weight: 600;
-    cursor:pointer;
-    color:#fff;
-    outline: none;
-    transition: all 1200ms;
-}
-
-.BotonModal button:hover {
-    background: #0051ff;
-    color: white;
+.CuadroPreguntas text{
+    color: #ffffff; /* Color del texto */
+    font-size: 50px; /* Tamaño de fuente */
+    margin: 0; /* Elimina el margen por defecto */
+    font-style: bold; /* Establece el texto en negrita */   
+    font-family: sans-serif; /* Fuente del texto */
 }
