@@ -1,0 +1,151 @@
+/* Minimalista y moderno CSS para AdministradorPage */
+
+:root {
+    --primary-color: #333;
+    --accent-color: #007bff;
+    --bg-color: #ffffff;
+    --light-bg: #f7f7f7;
+    --shadow-color: rgba(0, 0, 0, 0.05);
+  }
+  
+  body {
+    margin: 0;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background-color: var(--light-bg);
+    color: var(--primary-color);
+  }
+  
+  .admin-panel {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 20px;
+    background: var(--bg-color);
+    border-radius: 8px;
+    box-shadow: 0 2px 8px var(--shadow-color);
+  }
+  
+  .admin-panel h2 {
+    text-align: center;
+    margin-bottom: 24px;
+    font-weight: 400;
+    font-size: 28px;
+  }
+  
+  .admin-nav {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  
+  .admin-nav button {
+    background: var(--accent-color);
+    color: #fff;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s ease;
+  }
+  
+  .admin-nav button:hover {
+    background: #0056b3;
+  }
+  
+  /* Secciones generales */
+  section {
+    background: var(--bg-color);
+    padding: 20px;
+    margin-bottom: 24px;
+    border-radius: 6px;
+    box-shadow: 0 1px 4px var(--shadow-color);
+  }
+  
+  /* Formularios */
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  form label {
+    font-weight: 500;
+    font-size: 14px;
+    color: #333 ;
+  }
+  
+  form input,
+  form textarea,
+  form select,
+  form button {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background: var(--bg-color);
+    color: #333;
+  }
+  
+  form input:focus,
+  form textarea:focus {
+    border-color: var(--accent-color);
+    outline: none;
+    color: #333;
+    
+  }
+  
+  /* Botones en formularios */
+  form button {
+    background: #28a745;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  form button:hover {
+    background: #1e7e34;
+  }
+  
+  /* Matriz de Tickets */
+  .tickets-matriz .matrix {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
+    gap: 6px;
+    margin-top: 10px;
+  }
+  
+  .ticket {
+    background: #e8e8e8;
+    padding: 8px;
+    text-align: center;
+    border-radius: 4px;
+    font-size: 12px;
+  }
+  
+  /* Estados de Tickets */
+  .ticket-disponible {
+    background: #f5f5f5;
+  }
+  
+  .ticket-apartado {
+    background: #4caf50;
+    color: #fff;
+  }
+  
+  .ticket-pagado {
+    background: #ff9800;
+    color: #fff;
+  }
+  
+  /* Métodos de Pago */
+  .metodos-pago > div {
+    margin-bottom: 20px;
+  }
+  
+  .metodos-pago h4 {
+    margin-bottom: 12px;
+    color: var(--primary-color);
+  }
+  
