@@ -22,6 +22,17 @@ function ComprarBoletosPage() {
 
         </div>
 
+        <div className="ContenedorBoton">
+            <div className='BotonGenerar'>
+                Generar aleatorio
+            </div>
+        </div>
+
+        <div className='ContenedorMisboletos'>  
+            
+        </div>
+
+
         <div className="Presentacion-contenedor-1">
             
 
