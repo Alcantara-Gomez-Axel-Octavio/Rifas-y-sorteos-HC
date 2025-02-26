@@ -13,6 +13,15 @@ function ComprarBoletosPage() {
             <HeaderArea />  
         </div>
 
+        <div className='Texto-Principal'>
+            <h1>Compra de boletos</h1>
+            <p>En esta sección podrás comprar boletos para participar en el sorteo de la rifa de la fábrica de la suerte.</p>
+        </div>
+
+        <div className="CuadroBlanco">
+
+        </div>
+
         <div className="Presentacion-contenedor-1">
             
 
