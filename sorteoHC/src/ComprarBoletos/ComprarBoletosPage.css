@@ -7,6 +7,41 @@
 
 }
 
+.Texto-Principal {
+  background-color: #3562a6;
+  width: 100%;
+  padding-top: 100px; /* Da espacio suficiente si el header tiene un tamaño fijo */
+  position: relative;
+  z-index: 1; /* Asegura que el texto no quede detrás del Header */
+  text-align: center;
+  color: #fff;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.4); /* Sombra hacia abajo */
+  border-radius: 25px;
+}
+
+.Texto-Principal p {
+  font-size: 25px;
+  margin-bottom: 20px;
+}
+
+.CuadroBlanco {
+  background-color: #fff;
+  width: 70%;
+  height: 800px;
+  padding-top: auto; /* Da espacio suficiente si el header tiene un tamaño fijo */
+  position: relative;
+  z-index: 1; /* Asegura que el texto no quede detrás del Header */
+  text-align: center;
+  color: #000;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.4); /* Sombra hacia abajo */
+  border-radius: 25px;
+  display: flex; /* Habilita el modelo de flexbox */
+  flex-direction: column; /* Alinea los elementos de arriba hacia abajo */
+  justify-content: center; /* Centra los elementos verticalmente */
+  align-items: center; /* Centra los elementos horizontalmente */
+  margin: 0 auto; /* Centra el cuadro horizontalmente */
+}
+
 .Presentacion-contenedor-1 {
   
     background-size: auto;
