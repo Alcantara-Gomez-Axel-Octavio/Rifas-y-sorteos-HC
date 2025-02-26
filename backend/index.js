@@ -62,5 +62,23 @@ app.post('/api/login', (req, res) => {
   });
 });
 
+
+// Middleware para verificar el token
+const verifyToken = (req, res, next) => {
+  const token = req.headers["authorization"];
+  if (!token) return res.status(403).json({ message: "No autorizado" });
+
+  jwt.verify(token.split(" ")[1], process.env.JWT_SECRET, (err, decoded) => {
+    if (err) return res.status(401).json({ message: "Token inválido" });
+    req.user = decoded;
+    next();
+  });
+};
+
+// Ruta protegida de administrador
+app.get("/api/admin", verifyToken, (req, res) => {
+  res.json({ message: "Acceso autorizado a administrador", user: req.user });
+});
+
 // Servidor corriendo en el puerto 3001
 app.listen(3001, () => console.log('Servidor en puerto 3001'));
