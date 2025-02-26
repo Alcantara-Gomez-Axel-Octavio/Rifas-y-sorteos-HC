@@ -24,6 +24,11 @@ function ComprarBoletosPage() {
         </div>
 
         <div className="CuadroBlanco">
+            <div className='DentrodeBlancoBoton'>
+            {[...Array(10000)].map((_, index) => (
+            <button key={index} className="BotonNumero">{index + 1}</button>
+          ))}
+            </div>
 
         </div>
 
@@ -85,6 +90,31 @@ function ComprarBoletosPage() {
             <div className="modal">
                 <div className="ModalContenido">
                     <span className="CerrarModal" onClick={openModal}>X</span>
+                    <div className='contenedorSeleccion'>
+                        <div className='contenedorTextoGenerar'>
+                            BOLETOS A GENERAR:
+                        </div>
+                        <div className='ContenedorSelect'>
+                            <select className='SelectGenerar'>
+                                <option value=""disabled>Selecciona numero de boletos</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="1">10</option>
+                                <option value="2">20</option>
+                                <option value="3">30</option>
+                                <option value="4">40</option>
+                                <option value="5">50</option>
+                                <option value="1">60</option>
+                                <option value="2">70</option>
+                                <option value="3">80</option>
+                                <option value="4">90</option>
+                                <option value="5">100</option>
+                            </select>
+                        </div>
+                    </div>
                     </div> 
                     
                         
