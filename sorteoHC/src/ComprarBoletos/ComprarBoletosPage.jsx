@@ -1,10 +1,33 @@
-
 import HeaderArea from '../HeaderArea/HeaderArea';
 import "./ComprarBoletosPage.css";
+import { useState } from 'react';
+
+import Suerte from "../assets/Suerte.gif";
 
 
 function ComprarBoletosPage() {
-  
+    const [showModal, setShowModal] = useState(false);
+    const [showModal2, setShowModal2] = useState(false);
+    const [mostrarGif, setMostrarGif] = useState(false);
+
+
+
+    const openModal = () =>{
+        setShowModal(!showModal);
+    };
+
+    
+    const openModal2 = () =>{
+        setShowModal2(!showModal2);
+    };
+
+
+    const mostrarGifTemporalmente = () => {
+        setMostrarGif(true); // Muestra el GIF
+        setTimeout(() => {
+          setMostrarGif(false); // Oculta el GIF después de 5 segundos
+        }, 3000);
+      };
 
   return (
     <div className="contenedor__todo_Home">
@@ -19,8 +42,29 @@ function ComprarBoletosPage() {
         </div>
 
         <div className="CuadroBlanco">
+            <div className='DentrodeBlancoBoton'>
+            {[...Array(10000)].map((_, index) => (
+            <button key={index} className="BotonNumero">{index + 1}</button>
+          ))}
+            </div>
 
         </div>
+
+        <div className="ContenedorBoton">
+            <div className='BotonGenerar' onClick={openModal} >
+                Generar aleatorio
+            </div>
+        </div>
+
+        <div className='ContenedorMisboletos'>  
+
+        </div>
+        <div className="ContenedorBoton">
+            <div className='BotonGenerar' onClick={openModal2} >
+                Confirmar
+            </div>
+        </div>
+
 
         <div className="Presentacion-contenedor-1">
             
@@ -60,11 +104,69 @@ function ComprarBoletosPage() {
         </div>
       </div>
       
+        {showModal &&(
+            <div className="modal">
+                <div className="ModalContenido">
+                    <span className="CerrarModal" onClick={openModal}>X</span>
+                    <div className='contenedorSeleccion'>
+                        <div className='contenedorTextoGenerar'>
+                            BOLETOS A GENERAR:
+                        </div>
+                        <div className='ContenedorSelect'>
+                            <select className='SelectGenerar'>
+                                <option value=""disabled>Selecciona numero de boletos</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="1">10</option>
+                                <option value="2">20</option>
+                                <option value="3">30</option>
+                                <option value="4">40</option>
+                                <option value="5">50</option>
+                                <option value="1">60</option>
+                                <option value="2">70</option>
+                                <option value="3">80</option>
+                                <option value="4">90</option>
+                                <option value="5">100</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div className='Botonaleatorio' onClick={mostrarGifTemporalmente} >
+                        Generar aleatorio
+                    </div>
+                    <div className='ContenedorMisboletosAleatorios'>
+                    {mostrarGif && <img src={Suerte} alt="Suerte" />}
+                    </div>
+                    </div> 
+                    
+                        
+                    
+                
+            </div>
+        )}
 
+
+        {showModal2 &&(
+                    <div className="modal">
+                        <div className="ModalContenido">
+                            <span className="CerrarModal" onClick={openModal2}>X</span>
+                           
+                            </div> 
+                            
+                                
+                            
+                        
+                    </div>
+                )}
       
 
 
     </div>
+
+
+
   );
 }
 
