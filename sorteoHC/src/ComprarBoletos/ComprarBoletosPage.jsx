@@ -1,10 +1,10 @@
-
 import HeaderArea from '../HeaderArea/HeaderArea';
 import "./ComprarBoletosPage.css";
 
 
 function ComprarBoletosPage() {
-  
+
+
 
   return (
     <div className="contenedor__todo_Home">
@@ -23,13 +23,13 @@ function ComprarBoletosPage() {
         </div>
 
         <div className="ContenedorBoton">
-            <div className='BotonGenerar'>
+            <div className='BotonGenerar' >
                 Generar aleatorio
             </div>
         </div>
 
         <div className='ContenedorMisboletos'>  
-            
+
         </div>
 
 
