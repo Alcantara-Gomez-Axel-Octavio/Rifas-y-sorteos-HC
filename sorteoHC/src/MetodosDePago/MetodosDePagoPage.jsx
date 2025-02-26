@@ -7,6 +7,8 @@ import metodosDePago from "../assets/MetododePago.png";
 
 
 
+
+
 function MetodosDePago(){
     
     return(
@@ -25,10 +27,17 @@ function MetodosDePago(){
 
             
 
-                <div className="ContenedorMetodo">
-                    <img src={metodosDePago} alt="Metodos de pago" className="Imagen_Pago"/>
-                    <button className="BotonDescargar">Pregunta En el whatsApp (614) 362 2916</button>
-                </div>
+            <div className="ContenedorMetodo">
+    <img src={metodosDePago} alt="Metodos de pago" className="Imagen_Pago"/>
+    <a 
+        href="https://wa.me/3321183188" 
+        target="_blank" 
+        rel="noopener noreferrer"
+        className="BotonDescargar"
+    >
+        Pregunta en el WhatsApp (614) 362 2916
+    </a>
+</div>
                 
 
             
