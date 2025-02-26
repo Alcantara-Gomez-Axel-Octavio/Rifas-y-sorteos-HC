@@ -83,12 +83,38 @@ app.get("/api/admin", verifyToken, (req, res) => {
 
 
 
-// Endpoint para crear sorteo
+// Función para insertar tickets en lotes
+function insertTicketsInBatches(sorteoId, numTickets, batchSize = 1000) {
+  let currentTicket = 1;
+  function insertBatch() {
+    const ticketsData = [];
+    // Prepara el lote actual
+    for (let i = currentTicket; i < currentTicket + batchSize && i <= numTickets; i++) {
+      ticketsData.push([sorteoId, i, 'disponible']);
+    }
+    if (ticketsData.length === 0) return Promise.resolve();
+
+    return new Promise((resolve, reject) => {
+      const queryTickets = 'INSERT INTO tickets (sorteo_id, numero_ticket, estado) VALUES ?';
+      pool.query(queryTickets, [ticketsData], (err, result) => {
+        if (err) return reject(err);
+        currentTicket += ticketsData.length;
+        resolve();
+      });
+    }).then(() => {
+      if (currentTicket <= numTickets) {
+        return insertBatch();
+      }
+    });
+  }
+  return insertBatch();
+}
+
+// Endpoint para crear sorteo y generar tickets
 app.post('/api/sorteo', (req, res) => {
-  // Se esperan los datos: admin_id, imagen, fecha_finalizacion, descripcion, precio_boleto, total_tickets y (opcionalmente) confirm
   const { admin_id, imagen, fecha_finalizacion, descripcion, precio_boleto, total_tickets, confirm } = req.body;
 
-  // Consultar si ya existe un sorteo (se asume que solo debe existir uno activo a la vez)
+  // Consulta si ya existe un sorteo activo
   pool.query('SELECT * FROM sorteos ORDER BY created_at DESC LIMIT 1', (err, results) => {
     if (err) {
       console.error('Error consultando sorteo:', err);
@@ -100,7 +126,7 @@ app.post('/api/sorteo', (req, res) => {
       return res.status(400).json({ warning: "Ya existe un sorteo activo. Al crear uno nuevo, se eliminará el sorteo anterior. ¿Desea continuar?" });
     }
 
-    // Función interna para insertar el nuevo sorteo
+    // Función interna para insertar el nuevo sorteo y generar tickets
     function insertNewSorteo() {
       const query = 'INSERT INTO sorteos (admin_id, imagen, fecha_finalizacion, descripcion, precio_boleto, total_tickets) VALUES (?, ?, ?, ?, ?, ?)';
       pool.query(query, [admin_id, imagen, fecha_finalizacion, descripcion, precio_boleto, total_tickets || 60000], (err3, insertResult) => {
@@ -108,11 +134,23 @@ app.post('/api/sorteo', (req, res) => {
           console.error('Error al crear sorteo:', err3);
           return res.status(500).json({ message: "Error al crear sorteo", error: err3.message });
         }
-        res.json({ message: "Sorteo creado exitosamente", sorteo_id: insertResult.insertId });
+
+        const sorteoId = insertResult.insertId;
+        const numTickets = total_tickets || 60000;
+
+        // Insertar los tickets en lotes
+        insertTicketsInBatches(sorteoId, numTickets)
+          .then(() => {
+            res.json({ message: "Sorteo y tickets creados exitosamente", sorteo_id: sorteoId });
+          })
+          .catch(errTickets => {
+            console.error('Error al generar tickets en lotes:', errTickets);
+            res.status(500).json({ message: "Error al generar tickets", error: errTickets.message });
+          });
       });
     }
 
-    // Si ya existe un sorteo y se confirmó, se borra el anterior antes de crear el nuevo
+    // Si ya existe sorteo y se confirmó, se borra el anterior y luego se inserta el nuevo
     if (results.length > 0 && confirm) {
       pool.query('DELETE FROM sorteos', (err2, deleteResult) => {
         if (err2) {
@@ -127,6 +165,8 @@ app.post('/api/sorteo', (req, res) => {
     }
   });
 });
+
+
 
 
 

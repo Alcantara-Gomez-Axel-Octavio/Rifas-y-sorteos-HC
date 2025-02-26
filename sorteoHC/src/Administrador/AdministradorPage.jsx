@@ -8,7 +8,8 @@ function AdministradorPage() {
     imagen: null,
     fechaFinalizacion: "",
     descripcion: "",
-    precioBoleto: ""
+    precioBoleto: "",
+    cantidadBoletos: ""
   });
 
   // Estados para métodos de pago (se mantienen)
