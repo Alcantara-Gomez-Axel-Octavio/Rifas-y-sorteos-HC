@@ -1,35 +1,37 @@
-import React, { useState } from 'react';
-import './loginPage.css';
+import React, { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../AuthContext/AuthContext.jsx";
+import "./loginPage.css";
 
 const LoginPage = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const { login } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
+    setError("");
 
     try {
-      const response = await fetch('http://localhost:3001/api/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password })
+      const response = await fetch("http://localhost:3001/api/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
       });
 
       if (response.ok) {
         const data = await response.json();
-        console.log('Inicio de sesión exitoso:', data);
-        // Aquí podrías guardar el token y redirigir al usuario, por ejemplo:
-        // localStorage.setItem('adminToken', data.token);
-        // history.push('/dashboard');
+        login(data.token);
+        navigate("/Administrador");
       } else {
         const errorData = await response.json();
-        setError(errorData.message || 'Error en el inicio de sesión');
+        setError(errorData.message || "Error en el inicio de sesión");
       }
     } catch (err) {
-      console.error('Error:', err);
-      setError('Error al conectar con el servidor');
+      console.error("Error:", err);
+      setError("Error al conectar con el servidor");
     }
   };
 
