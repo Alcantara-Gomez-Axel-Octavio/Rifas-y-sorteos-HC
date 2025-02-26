@@ -1,9 +1,14 @@
 import HeaderArea from '../HeaderArea/HeaderArea';
 import "./ComprarBoletosPage.css";
+import { useState } from 'react';
 
 
 function ComprarBoletosPage() {
+    const [showModal, setShowModal] = useState(false);
 
+    const openModal = () =>{
+        setShowModal(!showModal);
+    };
 
 
   return (
@@ -23,13 +28,18 @@ function ComprarBoletosPage() {
         </div>
 
         <div className="ContenedorBoton">
-            <div className='BotonGenerar' >
+            <div className='BotonGenerar' onClick={openModal} >
                 Generar aleatorio
             </div>
         </div>
 
         <div className='ContenedorMisboletos'>  
 
+        </div>
+        <div className="ContenedorBoton">
+            <div className='BotonGenerar' onClick={openModal} >
+                Confirmar
+            </div>
         </div>
 
 
@@ -71,11 +81,24 @@ function ComprarBoletosPage() {
         </div>
       </div>
       
-
+        {showModal &&(
+            <div className="modal">
+                <div className="ModalContenido">
+                    <span className="CerrarModal" onClick={openModal}>X</span>
+                    </div> 
+                    
+                        
+                    
+                
+            </div>
+        )}
       
 
 
     </div>
+
+
+
   );
 }
 
