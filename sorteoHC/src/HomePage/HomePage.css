@@ -1,15 +1,15 @@
+
+
 .Header{
-    height: auto;
-    width: 100%;
-    margin: 0 auto;
+  height: auto;
+  width: 100%;
+  margin: 0 auto;
 }
 
 .contenedor__todo_Home{
-    width: 100%;
-    max-width: 100%;
-    margin: auto;
-    position: relative;
- 
+  width: 100%;
+  height: 100%;
+  position: relative;
   background: url('https://digitalassets.tesla.com/tesla-contents/image/upload/f_auto,q_auto/Model-S-Main-Hero-Desktop-NA.png') no-repeat center center fixed;
   background-size: cover;  /* Ajusta la imagen al tamaño de la pantalla */
 
@@ -18,167 +18,168 @@
 
 
 .BotonAgregar{
-    height: auto;
-    width: auto;
-    display: flex;
-    justify-content: center;
+  height: auto;
+  width: auto;
+  display: flex;
+  justify-content: center;
 }
 
 .FormaBoton {
-    background-color: #0f98f8; /* Color de fondo del botón */
-    color: #fff; /* Color del texto */
-    border: none; /* Sin borde */
-    border-radius: 5px; /* Bordes redondeados */
-    padding: 10px 20px; /* Espaciado interno */
-    cursor: pointer; /* Cursor de puntero */
-    margin: 5px 0px 42px 50px;
-    font-family: sans-serif;
-    font-size: 20px; /* Se corrige px */
-    font-weight: bold;
-    width: 50%;
-    height: 6vh;
-    transition: all 1200ms;
+  background-color: #0f98f8; /* Color de fondo del botón */
+  color: #fff; /* Color del texto */
+  border: none; /* Sin borde */
+  border-radius: 5px; /* Bordes redondeados */
+  padding: 10px 20px; /* Espaciado interno */
+  cursor: pointer; /* Cursor de puntero */
+  margin: 5px 0px 42px 50px;
+  font-family: sans-serif;
+  font-size: 20px; /* Se corrige px */
+  font-weight: bold;
+  width: 50%;
+  height: 6vh;
+  transition: all 1200ms;
 }
 
 .FormaBoton:hover {
-    background: #0f98f8;
-    color: #ffffff;
+  background: #0f98f8;
+  color: #ffffff;
 }
 
 .BotonEliminarEspacio{
-    align-items: center;
-    margin: auto;
-    margin-top: 50px;
+  align-items: center;
+  margin: auto;
+  margin-top: 50px;
 }
 
 .botonEliminar{
-    background-color: #ff0000; /* Color de fondo del botón */
-    color: #ffffff; /* Color del texto */
-    border: none; /* Sin borde */
-    border-radius: 5px; /* Bordes redondeados */
-    cursor: pointer; /* Cursor de puntero */
-    font-family: sans-serif;
-    font-size: 20px; /* Se corrige px */
-    font-weight: bold;
-    transition: all 1200ms;
-    width: 200px;
-    height: 40px;
+  background-color: #ff0000; /* Color de fondo del botón */
+  color: #ffffff; /* Color del texto */
+  border: none; /* Sin borde */
+  border-radius: 5px; /* Bordes redondeados */
+  cursor: pointer; /* Cursor de puntero */
+  font-family: sans-serif;
+  font-size: 20px; /* Se corrige px */
+  font-weight: bold;
+  transition: all 1200ms;
+  width: 200px;
+  height: 40px;
 }
 
 .Presentacion-contenedor-1 {
-    padding-top: 60vh;
-    background-size: auto;
-    height: 80vh;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    justify-content: center; /* Centra los elementos hijos horizontalmente */
-    font-size: 20px;
+  padding-top: 60vh;
+  background-size: auto;
+  height: 80vh;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  justify-content: center; /* Centra los elementos hijos horizontalmente */
+  font-size: 20px;
 
-  }
-  
+}
+
 .Presentacion-contenedor-2 {
-  min-width: 80%; /* Aumenta el ancho para un mayor impacto visual */
-  background-color: rgba(255, 255, 255, 0.85); /* Fondo blanco con transparencia */
-  padding: 2rem;
-  border-radius: 10px; /* Bordes redondeados para suavizar el contenedor */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Sombra sutil para dar profundidad */
-  text-align: center; /* Centra el contenido para un look más moderno */
-  margin: 1rem; /* Un margen para separarlo del resto si es necesario */
+min-width: 80%; /* Aumenta el ancho para un mayor impacto visual */
+background-color: rgba(255, 255, 255, 0.85); /* Fondo blanco con transparencia */
+padding: 2rem;
+border-radius: 10px; /* Bordes redondeados para suavizar el contenedor */
+box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Sombra sutil para dar profundidad */
+text-align: center; /* Centra el contenido para un look más moderno */
+margin: 1rem; /* Un margen para separarlo del resto si es necesario */
 }
 
 .Presentacion-contenedor-2 h1 {
-  font-size: 2.5em;
-  color: #0f98f8;
-  margin-bottom: 20px;
-  text-shadow: 1px 1px 3px rgba(0,0,0,0.2); 
+font-size: 2.5em;
+color: #0f98f8;
+margin-bottom: 20px;
+text-shadow: 1px 1px 3px rgba(0,0,0,0.2); 
 }
 
 .Presentacion-contenedor-2 h2 {
-  font-size: 1.4em;
-  color: #0f98f8;
-  margin-bottom: 20px;
-  text-shadow: 1px 1px 3px rgba(0,0,0,0.2); 
+font-size: 1.4em;
+color: #0f98f8;
+margin-bottom: 20px;
+text-shadow: 1px 1px 3px rgba(0,0,0,0.2); 
 }
 
 .Presentacion-contenedor-2 p {
-  font-size: 1.2em;
+font-size: 1.2em;
+color: #333;
+margin-bottom: 20px;
+}
+
+
+.boton-contacto {
+  display: inline-block;
+  font-size: 1em;
+  color: #0f98f8;
+  text-decoration: none;
+  border: 1px solid #0f98f8;
+  padding: 10px 20px;
+  border-radius: 5px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.boton-contacto:hover {
+  background-color: #0f98f8;
+  color: #fff;
+}
+
+.Presentacion-contenedor-3 img {
+  position: left;
+  max-width: 60vh;
+  height: auto;
+}
+
+
+.Acerca-de-nosotros-contenedor {
+  margin-top: 20vh;
+}
+
+.Acerca-de-nosotros-info {
+  margin: 10vh auto;
+  padding: 2rem;
+  max-width: 800px;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.Acerca-de-nosotros-titulo {
+  color: #007bff;
+  font-family: sans-serif;
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.Acerca-de-nosotros-desc {
+  font-size: 1.2rem;
   color: #333;
-  margin-bottom: 20px;
+  margin-bottom: 2rem;
 }
 
-  
-  .boton-contacto {
-    display: inline-block;
-    font-size: 1em;
-    color: #0f98f8;
-    text-decoration: none;
-    border: 1px solid #0f98f8;
-    padding: 10px 20px;
-    border-radius: 5px;
-    transition: background-color 0.3s, color 0.3s;
-  }
-  
-  .boton-contacto:hover {
-    background-color: #0f98f8;
-    color: #fff;
-  }
-
-  .Presentacion-contenedor-3 img {
-    position: left;
-    max-width: 60vh;
-    height: auto;
-  }
-
-
-
-
-.Acerca-de-nosotros-contenedor-1{
-    margin-top: 10vh;
-    min-height: 100px;
-    width: 100%;
-    height: 13vh;
-    color:#0f98f8;
-    font-family: sans-serif;
-    font-size: 40PX;
-    font-weight: bold;
-    margin-bottom: 60vh;
-}
-.Acerca-de-nosotros-contenedor-2{
-    min-height: 100px;
-    width: 100%;
-    height: 30vh;
-    display:flex;
-        
+.Acerca-de-nosotros-redes {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
 }
 
-.Acerca-de-nosotros-contenedor-mapa {
-    margin-top: 150px;
-    width: 50%; 
-    border: none;
-    float: right; 
+.Acerca-de-nosotros-redes a img {
+  width: 10vh;
+  height: 10vh;
+  transition: transform 0.3s;
 }
 
-.Acerca-de-nosotros-contenedor-mapa iframe {
-    float: right; 
-    margin-right: 5vh;
-    width: 60%; 
-    height: 30vh; 
-    border: none; 
+.Acerca-de-nosotros-redes a:hover img {
+  transform: scale(1.1);
 }
 
-.Acerca-de-nosotros-Titulo1{
-    color:#007bff;
-    font-family: sans-serif;
-    font-size: 50PX;
+.Acerca-de-nosotros-contacto p {
+  font-size: 1.1rem;
+  color: #333;
+  margin: 0.5rem 0;
 }
-
-.Acerca-de-nosotros-contenedor-informacion{
-    max-width: 50vh;
-    font-size: 16px;
-    font-weight: normal;
-    line-height: 1.6;
-    text-align: left;
-    color: #333;
-}
-
