@@ -1,73 +1,295 @@
-
+import React, { useState, useEffect } from 'react';
 import HeaderArea from '../HeaderArea/HeaderArea';
-
-
+import "./AdministradorPage.css";
 
 function AdministradorPage() {
+  // Estado para el sorteo (se mantiene la lógica para crear un sorteo)
+  const [sorteo, setSorteo] = useState({
+    imagen: null,
+    fechaFinalizacion: "",
+    descripcion: "",
+    precioBoleto: "",
+    cantidadBoletos: ""
+  });
+
+  // Estados para métodos de pago (se mantienen)
+  const [metodoTransferencias, setMetodoTransferencias] = useState({
+    banco: "",
+    nombre: "",
+    clabe: ""
+  });
+  const [metodoOxxo, setMetodoOxxo] = useState({
+    banco: "",
+    numeroTarjeta: ""
+  });
+  const [metodoPagosUSA, setMetodoPagosUSA] = useState({
+    banco: "",
+    nombre: "",
+    numeroTarjeta: ""
+  });
+
+  // Estado para los tickets (los datos se extraen de la BD)
+  const [tickets, setTickets] = useState([]);
+
+  // Se consulta el endpoint de tickets al cargar el componente
+  useEffect(() => {
+    fetch('/api/tickets')
+      .then(response => response.json())
+      .then(data => {
+        // Se asume que 'data' es un arreglo de objetos ticket
+        setTickets(data);
+      })
+      .catch(err => console.error("Error al obtener tickets:", err));
+  }, []);
+
+  // Función para aceptar la compra de un ticket
+  const handleAcceptTicket = (ticketId) => {
+    fetch(`/api/tickets/${ticketId}/accept`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+    })
+    .then(res => res.json())
+    .then(updatedTicket => {
+      // Actualiza el estado de los tickets localmente
+      setTickets(prevTickets =>
+        prevTickets.map(ticket =>
+          ticket.id === updatedTicket.id ? updatedTicket : ticket
+        )
+      );
+    })
+    .catch(err => console.error("Error al aceptar el ticket:", err));
+  };
+
+  // Función para crear un sorteo
+  const handleSorteoSubmit = async (e) => {
+    e.preventDefault();
   
+    // Construir el objeto del nuevo sorteo.
+    // Nota: Se debe obtener el id del administrador (por ejemplo, desde el contexto o la sesión).
+    const newSorteo = {
+      admin_id: 1, // Cambia esto por el id del admin logueado
+      // Para simplificar, se usa el nombre del archivo; en producción se puede usar FormData y un manejador de carga.
+      imagen: sorteo.imagen.name,  
+      fecha_finalizacion: sorteo.fechaFinalizacion,
+      descripcion: sorteo.descripcion,
+      precio_boleto: sorteo.precioBoleto,
+      total_tickets: sorteo.cantidadBoletos,
+    };
+  
+    // Enviar solicitud inicial
+    let response = await fetch('/api/sorteo', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(newSorteo)
+    });
+  
+    let data = await response.json();
+  
+    // Si la respuesta es 400 y hay advertencia, solicitar confirmación al usuario
+    if (response.status === 400 && data.warning) {
+      const confirmed = window.confirm(data.warning);
+      if (!confirmed) return;
+  
+      // Si el usuario confirma, se reenvía la solicitud con confirmación
+      newSorteo.confirm = true;
+      response = await fetch('/api/sorteo', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newSorteo)
+      });
+      data = await response.json();
+    }
+  
+    alert(data.message);
+  };
+
+
+
+  // Handlers para actualizar métodos de pago
+  const handleMetodoTransferencias = (e) => {
+    e.preventDefault();
+    alert("Método Transferencias y Cajero actualizado");
+  };
+
+  const handleMetodoOxxo = (e) => {
+    e.preventDefault();
+    alert("Método Oxxo / 7eleven / Farmacias actualizado");
+  };
+
+  const handleMetodoPagosUSA = (e) => {
+    e.preventDefault();
+    alert("Método Pagos USA actualizado");
+  };
 
   return (
-    <div className="contenedor__todo_Home">
-      <div className="Header">
-        <HeaderArea />  
-      </div>
+    <div className="admin-panel">
+      
+      <h2>Panel de Administrador</h2>
+      <nav className="admin-nav">
+        <button>Crear Sorteo</button>
+        <button>Ver Tickets</button>
+        <button>Métodos de Pago</button>
+      </nav>
 
-      <div
-            className="Presentacion-contenedor-1"
-            style={{
-              backgroundImage: "url('/iconos/banner.png')",
-              backgroundRepeat: "no-repeat",
-              backgroundPosition: "center right",
-              backgroundSize: "contain",
-              width: "auto", // Cambia esto por el ancho real de la imagen
-              height: "80vh", // Cambia esto por la altura real de la imagen
-            }}>
-        
+      {/* Sección para crear un sorteo */}
+      <section className="sorteo-section">
+        <h3>Crear Sorteo</h3>
+        <form onSubmit={handleSorteoSubmit}>
+          <label>Imagen del sorteo:</label>
+          <input 
+            type="file" 
+            onChange={(e) => setSorteo({ ...sorteo, imagen: e.target.files[0] })}
+            required
+          />
+          <label>Fecha de finalización:</label>
+          <input 
+            type="date" 
+            value={sorteo.fechaFinalizacion} 
+            onChange={(e)=> setSorteo({ ...sorteo, fechaFinalizacion: e.target.value })}
+            required 
+          />
+          <label>Descripción:</label>
+          <textarea 
+            value={sorteo.descripcion} 
+            onChange={(e)=> setSorteo({ ...sorteo, descripcion: e.target.value })}
+            required
+          ></textarea>
+          <label>Precio del boleto:</label>
+          <input 
+            type="number" 
+            value={sorteo.precioBoleto} 
+            onChange={(e)=> setSorteo({ ...sorteo, precioBoleto: e.target.value })}
+            required 
+          />
+          <label>Cantidad de boletos:</label>
+          <input 
+            type="number" 
+            value={sorteo.cantidadBoletos} 
+            onChange={(e)=> setSorteo({ ...sorteo, cantidadBoletos: e.target.value })}
+            required 
+          />
+          <button type="submit">Crear Sorteo</button>
+        </form>
+      </section>
 
-        <div className="Presentacion-contenedor-2">
-          <h1>Preguntas frecuentes.</h1>
-          <p>
-            Gracias por visitar nuestro sitio. Aquí encontrarás información relevante sobre nuestros productos y
-            servicios. Si tienes alguna pregunta o necesitas más detalles, no dudes en contactarnos.
-          </p>
-          <a href="#contacto" className="boton-contacto">Contactar</a>
-
-          {/* Sección FAQ / Preguntas Frecuentes */}
-          <div className="faq-section">
-            <h2>¿CÓMO SE ELIGE A LOS GANADORES?</h2>
-            <p>
-              Todos nuestros sorteos se realizan en base a la Lotería Nacional para la Asistencia Pública mexicana.
-            </p>
-            <p>
-              El ganador de Sorteos Chiwas será el participante cuyo número coincida con las últimas cifras del primer
-              premio ganador de la Lotería Nacional (las fechas serán publicadas en nuestras redes sociales).
-            </p>
-
-            <h2>¿QUÉ SUCEDE CUANDO EL NÚMERO GANADOR ES UN BOLETO NO VENDIDO?</h2>
-            <p>
-              Se elige un nuevo ganador realizando la misma dinámica en otra fecha cercana (se anulará la fecha anterior).
-            </p>
-            <p>
-              Esto significa que, ¡tendrás el doble de oportunidades de ganar con tu mismo boleto!
-            </p>
-
-            <h2>¿DÓNDE SE PUBLICA A LOS GANADORES?</h2>
-            <p>
-              En nuestra página oficial de Facebook Sorteos Chiwas podrás encontrar todas y cada una de nuestras 
-              transmisiones en vivo donde se realiza el sorteo de la Lotería Nacional y las fechas en las que se 
-              publican los ganadores.
-            </p>
-          </div>
+      {/* Sección para visualizar la matriz de tickets con solicitudes de compra */}
+      <section className="tickets-matriz">
+        <h3>Matriz de Tickets</h3>
+        <div className="matrix">
+          {tickets.length > 0 ? (
+            tickets.map((ticket, index) => (
+              <div 
+                key={ticket.id || index} 
+                className={`ticket ${
+                  ticket.estado === "solicitado"
+                    ? "ticket-solicitado" // Ticket solicitado por un usuario
+                    : ticket.estado === "apartado"
+                      ? "ticket-apartado" // Ticket apartado (pero no pagado)
+                      : ticket.estado === "pagado"
+                        ? "ticket-pagado" // Ticket ya pagado
+                        : "ticket-disponible" // Ticket disponible
+                }`}
+              >
+                <span>{ticket.numero || index + 1}</span>
+                {ticket.estado === "solicitado" && (
+                  <button onClick={() => handleAcceptTicket(ticket.id)}>
+                    Aceptar Compra
+                  </button>
+                )}
+              </div>
+            ))
+          ) : (
+            <p>Cargando tickets...</p>
+          )}
         </div>
-      </div>
+        <p>*Se muestran los tickets con sus estados y, si es necesario, la opción de aceptar la compra.</p>
+      </section>
 
+      {/* Sección para métodos de pago */}
+      <section className="metodos-pago">
+        <h3>Métodos de Pago</h3>
 
-      
-      
+        <div className="metodo-transferencias">
+          <h4>Exclusivo Transferencias y Cajero</h4>
+          <form onSubmit={handleMetodoTransferencias}>
+            <label>Banco:</label>
+            <input 
+              type="text" 
+              value={metodoTransferencias.banco} 
+              onChange={(e)=> setMetodoTransferencias({ ...metodoTransferencias, banco: e.target.value })}
+              required
+            />
+            <label>Nombre:</label>
+            <input 
+              type="text" 
+              value={metodoTransferencias.nombre} 
+              onChange={(e)=> setMetodoTransferencias({ ...metodoTransferencias, nombre: e.target.value })}
+              required
+            />
+            <label>CLABE:</label>
+            <input 
+              type="text" 
+              value={metodoTransferencias.clabe} 
+              onChange={(e)=> setMetodoTransferencias({ ...metodoTransferencias, clabe: e.target.value })}
+              required
+            />
+            <button type="submit">Actualizar</button>
+          </form>
+        </div>
 
-      
+        <div className="metodo-oxxo">
+          <h4>Pago en Oxxo, 7eleven, Farmacias</h4>
+          <form onSubmit={handleMetodoOxxo}>
+            <label>Banco:</label>
+            <input 
+              type="text" 
+              value={metodoOxxo.banco} 
+              onChange={(e)=> setMetodoOxxo({ ...metodoOxxo, banco: e.target.value })}
+              required
+            />
+            <label>Número de tarjeta:</label>
+            <input 
+              type="text" 
+              value={metodoOxxo.numeroTarjeta} 
+              onChange={(e)=> setMetodoOxxo({ ...metodoOxxo, numeroTarjeta: e.target.value })}
+              required
+            />
+            <button type="submit">Actualizar</button>
+          </form>
+        </div>
 
-
+        <div className="metodo-pagos-usa">
+          <h4>Exclusivo Pagos USA</h4>
+          <form onSubmit={handleMetodoPagosUSA}>
+            <label>Banco:</label>
+            <input 
+              type="text" 
+              value={metodoPagosUSA.banco} 
+              onChange={(e)=> setMetodoPagosUSA({ ...metodoPagosUSA, banco: e.target.value })}
+              required
+            />
+            <label>Nombre:</label>
+            <input 
+              type="text" 
+              value={metodoPagosUSA.nombre} 
+              onChange={(e)=> setMetodoPagosUSA({ ...metodoPagosUSA, nombre: e.target.value })}
+              required
+            />
+            <label>Número de tarjeta:</label>
+            <input 
+              type="text" 
+              value={metodoPagosUSA.numeroTarjeta} 
+              onChange={(e)=> setMetodoPagosUSA({ ...metodoPagosUSA, numeroTarjeta: e.target.value })}
+              required
+            />
+            <button type="submit">Actualizar</button>
+          </form>
+        </div>
+      </section>
     </div>
   );
 }

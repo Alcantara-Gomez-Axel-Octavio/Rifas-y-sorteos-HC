@@ -1,202 +1,202 @@
 .Contenido_Todo_Tutoriales{
-    width: 100%;
-    max-width: 100%;
-    margin: auto;
-    position: relative;
-    background: #fff;
+  width: 100%;
+  max-width: 100%;
+  margin: auto;
+  position: relative;
+  background: #fff;
 
 }
 
 .Texto-Principal {
-  background-color: #3562a6;
-  width: 100%;
-  padding-top: 100px; /* Da espacio suficiente si el header tiene un tamaño fijo */
-  position: relative;
-  z-index: 1; /* Asegura que el texto no quede detrás del Header */
-  text-align: center;
-  color: #fff;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.4); /* Sombra hacia abajo */
-  border-radius: 25px;
+background-color: #3562a6;
+width: 100%;
+padding-top: 100px; /* Da espacio suficiente si el header tiene un tamaño fijo */
+position: relative;
+z-index: 1; /* Asegura que el texto no quede detrás del Header */
+text-align: center;
+color: #fff;
+box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.4); /* Sombra hacia abajo */
+border-radius: 25px;
 }
 
 .Texto-Principal p {
-  font-size: 25px;
-  margin-bottom: 20px;
+font-size: 25px;
+margin-bottom: 20px;
 }
 
 .CuadroBlanco {
-  background-color: #fff;
-  width: 70%;
-  height: 800px;
-  padding-top: auto;
-  position: relative;
-  z-index: 1;
-  text-align: center;
-  color: #000;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.4);
-  border-radius: 25px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  margin: 0 auto;
-  margin-top: 40px; /* Añadimos un margen superior */
-  overflow: hidden; /* Evita que el contenido se desborde */
+background-color: #fff;
+width: 70%;
+height: 800px;
+padding-top: auto;
+position: relative;
+z-index: 1;
+text-align: center;
+color: #000;
+box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.4);
+border-radius: 25px;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: flex-start;
+margin: 0 auto;
+margin-top: 40px; /* Añadimos un margen superior */
+overflow: hidden; /* Evita que el contenido se desborde */
 }
 
 .DentrodeBlancoBoton{
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 10px;
-  max-height: 700px; /* Ajusta según sea necesario */
-  overflow-y: auto; /* Permite hacer scroll si hay muchos botones */
-  width: 100%;
-  padding: 10px;
+display: flex;
+flex-wrap: wrap;
+justify-content: center;
+gap: 10px;
+max-height: 700px; /* Ajusta según sea necesario */
+overflow-y: auto; /* Permite hacer scroll si hay muchos botones */
+width: 100%;
+padding: 10px;
 }
 .BotonNumero {
-  background-color: #3562a6;
-  color: white;
-  border: none;
-  border-radius: 10px;
-  padding: 10px 15px;
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: bold;
-  width: 100px; /* Ajusta el ancho para que se acomoden bien */
-  text-align: center;
-  transition: background 0.3s;
+background-color: #3562a6;
+color: white;
+border: none;
+border-radius: 10px;
+padding: 10px 15px;
+cursor: pointer;
+font-size: 16px;
+font-weight: bold;
+width: 100px; /* Ajusta el ancho para que se acomoden bien */
+text-align: center;
+transition: background 0.3s;
 }
 
 .BotonNumero:hover {
-  background-color: #1cdf40;
+background-color: #1cdf40;
 }
 
 .ContenedorBoton{
-  margin-top: 20px;
-  width: 100%;
-  height: auto;
+margin-top: 20px;
+width: 100%;
+height: auto;
 }
 .BotonGenerar {
-  background-color: #ffffff;
-  color: #000000;
-  border: none;
-  border-radius: 50px;
-  padding: 30px 20px;
-  cursor: pointer;
-  font-family: sans-serif;
-  font-size: 20px;
-  font-weight: bold;
-  width: 10%;
-  min-width: 200px;
-  height: auto;
-  transition: all 1200ms;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin-top: 40px; /* Aumentamos el margen superior aquí */
-  margin: 0 auto;
+background-color: #ffffff;
+color: #000000;
+border: none;
+border-radius: 50px;
+padding: 30px 20px;
+cursor: pointer;
+font-family: sans-serif;
+font-size: 20px;
+font-weight: bold;
+width: 10%;
+min-width: 200px;
+height: auto;
+transition: all 1200ms;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+margin-top: 40px; /* Aumentamos el margen superior aquí */
+margin: 0 auto;
 }
 
 
 
 .BotonGenerar:hover {
-  background: #1c39df;
-  color: #ffffff;
+background: #1c39df;
+color: #ffffff;
 }
 
 
 
 .Botonaleatorio {
-  background-color: #0091ff;
-  color: #000000;
-  border: none;
-  border-radius: 50px;
-  padding: 30px 20px;
-  cursor: pointer;
-  font-family: sans-serif;
-  font-size: 20px;
-  font-weight: bold;
-  width: 10%;
-  min-width: 200px;
-  height: auto;
-  transition: all 1200ms;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin-top: 40px; /* Aumentamos el margen superior aquí */
-  margin: 0 auto;
+background-color: #0091ff;
+color: #000000;
+border: none;
+border-radius: 50px;
+padding: 30px 20px;
+cursor: pointer;
+font-family: sans-serif;
+font-size: 20px;
+font-weight: bold;
+width: 10%;
+min-width: 200px;
+height: auto;
+transition: all 1200ms;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+margin-top: 40px; /* Aumentamos el margen superior aquí */
+margin: 0 auto;
 }
 
 
 
 .Botonaleatorio:hover {
-  background: #1c39df;
-  color: #ffffff;
+background: #1c39df;
+color: #ffffff;
 }
 
 .ContenedorMisboletos{
 
-    background-color: #fff;
-  width: 70%;
-  height: 100px;
-  padding-top: auto;
-  position: relative;
-  z-index: 1;
-  text-align: center;
-  color: #000;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.4);
-  border-radius: 25px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin: 0 auto;
-  margin-top: 20px; /* Añadimos un margen superior */
+  background-color: #fff;
+width: 70%;
+height: 100px;
+padding-top: auto;
+position: relative;
+z-index: 1;
+text-align: center;
+color: #000;
+box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.4);
+border-radius: 25px;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+margin: 0 auto;
+margin-top: 20px; /* Añadimos un margen superior */
 }
 
 
 .modal{
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  min-width: 200px;
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+min-width: 200px;
 
-  height: 100%;
-  min-width: 500px;
-  background-color: rgba(0, 0, 0, 0.5); /* Fondo oscuro */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000; /* Asegura que quede por encima de otros elementos */
+height: 100%;
+min-width: 500px;
+background-color: rgba(0, 0, 0, 0.5); /* Fondo oscuro */
+display: flex;
+justify-content: center;
+align-items: center;
+z-index: 1000; /* Asegura que quede por encima de otros elementos */
 }
 
 .ModalContenido{
-  background-color: white; /* Fondo blanco */
-  padding: 20px;
-  border-radius: 5px;
-  height: auto;
-  width: 30vw;
-  min-width: 350px;
+background-color: white; /* Fondo blanco */
+padding: 20px;
+border-radius: 5px;
+height: auto;
+width: 30vw;
+min-width: 350px;
 
-  font-size: .9vw;
+font-size: .9vw;
 }
 
 .CerrarModal{
-  color: #aaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-  cursor: pointer;
+color: #aaa;
+float: right;
+font-size: 28px;
+font-weight: bold;
+cursor: pointer;
 }
 .close:hover,
 .close:focus {
-  color: black;
-  text-decoration: none;
-  cursor: pointer;
+color: black;
+text-decoration: none;
+cursor: pointer;
 }
 .modal2{
   position: fixed;
@@ -268,64 +268,64 @@
 }
 
 .contenedorSeleccion{
-  width: 80%;
-  min-width: 200px;
-  height: 100px;
-  padding-top: 20px;
-  display: flex;
-  flex-direction: row;
-  gap:10px;
-  margin:  50px auto;
-  border-radius: 20px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.4);
-  overflow: hidden;
+width: 80%;
+min-width: 200px;
+height: 100px;
+padding-top: 20px;
+display: flex;
+flex-direction: row;
+gap:10px;
+margin:  50px auto;
+border-radius: 20px;
+box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.4);
+overflow: hidden;
 
 }
 
 .contenedorTextoGenerar{
-  width: 30%;
-  max-width: 30%;
-  height: 70%;
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-left: 10px;
-  color: #000;
-  font-family: sans-serif;
-  font-weight: bold;
-  font-size: 20px;
-  overflow: hidden;
+width: 30%;
+max-width: 30%;
+height: 70%;
+align-items: center;
+display: flex;
+flex-direction: column;
+gap: 10px;
+margin-left: 10px;
+color: #000;
+font-family: sans-serif;
+font-weight: bold;
+font-size: 20px;
+overflow: hidden;
 
 
 }
 
 .ContenedorSelect{
-  background-color: blue;
-  width: 60%;
-  max-width: 60%;
-  height: 25px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-right: 10px;
-  
+background-color: blue;
+width: 60%;
+max-width: 60%;
+height: 25px;
+display: flex;
+justify-content: center;
+align-items: center;
+margin-right: 10px;
+
 
 }
 .SelectGenerar{
-  width: 100%;
-  height: 35px;
-  border-radius: 5px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.4);
-  background-color: rgb(255, 255, 255);
-  font-size: 16px;
-  color: #333;
-  cursor: pointer;
+width: 100%;
+height: 35px;
+border-radius: 5px;
+box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.4);
+background-color: rgb(255, 255, 255);
+font-size: 16px;
+color: #333;
+cursor: pointer;
 }
 
 .ContenedorMisboletosAleatorios{
 
-  background-color: #fff;
+background-color: #fff;
 width: 70%;
 height: auto;
 min-height: 100px;
@@ -345,58 +345,58 @@ margin-top: 20px; /* Añadimos un margen superior */
 }
 
 .Presentacion-contenedor-1 {
-  
-    background-size: auto;
-    height: 200vh;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    justify-content: center; /* Centra los elementos hijos horizontalmente */
-    font-size: 20px;
 
-  }
-  
-  .Presentacion-contenedor-2 {
-    max-width: 25%;
-    align-items: center;
-    text-align: left;
-    
-  }
-  
-  .Presentacion-contenedor-2 h1 {
-    font-size: 2.5em;
-    color: #0f98f8;
-    margin-bottom: 20px;
-    
-  }
-  
-  .Presentacion-contenedor-2 p {
-    
-    font-size: 1.2em;
-    color: #333;
-    margin-bottom: 20px;
-  }
-  
-  .boton-contacto {
-    display: inline-block;
-    font-size: 1em;
-    color: #0f98f8;
-    text-decoration: none;
-    border: 1px solid #0f98f8;
-    padding: 10px 20px;
-    border-radius: 5px;
-    transition: background-color 0.3s, color 0.3s;
-  }
-  
-  .boton-contacto:hover {
-    background-color: #0f98f8;
-    color: #fff;
-  }
+  background-size: auto;
+  height: 200vh;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  justify-content: center; /* Centra los elementos hijos horizontalmente */
+  font-size: 20px;
 
-  .Presentacion-contenedor-3 img {
-    position: left;
-    max-width: 60vh;
-    height: auto;
-  }
+}
+
+.Presentacion-contenedor-2 {
+  max-width: 25%;
+  align-items: center;
+  text-align: left;
+  
+}
+
+.Presentacion-contenedor-2 h1 {
+  font-size: 2.5em;
+  color: #0f98f8;
+  margin-bottom: 20px;
+  
+}
+
+.Presentacion-contenedor-2 p {
+  
+  font-size: 1.2em;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.boton-contacto {
+  display: inline-block;
+  font-size: 1em;
+  color: #0f98f8;
+  text-decoration: none;
+  border: 1px solid #0f98f8;
+  padding: 10px 20px;
+  border-radius: 5px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.boton-contacto:hover {
+  background-color: #0f98f8;
+  color: #fff;
+}
+
+.Presentacion-contenedor-3 img {
+  position: left;
+  max-width: 60vh;
+  height: auto;
+}
 
 
