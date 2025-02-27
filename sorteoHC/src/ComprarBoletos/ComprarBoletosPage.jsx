@@ -149,9 +149,17 @@ function ComprarBoletosPage() {
 
 
         {showModal2 &&(
-                    <div className="modal">
-                        <div className="ModalContenido">
+                    <div className="modal2">
+                        <div className="ModalContenido2">
                             <span className="CerrarModal" onClick={openModal2}>X</span>
+
+                            <div className='ContenedorMisboletosAleatorios'>
+                            </div>
+                            <input type="text" placeholder="Numero" className="InputNumero"/>
+                            <input type="text" placeholder="Nombre" className="InputNombre"/>
+                            <input type="text" placeholder="Correo" className="InputCorreo"/>
+                            <button className="BotonApartar">Apartar</button>
+
                            
                             </div> 
                             
