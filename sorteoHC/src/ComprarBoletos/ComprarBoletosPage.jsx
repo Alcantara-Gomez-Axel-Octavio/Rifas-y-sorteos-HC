@@ -60,7 +60,7 @@ function ComprarBoletosPage() {
                   : "";
               return (
                 <button key={ticket.ticket_id} className={`BotonNumero ${estadoClase}`}>
-                  {ticket.numero_ticket} - {ticket.estado}
+                  {ticket.numero_ticket} 
                 </button>
               );
             })

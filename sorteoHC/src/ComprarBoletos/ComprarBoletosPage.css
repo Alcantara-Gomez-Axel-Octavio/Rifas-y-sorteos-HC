@@ -26,8 +26,10 @@ margin-bottom: 20px;
 
 .CuadroBlanco {
 background-color: #fff;
-width: 70%;
-height: 800px;
+max-width: 70%;
+width: auto;
+height: auto;
+max-height: 800px;
 padding-top: auto;
 position: relative;
 z-index: 1;
@@ -355,22 +357,22 @@ margin-top: 20px; /* Añadimos un margen superior */
 }
 
 .estado-disponible:hover {
-  background-color: #3562a6;
+  background-color: #5b91e4;
 }
 
 /* Estado "apartado": amarillo sin cambio en hover */
 .estado-apartado {
-  background-color: yellow;
+  background-color: rgb(255, 145, 0);
   color: black;
 }
 
 .estado-apartado:hover {
-  background-color: yellow;
+  background-color: rgb(255, 167, 52);
 }
 
 /* Estado "vendido": rojo sin cambio en hover */
 .estado-vendido {
-  background-color: red;
+  background-color: rgb(201, 0, 0);
   color: white;
 }
 
