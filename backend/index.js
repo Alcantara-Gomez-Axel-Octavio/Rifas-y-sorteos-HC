@@ -166,6 +166,19 @@ app.post('/api/sorteo', (req, res) => {
   });
 });
 
+app.post('/api/registroUsuarios', (req, res) => {
+  const { nombre, email, numero } = req.body;
+
+  pool.query('INSERT INTO usuarios (nombre, correo, telefono) VALUES (?, ?, ?)', [nombre, email, numero], (err, result) => {
+    if (err) {
+      console.error('Error al registrar usuario:', err);
+      return res.status(500).json({ message: 'Error al registrar usuario', error: err.message });
+    }
+
+    res.json({ message: 'Usuario registrado exitosamente', usuario_id: result.insertId });
+  });
+});
+
 
 
 

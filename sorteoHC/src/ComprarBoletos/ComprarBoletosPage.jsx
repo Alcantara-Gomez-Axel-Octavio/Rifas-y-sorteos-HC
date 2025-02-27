@@ -1,6 +1,8 @@
 import HeaderArea from '../HeaderArea/HeaderArea';
 import "./ComprarBoletosPage.css";
 import { useState } from 'react';
+import Axios from 'axios';
+
 
 import Suerte from "../assets/Suerte.gif";
 
@@ -9,6 +11,22 @@ function ComprarBoletosPage() {
     const [showModal, setShowModal] = useState(false);
     const [showModal2, setShowModal2] = useState(false);
     const [mostrarGif, setMostrarGif] = useState(false);
+
+
+    const [nombre, setNombre] = useState(""); 
+    const [email, setEmail] = useState("");
+    const [numero, setNumero] = useState("");
+
+
+    const addUsuario = async () => {
+        Axios.post("http://localhost:3001/api/registroUsuarios", {
+          nombre: nombre,
+          email: email,
+          numero: numero,
+        }).then(() => {
+          console.log("success");
+        });
+    };
 
 
 
@@ -155,12 +173,10 @@ function ComprarBoletosPage() {
 
                             <div className='ContenedorMisboletosAleatorios'>
                             </div>
-                            <input type="text" placeholder="Numero" className="InputNumero"/>
-                            <input type="text" placeholder="Nombre" className="InputNombre"/>
-                            <input type="text" placeholder="Correo" className="InputCorreo"/>
-                            <button className="BotonApartar">Apartar</button>
-
-                           
+                            <input type="number" placeholder="Numero" className="InputNumero" onChange={event=>setNumero(event.target.value)}/>
+                            <input type="text" placeholder="Nombre" className="InputNombre" onChange={event=>setNombre(event.target.value)}/>
+                            <input type="email" placeholder="Correo" className="InputCorreo"onChange={event=>setEmail(event.target.value)} />
+                            <button className="BotonApartar" onClick={() => {addUsuario(); openModal2(); }}>Apartar</button>
                             </div> 
                             
                                 
