@@ -139,25 +139,57 @@ background: #1c39df;
 color: #ffffff;
 }
 
-.ContenedorMisboletos{
-
+.ContenedorMisboletos {
   background-color: #fff;
-width: 70%;
-height: 100px;
-padding-top: auto;
-position: relative;
-z-index: 1;
-text-align: center;
-color: #000;
-box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.4);
-border-radius: 25px;
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-margin: 0 auto;
-margin-top: 20px; /* Añadimos un margen superior */
+  max-width: 800px;
+  max-height: 800px;
+  width: auto;
+  height: auto;
+  padding: 20px;
+  margin: 20px auto;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 15px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: #000;
+  
 }
+
+/* Estilo para cada ticket */
+.ticket-seleccionado {
+  background-color: #f2f2f2;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 10px 15px;
+  margin: 10px;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+  font-weight: bold;
+}
+
+/* Efecto hover para dar interacción */
+.ticket-seleccionado:hover {
+  transform: scale(1.05);
+  background-color: #e6e6e6;
+}
+
+/* Ajustes responsivos para pantallas pequeñas */
+@media (max-width: 600px) {
+  .ticket-seleccionado {
+    padding: 8px 12px;
+    margin: 8px;
+    font-size: 0.9rem;
+  }
+  
+  .ContenedorMisboletos {
+    padding: 15px;
+    width: auto;
+    height: auto;
+  }
+}
+
 
 
 .modal{
@@ -387,9 +419,9 @@ margin-top: 20px; /* Añadimos un margen superior */
   top: 0;
   left: 0;
   width: 100%;
-  min-width: 200px;
+ max-height: 500px;
   height: 100%;
-  min-width: 500px;
+
   background-color: rgba(0, 0, 0, 0.5); /* Fondo oscuro */
   display: flex;
   justify-content: center;

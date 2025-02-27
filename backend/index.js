@@ -191,6 +191,32 @@ app.post('/api/registroUsuarios', (req, res) => {
 });
 
 
+// Endpoint para actualizar el estado de los tickets y vincularlos al usuario
+app.post('/api/apartarTickets', (req, res) => {
+  const { usuario_id, ticket_ids } = req.body;
+
+  if (!usuario_id || !ticket_ids || !ticket_ids.length) {
+    return res.status(400).json({ message: 'Parametros incompletos' });
+  }
+
+  const query = `
+    UPDATE tickets 
+    SET estado = 'apartado', 
+        usuario_id = ?, 
+        reserved_at = NOW() 
+    WHERE ticket_id IN (?)
+  `;
+
+  pool.query(query, [usuario_id, ticket_ids], (err, result) => {
+    if (err) {
+      console.error('Error al actualizar tickets:', err);
+      return res.status(500).json({ message: 'Error al actualizar tickets', error: err.message });
+    }
+    res.json({ message: 'Tickets apartados exitosamente' });
+  });
+});
+
+
 
 
 // Servidor corriendo en el puerto 3001

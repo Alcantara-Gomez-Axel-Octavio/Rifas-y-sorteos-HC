@@ -8,45 +8,36 @@ function ComprarBoletosPage() {
   const [showModal2, setShowModal2] = useState(false);
   const [mostrarGif, setMostrarGif] = useState(false);
   const [tickets, setTickets] = useState([]);
+  const [selectedTickets, setSelectedTickets] = useState([]); // estado para los tickets seleccionados
 
   const [nombre, setNombre] = useState(""); 
   const [email, setEmail] = useState("");
   const [numero, setNumero] = useState("");
 
-  // Función para abrir y cerrar el modal
-  const openModal = () => {
-    setShowModal(!showModal);
-  };
+  // Abrir y cerrar modales
+  const openModal = () => setShowModal(!showModal);
+  const openModal2 = () => setShowModal2(!showModal2);
 
-  const openModal2 = () => {
-    setShowModal2(!showModal2);
-  };
-
-  // Función para registrar usuario usando fetch
-  const addUsuario = async () => {
-    try {
-      const response = await fetch("http://localhost:3001/api/registroUsuarios", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          nombre: nombre,
-          email: email,
-          numero: numero,
-        }),
-      });
-      if (response.ok) {
-        console.log("Usuario registrado exitosamente");
-      } else {
-        console.error("Error al registrar usuario:", response.statusText);
-      }
-    } catch (error) {
-      console.error("Error al registrar usuario:", error);
+  // Función para seleccionar/deseleccionar tickets
+  const toggleTicketSelection = (ticket) => {
+    if (ticket.estado !== "disponible") return; // solo se pueden seleccionar los disponibles
+    const alreadySelected = selectedTickets.find(t => t.ticket_id === ticket.ticket_id);
+    if (alreadySelected) {
+      // Si ya está seleccionado, se quita de la lista
+      setSelectedTickets(selectedTickets.filter(t => t.ticket_id !== ticket.ticket_id));
+    } else {
+      // Si no está, se agrega a la lista
+      setSelectedTickets([...selectedTickets, ticket]);
     }
   };
 
-  // Obtener los tickets usando fetch (ya estaba implementado)
+  // Función para mostrar el GIF temporalmente
+  const mostrarGifTemporalmente = () => {
+    setMostrarGif(true);
+    setTimeout(() => setMostrarGif(false), 3000);
+  };
+
+  // Obtener tickets de la API
   useEffect(() => {
     fetch('http://localhost:3001/api/tickets')
       .then(response => response.json())
@@ -54,11 +45,49 @@ function ComprarBoletosPage() {
       .catch(error => console.error("Error al obtener tickets:", error));
   }, []);
 
-  const mostrarGifTemporalmente = () => {
-    setMostrarGif(true);
-    setTimeout(() => {
-      setMostrarGif(false);
-    }, 3000);
+  // Función para actualizar los tickets (marcarlos como "apartado")
+  const updateTickets = async (usuario_id) => {
+    try {
+      const response = await fetch("http://localhost:3001/api/apartarTickets", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          usuario_id,
+          ticket_ids: selectedTickets.map(ticket => ticket.ticket_id)
+        })
+      });
+      if (response.ok) {
+        console.log("Tickets actualizados a 'apartado'");
+      } else {
+        console.error("Error al actualizar tickets:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error al actualizar tickets:", error);
+    }
+  };
+
+  // Función para registrar usuario y luego actualizar tickets
+  const apartarUsuarioYTickets = async () => {
+    try {
+      const response = await fetch("http://localhost:3001/api/registroUsuarios", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ nombre, email, numero })
+      });
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Usuario registrado exitosamente", data);
+        // Llamar a la función para actualizar los tickets con el usuario_id recibido
+        await updateTickets(data.usuario_id);
+        // Opcional: limpiar selección o actualizar el estado de tickets localmente
+        setSelectedTickets([]);
+      } else {
+        console.error("Error al registrar usuario:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error al registrar usuario:", error);
+    }
+    openModal2(); // Cerrar modal
   };
 
   return (
@@ -86,8 +115,14 @@ function ComprarBoletosPage() {
                   : ticket.estado === "vendido"
                   ? "estado-vendido"
                   : "";
+              // Agregamos clase 'selected' si el ticket está en la lista de seleccionados
+              const isSelected = selectedTickets.find(t => t.ticket_id === ticket.ticket_id);
               return (
-                <button key={ticket.ticket_id} className={`BotonNumero ${estadoClase}`}>
+                <button 
+                  key={ticket.ticket_id} 
+                  className={`BotonNumero ${estadoClase} ${isSelected ? 'selected' : ''}`}
+                  onClick={() => toggleTicketSelection(ticket)}
+                >
                   {ticket.numero_ticket} 
                 </button>
               );
@@ -105,7 +140,16 @@ function ComprarBoletosPage() {
       </div>
 
       <div className='ContenedorMisboletos'>  
-        {/* Aquí podrías mostrar los boletos seleccionados por el usuario */}
+        
+        {selectedTickets.length > 0 ? (
+          selectedTickets.map(ticket => (
+            <div key={ticket.ticket_id} className="ticket-seleccionado">
+              Ticket #{ticket.numero_ticket}
+            </div>
+          ))
+        ) : (
+          <p>No has seleccionado boletos.</p>
+        )}
       </div>
 
       <div className="ContenedorBoton">
@@ -125,28 +169,6 @@ function ComprarBoletosPage() {
         </div>
       </div>
 
-      <div className="Acerca-de-nosotros-contenedor-1">
-        <div className="Acerca-de-nosotros-contenedor-2">
-          <div className="Acerca-de-nosotros-contenedor-mapa">
-            <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3732.651643003516!2d-103.41862568507355!3d20.656564205158806!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8428b17f7dc88185%3A0x70525ba6adbb0045!2sPerif%C3%A9rico%20Sur%20314%2C%20Santa%20Ana%20Tepetitl%C3%A1n%2C%20Zapopan%2C%20Jal.%2045077%2C%20M%C3%A9xico!5e0!3m2!1ses-419!2sus!4v1697381212123!5m2!1ses-419!2sus"
-              allowFullScreen=""
-              loading="lazy"
-              title="Ubicación del taller"
-            ></iframe>
-          </div>
-          <div className="Acerca-de-nosotros-contenedor-informacion">
-            <h2 className="Acerca-de-nosotros-Titulo1">Acerca de nosotros.</h2>
-            <h3>RAZON SOCIAL: SERVICIO ELECTROMECANICO Y AUTOMATIZACION INDUSTRIAL S.A.S.</h3>
-            <h3>DIRECCION FISCAL: CALLE COLIBRI #11 COL. VICENTE GUERRERO C.P. 45134 ZAPOPAN JAL.</h3>
-            <h3>RFC: SEA190207FY1</h3>
-            <h3>DOMICILIO TALLER: LATERAL PERIFERICO SUR #314 COL. PIRAMIDES DEL SOL. ZAPOPAN JAL.</h3>
-            <h3>TEL. OFICINA (33)2301-4906 CEL (044)3319-6064-75/ 332118-3188.</h3>
-            <h3>EMAIL: seya_030187@hotmail.com</h3>
-          </div>
-        </div>
-      </div>
-
       {showModal && (
         <div className="modal">
           <div className="ModalContenido">
@@ -160,18 +182,7 @@ function ComprarBoletosPage() {
                   <option value="" disabled>Selecciona número de boletos</option>
                   <option value="1">1</option>
                   <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                  <option value="10">10</option>
-                  <option value="20">20</option>
-                  <option value="30">30</option>
-                  <option value="40">40</option>
-                  <option value="50">50</option>
-                  <option value="60">60</option>
-                  <option value="70">70</option>
-                  <option value="80">80</option>
-                  <option value="90">90</option>
+                  {/* ... demás opciones */}
                   <option value="100">100</option>
                 </select>
               </div>
@@ -190,22 +201,34 @@ function ComprarBoletosPage() {
         <div className="modal2">
           <div className="ModalContenido2">
             <span className="CerrarModal" onClick={openModal2}>X</span>
-            <div className='ContenedorMisboletosAleatorios'></div>
-            <input type="number" placeholder="Numero" className="InputNumero" onChange={event => setNumero(event.target.value)}/>
-            <input type="text" placeholder="Nombre" className="InputNombre" onChange={event => setNombre(event.target.value)}/>
-            <input type="email" placeholder="Correo" className="InputCorreo" onChange={event => setEmail(event.target.value)} />
-            <button className="BotonApartar" onClick={() => { addUsuario(); openModal2(); }}>
+            
+            <div className='ContenedorMisboletos'>  
+              {selectedTickets.length > 0 ? (
+                selectedTickets.map(ticket => (
+                  <div key={ticket.ticket_id} className="ticket-seleccionado">
+                    Ticket #{ticket.numero_ticket}
+                  </div>
+                ))
+              ) : (
+                <p>No has seleccionado boletos.</p>
+              )}
+            </div>
+          
+            <input type="number" placeholder="Número" className="InputNumero" onChange={e => setNumero(e.target.value)}/>
+            <input type="text" placeholder="Nombre" className="InputNombre" onChange={e => setNombre(e.target.value)}/>
+            <input type="email" placeholder="Correo" className="InputCorreo" onChange={e => setEmail(e.target.value)} />
+            <button
+              className="BotonApartar"
+              onClick={apartarUsuarioYTickets}
+              disabled={!numero || !nombre || !email || selectedTickets.length === 0}
+            >
               Apartar
             </button>
           </div> 
         </div>
       )}
-
     </div>
   );
 }
-
-
-
 
 export default ComprarBoletosPage;
