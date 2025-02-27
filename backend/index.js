@@ -10,10 +10,10 @@ app.use(express.json());
 
 // Usando un pool de conexiones
 const pool = mysql.createPool({
-  host: process.env.DB_HOST,      // ej: 'localhost'
-  user: process.env.DB_USER,      // ej: 'root'
-  password: process.env.DB_PASS,  // tu contraseña
-  database: process.env.DB_NAME,  // ej: 'u938863753_sorteoHC'
+  host: process.env.DB_HOST,     
+  user: process.env.DB_USER,   
+  password: process.env.DB_PASS, 
+  database: process.env.DB_NAME,  
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0
@@ -174,6 +174,20 @@ app.get('/api/tickets', (req, res) => {
     res.json(results);
   });
 });
+
+app.post('/api/registroUsuarios', (req, res) => {
+  const { nombre, email, numero } = req.body;
+
+  pool.query('INSERT INTO usuarios (nombre, correo, telefono) VALUES (?, ?, ?)', [nombre, email, numero], (err, result) => {
+    if (err) {
+      console.error('Error al registrar usuario:', err);
+      return res.status(500).json({ message: 'Error al registrar usuario', error: err.message });
+    }
+
+    res.json({ message: 'Usuario registrado exitosamente', usuario_id: result.insertId });
+  });
+});
+
 
 
 

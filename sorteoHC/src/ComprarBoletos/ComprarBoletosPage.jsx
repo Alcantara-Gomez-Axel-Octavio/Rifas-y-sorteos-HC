@@ -7,8 +7,13 @@ function ComprarBoletosPage() {
   const [showModal, setShowModal] = useState(false);
   const [showModal2, setShowModal2] = useState(false);
   const [mostrarGif, setMostrarGif] = useState(false);
-  const [tickets, setTickets] = useState([]); // Estado para los boletos reales
+  const [tickets, setTickets] = useState([]);
 
+  const [nombre, setNombre] = useState(""); 
+  const [email, setEmail] = useState("");
+  const [numero, setNumero] = useState("");
+
+  // Función para abrir y cerrar el modal
   const openModal = () => {
     setShowModal(!showModal);
   };
@@ -17,20 +22,44 @@ function ComprarBoletosPage() {
     setShowModal2(!showModal2);
   };
 
-  const mostrarGifTemporalmente = () => {
-    setMostrarGif(true); // Muestra el GIF
-    setTimeout(() => {
-      setMostrarGif(false); // Oculta el GIF después de 3 segundos
-    }, 3000);
+  // Función para registrar usuario usando fetch
+  const addUsuario = async () => {
+    try {
+      const response = await fetch("http://localhost:3001/api/registroUsuarios", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          nombre: nombre,
+          email: email,
+          numero: numero,
+        }),
+      });
+      if (response.ok) {
+        console.log("Usuario registrado exitosamente");
+      } else {
+        console.error("Error al registrar usuario:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error al registrar usuario:", error);
+    }
   };
 
-  // Obtener los tickets con fetch en lugar de axios
+  // Obtener los tickets usando fetch (ya estaba implementado)
   useEffect(() => {
     fetch('http://localhost:3001/api/tickets')
       .then(response => response.json())
       .then(data => setTickets(data))
       .catch(error => console.error("Error al obtener tickets:", error));
   }, []);
+
+  const mostrarGifTemporalmente = () => {
+    setMostrarGif(true);
+    setTimeout(() => {
+      setMostrarGif(false);
+    }, 3000);
+  };
 
   return (
     <div className="contenedor__todo_Home">
@@ -47,7 +76,6 @@ function ComprarBoletosPage() {
   
       <div className="CuadroBlanco">
         <div className="DentrodeBlancoBoton">
-          {/* Muestra los boletos reales desde la base de datos */}
           {tickets.length > 0 ? (
             tickets.map((ticket) => {
               const estadoClase =
@@ -69,8 +97,6 @@ function ComprarBoletosPage() {
           )}
         </div>
       </div>
-
-
 
       <div className="ContenedorBoton">
         <div className='BotonGenerar' onClick={openModal}>
@@ -157,6 +183,21 @@ function ComprarBoletosPage() {
               {mostrarGif && <img src={Suerte} alt="Suerte" />}
             </div>
           </div>
+        </div>
+      )}
+
+      {showModal2 && (
+        <div className="modal2">
+          <div className="ModalContenido2">
+            <span className="CerrarModal" onClick={openModal2}>X</span>
+            <div className='ContenedorMisboletosAleatorios'></div>
+            <input type="number" placeholder="Numero" className="InputNumero" onChange={event => setNumero(event.target.value)}/>
+            <input type="text" placeholder="Nombre" className="InputNombre" onChange={event => setNombre(event.target.value)}/>
+            <input type="email" placeholder="Correo" className="InputCorreo" onChange={event => setEmail(event.target.value)} />
+            <button className="BotonApartar" onClick={() => { addUsuario(); openModal2(); }}>
+              Apartar
+            </button>
+          </div> 
         </div>
       )}
 
