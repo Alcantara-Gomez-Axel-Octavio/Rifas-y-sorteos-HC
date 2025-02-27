@@ -19,15 +19,28 @@ function ComprarBoletosPage() {
 
 
     const addUsuario = async () => {
-        Axios.post("http://localhost:3001/api/registroUsuarios", {
-          nombre: nombre,
-          email: email,
-          numero: numero,
-        }).then(() => {
-          console.log("success");
-        });
+        try {
+            const response = await fetch("http://localhost:3001/api/registroUsuarios", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    nombre: nombre,
+                    email: email,
+                    numero: numero,
+                }),
+            });
+    
+            if (!response.ok) {
+                throw new Error(`Error en la solicitud: ${response.statusText}`);
+            }
+    
+            console.log("success");
+        } catch (error) {
+            console.error("Error al registrar usuario:", error);
+        }
     };
-
 
 
     const openModal = () =>{
