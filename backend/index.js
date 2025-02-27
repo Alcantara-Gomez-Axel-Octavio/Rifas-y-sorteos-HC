@@ -166,7 +166,14 @@ app.post('/api/sorteo', (req, res) => {
   });
 });
 
-
+app.get('/api/tickets', (req, res) => {
+  pool.query('SELECT * FROM tickets', (error, results) => {
+    if (error) {
+      return res.status(500).json({ error });
+    }
+    res.json(results);
+  });
+});
 
 
 

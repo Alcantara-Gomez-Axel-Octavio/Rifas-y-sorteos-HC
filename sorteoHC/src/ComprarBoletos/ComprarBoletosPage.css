@@ -332,3 +332,50 @@ margin-top: 20px; /* Añadimos un margen superior */
 }
 
 
+
+
+.BotonNumero {
+  background-color: #3562a6; /* color base para disponibles */
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  width: 100px;
+  text-align: center;
+  transition: background 0.3s;
+}
+
+/* Estado "disponible": azul sin cambio en hover */
+.estado-disponible {
+  background-color: #3562a6;
+  color: white;
+}
+
+.estado-disponible:hover {
+  background-color: #3562a6;
+}
+
+/* Estado "apartado": amarillo sin cambio en hover */
+.estado-apartado {
+  background-color: yellow;
+  color: black;
+}
+
+.estado-apartado:hover {
+  background-color: yellow;
+}
+
+/* Estado "vendido": rojo sin cambio en hover */
+.estado-vendido {
+  background-color: red;
+  color: white;
+}
+
+.estado-vendido:hover {
+  background-color: red;
+}
+
+

@@ -67,7 +67,7 @@ function AdministradorPage() {
     // Construir el objeto del nuevo sorteo.
     // Nota: Se debe obtener el id del administrador (por ejemplo, desde el contexto o la sesión).
     const newSorteo = {
-      admin_id: 1, // Cambia esto por el id del admin logueado
+      admin_id: 1, 
       // Para simplificar, se usa el nombre del archivo; en producción se puede usar FormData y un manejador de carga.
       imagen: sorteo.imagen.name,  
       fecha_finalizacion: sorteo.fechaFinalizacion,
