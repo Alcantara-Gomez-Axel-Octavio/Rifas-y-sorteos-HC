@@ -79,21 +79,21 @@ function HomePage() {
 
       <div className="Contacto__redes_Imagenes">
         <a
-                href="https://www.instagram.com/axel._.alc/"
+                href="https://www.instagram.com/rifa.sysorteoshc/"
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 <img src={IconoInstagram} alt="Instagram" />
               </a>
               <a
-                href="https://www.facebook.com/axelalcanatara"
+                href="https://www.facebook.com/profile.php?id=100071301430779 "
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 <img src={IconoFacebook} alt="Facebook" />
               </a>
               <a
-                href="https://wa.me/3311800657"
+                href="https://wa.me/6141846333"
                 target="_blank"
                 rel="noopener noreferrer"
               >

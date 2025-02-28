@@ -80,9 +80,28 @@ function ComprarBoletosPage() {
       if (response.ok) {
         const data = await response.json();
         console.log("Usuario registrado exitosamente", data);
-        // Llamar a la función para actualizar los tickets con el usuario_id recibido
+        // Actualizar tickets con el usuario_id recibido
         await updateTickets(data.usuario_id);
-        // Opcional: limpiar selección o actualizar el estado de tickets localmente
+        
+        // Generar mensaje para WhatsApp
+        const ticketNumbers = selectedTickets.map(ticket => ticket.numero_ticket).join(', ');
+        const cantidad = selectedTickets.length;
+        const ticketPrice = 100; 
+        const totalPrice = cantidad * ticketPrice;
+        const mensaje = `Compra de boletos:
+        Tickets: ${ticketNumbers}
+        Cantidad: ${cantidad}
+        Precio unitario: $${ticketPrice}
+        Total: $${totalPrice}
+        Nombre: ${nombre}
+        Correo: ${email}
+        Número: ${numero}`;
+        
+        // Crear URL para WhatsApp (se usa encodeURIComponent para formatear correctamente el mensaje)
+        const whatsappUrl = `https://api.whatsapp.com/send?phone=3311800657&text=${encodeURIComponent(mensaje)}`;
+        window.open(whatsappUrl, '_blank');
+  
+        // Opcional: limpiar selección de boletos
         setSelectedTickets([]);
       } else {
         console.error("Error al registrar usuario:", response.statusText);
