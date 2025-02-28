@@ -194,7 +194,7 @@ const generarBoletosAleatorios = () => {
         
         {selectedTickets.length > 0 ? (
           selectedTickets.map(ticket => (
-            <div key={ticket.ticket_id} className="ticket-seleccionado">
+            <div key={ticket.ticket_id} className="ticket-seleccionado"onClick={() => toggleTicketSelection(ticket)}>
               Ticket #{ticket.numero_ticket}
             </div>
           ))
@@ -258,7 +258,7 @@ const generarBoletosAleatorios = () => {
 
         {!mostrarGif && selectedTickets.length > 0 ? (
           selectedTickets.map(ticket => (
-            <div key={ticket.ticket_id} className="ticket-seleccionado">
+            <div key={ticket.ticket_id} className="ticket-seleccionado" onClick={() => toggleTicketSelection(ticket)} >
               Ticket #{ticket.numero_ticket}
             </div>
           ))
