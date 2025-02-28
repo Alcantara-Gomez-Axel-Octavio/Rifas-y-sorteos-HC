@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import "./HeaderArea.css";
 
 function HeaderArea() {
+  const [menuOpen, setMenuOpen] = useState(false);  // Estado para controlar el menú desplegable
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -20,11 +21,16 @@ function HeaderArea() {
     }
   };
 
+  const toggleMenu = () => setMenuOpen(!menuOpen);  // Función para alternar el estado del menú
+
   return (
     <header className="header-container">
       <div className="top-bar">
         <nav className="nav-bar">
-          <ul>
+          <button className="menu-toggle" onClick={toggleMenu}>
+            &#9776; {/* Icono del menú */}
+          </button>
+          <ul className={`nav-list ${menuOpen ? "open" : ""}`}>
             <li>
               <Link to="/">Inicio</Link>
             </li>
