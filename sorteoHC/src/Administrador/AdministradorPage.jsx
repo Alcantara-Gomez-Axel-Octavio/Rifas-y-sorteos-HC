@@ -60,6 +60,24 @@ function AdministradorPage() {
     .catch(err => console.error("Error al aceptar el ticket:", err));
   };
 
+  const handleRejectTicket = (ticketId) => {
+    fetch(`http://localhost:3001/api/tickets/${ticketId}/reject`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+    })
+      .then(res => res.json())
+      .then(updatedTicket => {
+        // Actualiza el estado local de los tickets
+        setTickets(prevTickets =>
+          prevTickets.map(ticket =>
+            ticket.ticket_id === updatedTicket.ticket_id ? updatedTicket : ticket
+          )
+        );
+      })
+      .catch(err => console.error("Error al rechazar el ticket:", err));
+  };
+
+
   // Función para crear un sorteo
   const handleSorteoSubmit = async (e) => {
     e.preventDefault();
@@ -176,38 +194,42 @@ function AdministradorPage() {
         </form>
       </section>
 
-      {/* Sección para visualizar la matriz de tickets con solicitudes de compra */}
+      {/* Sección para gestionar solicitudes de tickets apartados */}
       <section className="tickets-matriz">
-        <h3>Matriz de Tickets</h3>
+        <h3>Solicitudes de Tickets Apartados</h3>
         <div className="matrix">
-          {tickets.length > 0 ? (
-            tickets.map((ticket, index) => (
-              <div 
-                key={ticket.id || index} 
-                className={`ticket ${
-                  ticket.estado === "solicitado"
-                    ? "ticket-solicitado" // Ticket solicitado por un usuario
-                    : ticket.estado === "apartado"
-                      ? "ticket-apartado" // Ticket apartado (pero no pagado)
-                      : ticket.estado === "pagado"
-                        ? "ticket-pagado" // Ticket ya pagado
-                        : "ticket-disponible" // Ticket disponible
-                }`}
-              >
-                <span>{ticket.numero || index + 1}</span>
-                {ticket.estado === "solicitado" && (
-                  <button onClick={() => handleAcceptTicket(ticket.id)}>
-                    Aceptar Compra
-                  </button>
-                )}
-              </div>
-            ))
+          {tickets.filter(ticket => ticket.estado === "apartado").length > 0 ? (
+            tickets
+              .filter(ticket => ticket.estado === "apartado")
+              .map((ticket, index) => (
+                <div 
+                  key={ticket.ticket_id || index} 
+                  className="ticket ticket-apartado"
+                >
+                  <span>Ticket #{ticket.numero_ticket}</span>
+                  <div className="botones-accion">
+                    <button 
+                      className="btn-aceptar" 
+                      onClick={() => handleAcceptTicket(ticket.ticket_id)}
+                    >
+                      Aceptar
+                    </button>
+                    <button 
+                      className="btn-rechazar" 
+                      onClick={() => handleRejectTicket(ticket.ticket_id)}
+                    >
+                      Rechazar
+                    </button>
+                  </div>
+                </div>
+              ))
           ) : (
-            <p>Cargando tickets...</p>
+            <p>No hay tickets apartados.</p>
           )}
         </div>
-        <p>*Se muestran los tickets con sus estados y, si es necesario, la opción de aceptar la compra.</p>
+        <p>*Revise las solicitudes y actúe en consecuencia.</p>
       </section>
+
 
       {/* Sección para métodos de pago */}
       <section className="metodos-pago">

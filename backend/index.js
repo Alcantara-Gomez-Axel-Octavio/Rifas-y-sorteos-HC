@@ -217,6 +217,88 @@ app.post('/api/apartarTickets', (req, res) => {
 });
 
 
+// Función para aceptar un ticket (cambia el estado a "vendido")
+// Función para obtener tickets (útil para refrescar la lista)
+const fetchTickets = () => {
+  fetch("http://localhost:3001/api/tickets")
+    .then(response => response.json())
+    .then(data => setTickets(data))
+    .catch(err => console.error("Error al obtener tickets:", err));
+};
+
+// Función para aceptar un ticket (cambia estado a "vendido")
+const handleAcceptTicket = (ticketId) => {
+  fetch(`http://localhost:3001/api/tickets/${ticketId}/accept`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+  })
+    .then(res => res.json())
+    .then(updatedTicket => {
+      console.log("Ticket aceptado:", updatedTicket);
+      // Puedes actualizar el estado local o volver a obtener los tickets
+      fetchTickets();
+    })
+    .catch(err => console.error("Error al aceptar el ticket:", err));
+};
+
+// Función para rechazar un ticket (vuelve a "disponible" y elimina info del usuario)
+const handleRejectTicket = (ticketId) => {
+  fetch(`http://localhost:3001/api/tickets/${ticketId}/reject`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+  })
+    .then(res => res.json())
+    .then(updatedTicket => {
+      console.log("Ticket rechazado:", updatedTicket);
+      // Refrescar la lista sin recargar la página
+      fetchTickets();
+    })
+    .catch(err => console.error("Error al rechazar el ticket:", err));
+};
+
+
+// Endpoint para aceptar un ticket (cambiar estado a "vendido")
+app.put('/api/tickets/:ticketId/accept', (req, res) => {
+  const { ticketId } = req.params;
+  const query = `
+    UPDATE tickets 
+    SET estado = 'vendido', confirmed_at = NOW() 
+    WHERE ticket_id = ?
+  `;
+  pool.query(query, [ticketId], (err, result) => {
+    if (err) {
+      console.error("Error al actualizar ticket:", err);
+      return res.status(500).json({ message: "Error al actualizar ticket", error: err.message });
+    }
+    // Puedes devolver el ticket actualizado (aquí solo devolvemos el id y el nuevo estado)
+    res.json({ ticket_id: ticketId, estado: 'vendido', message: "Ticket aceptado correctamente" });
+  });
+});
+
+// Endpoint para rechazar un ticket (volver a "disponible" y eliminar info del usuario)
+app.put('/api/tickets/:ticketId/reject', (req, res) => {
+  const { ticketId } = req.params;
+  const query = `
+    UPDATE tickets 
+    SET estado = 'disponible', usuario_id = NULL, reserved_at = NULL, confirmed_at = NULL 
+    WHERE ticket_id = ?
+  `;
+  pool.query(query, [ticketId], (err, result) => {
+    if (err) {
+      console.error("Error al actualizar ticket:", err);
+      return res.status(500).json({ message: "Error al actualizar ticket", error: err.message });
+    }
+    res.json({ ticket_id: ticketId, estado: 'disponible', message: "Ticket rechazado correctamente" });
+  });
+});
+
+
+
+
+
+
+
+
 
 
 // Servidor corriendo en el puerto 3001

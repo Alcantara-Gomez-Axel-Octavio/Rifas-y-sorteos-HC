@@ -109,13 +109,134 @@
   }
   
   /* Matriz de Tickets */
-  .tickets-matriz .matrix {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
-    gap: 6px;
-    margin-top: 10px;
+  /* Contenedor principal de la sección */
+.tickets-matriz {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: 'Arial', sans-serif;
+}
+
+/* Encabezado de la sección */
+.tickets-matriz h3 {
+  font-size: 1.5rem;
+  color: #333;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+
+
+
+
+/* Matriz de Tickets */
+/* Contenedor principal de la sección */
+.tickets-matriz {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: 'Arial', sans-serif;
+}
+
+/* Encabezado de la sección */
+.tickets-matriz h3 {
+  font-size: 1.5rem;
+  color: #333;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+/* Matriz de Tickets */
+.tickets-matriz .matrix {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 15px;
+  margin-top: 10px;
+}
+
+/* Cada ticket individual */
+.ticket {
+  background-color: #fff; /* Color base para los tickets */
+  border: 1px solid #ddd;
+  padding: 12px;
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  text-align: center; /* Ajusta según tu preferencia */
+}
+
+/* Estilo específico para tickets “apartados” */
+.ticket-apartado {
+  /* Cambia el fondo a un color neutro o el que desees */
+  background-color: #f9f9f9; 
+}
+
+/* Texto del ticket */
+.ticket span {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #555;
+}
+
+/* Contenedor de los botones de acción */
+.botones-accion {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+/* Estilos generales para los botones */
+.botones-accion button {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+/* Botón Aceptar */
+.btn-aceptar {
+  background-color: #28a745; /* Verde */
+  color: #fff;
+}
+
+.btn-aceptar:hover {
+  background-color: #218838;
+  transform: scale(1.03);
+}
+
+/* Botón Rechazar */
+.btn-rechazar {
+  background-color: #dc3545; /* Rojo */
+  color: #fff;
+}
+
+.btn-rechazar:hover {
+  background-color: #c82333;
+  transform: scale(1.03);
+}
+
+/* Responsividad para dispositivos pequeños */
+@media (max-width: 600px) {
+  .botones-accion {
+    flex-direction: column;
   }
   
+  .botones-accion button {
+    width: 100%;
+    margin: 5px 0;
+  }
+}
+
+/* Fin de la matriz tickets  */
+  
+
+
+
+
+
   .ticket {
     background: #e8e8e8;
     padding: 8px;
@@ -130,8 +251,9 @@
   }
   
   .ticket-apartado {
-    background: #4caf50;
+    background: #e2e2e2;
     color: #fff;
+    border-radius:8%;
   }
   
   .ticket-pagado {
@@ -148,4 +270,6 @@
     margin-bottom: 12px;
     color: var(--primary-color);
   }
+
+ 
   
