@@ -163,6 +163,16 @@ color: #ffffff;
   
 }
 
+.ContenedorMisboletosAleatorios .ticket-seleccionado {
+  flex: 0 0 30%; /* Los elementos ocupan el 30% del ancho del contenedor */
+  margin: 5px; /* Espacio entre los elementos */
+  box-sizing: border-box;
+  padding: 10px;
+  background-color: #f0f0f0;
+  border-radius: 5px;
+  text-align: center;
+}
+
 /* Estilo para cada ticket */
 .ticket-seleccionado {
   background-color: #f2f2f2;
@@ -219,9 +229,11 @@ padding: 20px;
 border-radius: 5px;
 height: auto;
 width: 30vw;
+max-height: 700px;
 min-width: 350px;
 
 font-size: .9vw;
+overflow: hidden;
 }
 
 .CerrarModal{
@@ -294,26 +306,32 @@ color: #333;
 cursor: pointer;
 }
 
-.ContenedorMisboletosAleatorios{
-
-background-color: #fff;
-width: 70%;
-height: auto;
-min-height: 100px;
-padding-top: auto;
-position: relative;
-z-index: 1;
-text-align: center;
-color: #000;
-box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.4);
-border-radius: 25px;
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-margin: 0 auto;
-margin-top: 20px; /* Añadimos un margen superior */
+.ContenedorMisboletosAleatorios {
+  
+    background-color: #fff;
+    width: 90%;
+    height: auto;
+    min-height: 100px;
+    max-height: 300px; /* Limita la altura máxima */
+    padding-top: 10px; /* Ajusta el padding superior */
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    color: #000;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.4);
+    border-radius: 25px;
+    display: flex;
+    flex-direction: row; /* Cambié esto a fila */
+    flex-wrap: wrap; /* Permite que los elementos se acomoden en filas */
+    justify-content: flex-start; /* Alinea los elementos al inicio de la fila */
+    align-items: flex-start; /* Alinea los elementos en la parte superior */
+    margin: 0 auto;
+    margin-top: 20px; /* Añadimos un margen superior */
+    overflow-y: auto; /* Habilita el scroll vertical si el contenido excede el tamaño */
+    overflow-x: hidden; /* Oculta el scroll horizontal */
+  
 }
+
 
 .Presentacion-contenedor-1 {
 

@@ -38,48 +38,34 @@ function AdministradorPage() {
   
 
   // Se consulta el endpoint de tickets al cargar el componente
-  useEffect(() => {
+  const fetchTickets = () => {
     fetch('/api/tickets')
       .then(response => response.json())
-      .then(data => {
-        // Se asume que 'data' es un arreglo de objetos ticket
-        setTickets(data);
-      })
+      .then(data => setTickets(data))
       .catch(err => console.error("Error al obtener tickets:", err));
-  }, []);
-
-  // Función para aceptar la compra de un ticket
-  const handleAcceptTicket = (ticketId) => {
-    fetch(`/api/tickets/${ticketId}/accept`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-    })
-    .then(res => res.json())
-    .then(updatedTicket => {
-      // Actualiza el estado de los tickets localmente
-      setTickets(prevTickets =>
-        prevTickets.map(ticket =>
-          ticket.id === updatedTicket.id ? updatedTicket : ticket
-        )
-      );
-    })
-    .catch(err => console.error("Error al aceptar el ticket:", err));
   };
 
-  const handleRejectTicket = (ticketId) => {
-    fetch(`http://localhost:3001/api/tickets/${ticketId}/reject`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-    })
+  useEffect(() => {
+    fetchTickets();
+    const interval = setInterval(fetchTickets, 5000); // Actualiza cada 5 segundos
+    return () => clearInterval(interval); // Limpia el intervalo cuando el componente se desmonta
+  }, []);
+
+
+ 
+  // Función para aceptar un ticket y actualizar la lista
+  const handleAcceptTicket = (ticketId) => {
+    fetch(`/api/tickets/${ticketId}/accept`, { method: 'PUT', headers: { 'Content-Type': 'application/json' } })
       .then(res => res.json())
-      .then(updatedTicket => {
-        // Actualiza el estado local de los tickets
-        setTickets(prevTickets =>
-          prevTickets.map(ticket =>
-            ticket.ticket_id === updatedTicket.ticket_id ? updatedTicket : ticket
-          )
-        );
-      })
+      .then(() => fetchTickets()) // Actualiza la lista después de aceptar
+      .catch(err => console.error("Error al aceptar el ticket:", err));
+  };
+
+  // Función para rechazar un ticket y actualizar la lista
+  const handleRejectTicket = (ticketId) => {
+    fetch(`/api/tickets/${ticketId}/reject`, { method: 'PUT', headers: { 'Content-Type': 'application/json' } })
+      .then(res => res.json())
+      .then(() => fetchTickets()) // Actualiza la lista después de rechazar
       .catch(err => console.error("Error al rechazar el ticket:", err));
   };
 
