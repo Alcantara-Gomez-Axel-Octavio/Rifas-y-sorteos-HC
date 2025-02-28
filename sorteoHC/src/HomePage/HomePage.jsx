@@ -29,25 +29,13 @@ function HomePage() {
         <HeaderArea />
       </div>
 
-      <div
-        className="Presentacion-contenedor-1"
-        style={{
-          backgroundImage: "url('/iconos/banner.png')",
-          backgroundRepeat: "no-repeat",
-          backgroundPosition: "center right",
-          backgroundSize: "contain",
-          height: "80vh",
-        }}
-      >
-        {/* Sección de Preguntas Frecuentes */}
-        <div id="faq-section" className="Presentacion-contenedor-2">
-          <h1>Preguntas frecuentes.</h1>
-          <p>
-            Parte de lo recaudado en esta rifa servirá para mejorar la calidad de
-            vida de perros y gatos en diferentes albergues.
-          </p>
 
-          <div className="faq-section">
+    <div className="CuadroBlanco1" id="faq-section">
+      <h1>Preguntas frecuentes.</h1>
+            <p>
+              Parte de lo recaudado en esta rifa servirá para mejorar la calidad de
+              vida de perros y gatos en diferentes albergues.
+            </p>
             <h2>¿CÓMO SE ELIGE A LOS GANADORES?</h2>
             <p>
               Todos nuestros sorteos se realizan en base a la Lotería Nacional para
@@ -83,51 +71,61 @@ function HomePage() {
               Encuentra la transmisión en vivo de todos nuestros sorteos en nuestra
               página de Facebook en las fecha y hora indicadas. ¡No te lo pierdas!
             </p>
-          </div>
-        </div>
-      </div>
 
-      <div id="contacto-section" className="Acerca-de-nosotros-contenedor">
-        <div className="Acerca-de-nosotros-info">
-          <h2 className="Acerca-de-nosotros-titulo">Contáctanos</h2>
-          <p className="Acerca-de-nosotros-desc">
-            Si tienes dudas o comentarios, no dudes en contactarnos. Estamos aquí
-            para ayudarte.
-          </p>
-          <div className="Acerca-de-nosotros-redes">
-            <a
-              href="https://www.instagram.com/axel._.alc/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <img src={IconoInstagram} alt="Instagram" />
-            </a>
-            <a
-              href="https://www.facebook.com/axelalcanatara"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <img src={IconoFacebook} alt="Facebook" />
-            </a>
-            <a
-              href="https://wa.me/3311800657"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <img src={IconoWhatsapp} alt="WhatsApp" />
-            </a>
-          </div>
-          <div className="Acerca-de-nosotros-contacto">
-            <p>
+    </div>
+    <div className="CuadroBlanco2" id="contacto-section">
+      <h1>Contacto</h1>
+      <p>Si tienes alguna duda o sugerencia, no dudes en contactarnos.</p>
+
+      <div className="Contacto__redes_Imagenes">
+        <a
+                href="https://www.instagram.com/axel._.alc/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img src={IconoInstagram} alt="Instagram" />
+              </a>
+              <a
+                href="https://www.facebook.com/axelalcanatara"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img src={IconoFacebook} alt="Facebook" />
+              </a>
+              <a
+                href="https://wa.me/3311800657"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img src={IconoWhatsapp} alt="WhatsApp" />
+              </a>
+
+      </div>
+      <p>
               <strong>Teléfono/WhatsApp:</strong> 332118-3188
             </p>
             <p>
               <strong>Email:</strong> HCsorteos@gmail.com
             </p>
-          </div>
-        </div>
-      </div>
-    </div>
+
+
+
+
+
+</div>
+
+
+
+</div>
+
+
+      
+
+
+
+
+
+  
   );
 }
 
