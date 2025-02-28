@@ -91,7 +91,7 @@ function ComprarBoletosPage() {
   };
 
   return (
-    <div className="contenedor__todo_Home">
+    <div className="Contenido_Todo_Tutoriales">
       <div className="Header">
         <HeaderArea />
       </div>
@@ -158,16 +158,7 @@ function ComprarBoletosPage() {
         </div>
       </div>
 
-      <div className="Presentacion-contenedor-1">
-        <div className="Presentacion-contenedor-2">
-          <h1>Empresa comprometida y dedicada.</h1>
-          <p>
-            Gracias por visitar nuestro sitio. Aquí encontrarás información relevante sobre nuestros productos y servicios. 
-            Si tienes alguna pregunta o necesitas más detalles, no dudes en contactarnos.
-          </p>
-          <a href="#contacto" className="boton-contacto">Contactar</a>
-        </div>
-      </div>
+
 
       {showModal && (
         <div className="modal">
