@@ -2,18 +2,35 @@ const express = require('express');
 const mysql = require('mysql2');
 const cors = require('cors');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const multer = require('multer');
 require('dotenv').config();
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Usando un pool de conexiones
+// Servir archivos estáticos (imágenes subidas)
+app.use('/uploads', express.static('uploads'));
+
+// Configuración de Multer para la subida de archivos
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, './uploads'); // Asegúrate de que la carpeta "uploads" exista en el proyecto
+  },
+  filename: (req, file, cb) => {
+    // Agrega la fecha para evitar duplicados
+    cb(null, Date.now() + '-' + file.originalname);
+  }
+});
+const upload = multer({ storage });
+
+// Configuración del pool de conexiones MySQL
 const pool = mysql.createPool({
-  host: process.env.DB_HOST,      // ej: 'localhost'
-  user: process.env.DB_USER,      // ej: 'root'
-  password: process.env.DB_PASS,  // tu contraseña
-  database: process.env.DB_NAME,  // ej: 'u938863753_sorteoHC'
+  host: process.env.DB_HOST,      
+  user: process.env.DB_USER,      
+  password: process.env.DB_PASS,  
+  database: process.env.DB_NAME,  
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0
@@ -57,11 +74,12 @@ app.post('/api/login', (req, res) => {
 
       // Es recomendable no enviar el hash de la contraseña al cliente
       const { password, ...adminWithoutPassword } = admin;
+      // Opcional: generar un token JWT para el usuario
+      // const token = jwt.sign({ id: admin.admin_id }, process.env.JWT_SECRET, { expiresIn: '1h' });
       res.json({ message: '✅ Inicio de sesión exitoso', admin: adminWithoutPassword });
     });
   });
 });
-
 
 // Middleware para verificar el token
 const verifyToken = (req, res, next) => {
@@ -80,7 +98,20 @@ app.get("/api/admin", verifyToken, (req, res) => {
   res.json({ message: "Acceso autorizado a administrador", user: req.user });
 });
 
-
+app.get('/api/sorteos', (req, res) => {
+  pool.query('SELECT * FROM sorteos ORDER BY created_at DESC LIMIT 1', (err, results) => {
+    if (err) {
+      return res.status(500).json({ message: "Error en el servidor", error: err.message });
+    }
+    if (results.length === 0) {
+      return res.status(404).json({ message: "No hay sorteo activo" });
+    }
+    const sorteo = results[0];
+    // Construir la URL absoluta usando el protocolo y el host de la petición
+    const imagenUrl = `${req.protocol}://${req.get('host')}/${sorteo.imagen.replace(/\\/g, '/')}`;
+    res.json({ ...sorteo, imagen: imagenUrl });
+  });
+});
 
 
 // Función para insertar tickets en lotes
@@ -88,7 +119,6 @@ function insertTicketsInBatches(sorteoId, numTickets, batchSize = 1000) {
   let currentTicket = 1;
   function insertBatch() {
     const ticketsData = [];
-    // Prepara el lote actual
     for (let i = currentTicket; i < currentTicket + batchSize && i <= numTickets; i++) {
       ticketsData.push([sorteoId, i, 'disponible']);
     }
@@ -110,9 +140,11 @@ function insertTicketsInBatches(sorteoId, numTickets, batchSize = 1000) {
   return insertBatch();
 }
 
-// Endpoint para crear sorteo y generar tickets
-app.post('/api/sorteo', (req, res) => {
-  const { admin_id, imagen, fecha_finalizacion, descripcion, precio_boleto, total_tickets, confirm } = req.body;
+// Endpoint para crear sorteo y generar tickets (incluye subida de imagen)
+app.post('/api/sorteo', upload.single('imagen'), (req, res) => {
+  const { admin_id, fecha_finalizacion, descripcion, precio_boleto, total_tickets, confirm } = req.body;
+  // Se obtiene la ruta de la imagen subida
+  const imagenPath = req.file ? req.file.path : '';
 
   // Consulta si ya existe un sorteo activo
   pool.query('SELECT * FROM sorteos ORDER BY created_at DESC LIMIT 1', (err, results) => {
@@ -129,7 +161,7 @@ app.post('/api/sorteo', (req, res) => {
     // Función interna para insertar el nuevo sorteo y generar tickets
     function insertNewSorteo() {
       const query = 'INSERT INTO sorteos (admin_id, imagen, fecha_finalizacion, descripcion, precio_boleto, total_tickets) VALUES (?, ?, ?, ?, ?, ?)';
-      pool.query(query, [admin_id, imagen, fecha_finalizacion, descripcion, precio_boleto, total_tickets || 60000], (err3, insertResult) => {
+      pool.query(query, [admin_id, imagenPath, fecha_finalizacion, descripcion, precio_boleto, total_tickets || 60000], (err3, insertResult) => {
         if (err3) {
           console.error('Error al crear sorteo:', err3);
           return res.status(500).json({ message: "Error al crear sorteo", error: err3.message });
@@ -150,9 +182,10 @@ app.post('/api/sorteo', (req, res) => {
       });
     }
 
-    // Si ya existe sorteo y se confirmó, se borra el anterior y luego se inserta el nuevo
+    // Si ya existe sorteo y se confirmó, se elimina el sorteo anterior (y por ON DELETE CASCADE se eliminarán automáticamente los registros asociados)
     if (results.length > 0 && confirm) {
-      pool.query('DELETE FROM sorteos', (err2, deleteResult) => {
+      const previousSorteoId = results[0].sorteo_id;
+      pool.query('DELETE FROM sorteos WHERE sorteo_id = ?', [previousSorteoId], (err2, deleteResult) => {
         if (err2) {
           console.error('Error al borrar sorteo anterior:', err2);
           return res.status(500).json({ message: "Error al borrar sorteo anterior", error: err2.message });
@@ -166,6 +199,7 @@ app.post('/api/sorteo', (req, res) => {
   });
 });
 
+// Endpoint para obtener todos los tickets
 app.get('/api/tickets', (req, res) => {
   pool.query('SELECT * FROM tickets', (error, results) => {
     if (error) {
@@ -175,11 +209,7 @@ app.get('/api/tickets', (req, res) => {
   });
 });
 
-
-
-
-
-
+// Endpoint para registrar nuevos usuarios
 app.post('/api/registroUsuarios', (req, res) => {
   const { nombre, email, numero } = req.body;
 
@@ -192,7 +222,6 @@ app.post('/api/registroUsuarios', (req, res) => {
     res.json({ message: 'Usuario registrado exitosamente', usuario_id: result.insertId });
   });
 });
-
 
 // Endpoint para actualizar el estado de los tickets y vincularlos al usuario
 app.post('/api/apartarTickets', (req, res) => {
@@ -219,50 +248,6 @@ app.post('/api/apartarTickets', (req, res) => {
   });
 });
 
-
-
-
-
-// Función para aceptar un ticket (cambia el estado a "vendido")
-// Función para obtener tickets (útil para refrescar la lista)
-const fetchTickets = () => {
-  fetch("http://localhost:3001/api/tickets")
-    .then(response => response.json())
-    .then(data => setTickets(data))
-    .catch(err => console.error("Error al obtener tickets:", err));
-};
-
-// Función para aceptar un ticket (cambia estado a "vendido")
-const handleAcceptTicket = (ticketId) => {
-  fetch(`http://localhost:3001/api/tickets/${ticketId}/accept`, {
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
-  })
-    .then(res => res.json())
-    .then(updatedTicket => {
-      console.log("Ticket aceptado:", updatedTicket);
-      // Puedes actualizar el estado local o volver a obtener los tickets
-      fetchTickets();
-    })
-    .catch(err => console.error("Error al aceptar el ticket:", err));
-};
-
-// Función para rechazar un ticket (vuelve a "disponible" y elimina info del usuario)
-const handleRejectTicket = (ticketId) => {
-  fetch(`http://localhost:3001/api/tickets/${ticketId}/reject`, {
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
-  })
-    .then(res => res.json())
-    .then(updatedTicket => {
-      console.log("Ticket rechazado:", updatedTicket);
-      // Refrescar la lista sin recargar la página
-      fetchTickets();
-    })
-    .catch(err => console.error("Error al rechazar el ticket:", err));
-};
-
-
 // Endpoint para aceptar un ticket (cambiar estado a "vendido")
 app.put('/api/tickets/:ticketId/accept', (req, res) => {
   const { ticketId } = req.params;
@@ -276,7 +261,6 @@ app.put('/api/tickets/:ticketId/accept', (req, res) => {
       console.error("Error al actualizar ticket:", err);
       return res.status(500).json({ message: "Error al actualizar ticket", error: err.message });
     }
-    // Puedes devolver el ticket actualizado (aquí solo devolvemos el id y el nuevo estado)
     res.json({ ticket_id: ticketId, estado: 'vendido', message: "Ticket aceptado correctamente" });
   });
 });
@@ -297,15 +281,6 @@ app.put('/api/tickets/:ticketId/reject', (req, res) => {
     res.json({ ticket_id: ticketId, estado: 'disponible', message: "Ticket rechazado correctamente" });
   });
 });
-
-
-
-
-
-
-
-
-
 
 // Servidor corriendo en el puerto 3001
 app.listen(3001, () => console.log('Servidor en puerto 3001'));

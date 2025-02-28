@@ -1,13 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import HeaderArea from '../HeaderArea/HeaderArea';
 import "./AdministradorPage.css";
 
 function AdministradorPage() {
-
-
-  
-
-  // Estado para el sorteo (se mantiene la lógica para crear un sorteo)
+  // Estado para el sorteo
   const [sorteo, setSorteo] = useState({
     imagen: null,
     fechaFinalizacion: "",
@@ -16,7 +11,7 @@ function AdministradorPage() {
     cantidadBoletos: ""
   });
 
-  // Estados para métodos de pago (se mantienen)
+  // Estados para métodos de pago
   const [metodoTransferencias, setMetodoTransferencias] = useState({
     banco: "",
     nombre: "",
@@ -32,17 +27,14 @@ function AdministradorPage() {
     numeroTarjeta: ""
   });
 
-  // Estado para los tickets (los datos se extraen de la BD)
+  // Estado para los tickets (datos extraídos de la BD)
   const [tickets, setTickets] = useState([]);
 
-  
-
-  // Se consulta el endpoint de tickets al cargar el componente
+  // Consulta de tickets al cargar el componente
   useEffect(() => {
-    fetch('/api/tickets')
+    fetch('http://localhost:3001/api/tickets')
       .then(response => response.json())
       .then(data => {
-        // Se asume que 'data' es un arreglo de objetos ticket
         setTickets(data);
       })
       .catch(err => console.error("Error al obtener tickets:", err));
@@ -50,22 +42,23 @@ function AdministradorPage() {
 
   // Función para aceptar la compra de un ticket
   const handleAcceptTicket = (ticketId) => {
-    fetch(`/api/tickets/${ticketId}/accept`, {
+    fetch(`http://localhost:3001/api/tickets/${ticketId}/accept`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
     })
-    .then(res => res.json())
-    .then(updatedTicket => {
-      // Actualiza el estado de los tickets localmente
-      setTickets(prevTickets =>
-        prevTickets.map(ticket =>
-          ticket.id === updatedTicket.id ? updatedTicket : ticket
-        )
-      );
-    })
-    .catch(err => console.error("Error al aceptar el ticket:", err));
+      .then(res => res.json())
+      .then(updatedTicket => {
+        // Actualizar estado local de tickets
+        setTickets(prevTickets =>
+          prevTickets.map(ticket =>
+            ticket.ticket_id === updatedTicket.ticket_id ? updatedTicket : ticket
+          )
+        );
+      })
+      .catch(err => console.error("Error al aceptar el ticket:", err));
   };
 
+  // Función para rechazar un ticket
   const handleRejectTicket = (ticketId) => {
     fetch(`http://localhost:3001/api/tickets/${ticketId}/reject`, {
       method: 'PUT',
@@ -73,7 +66,6 @@ function AdministradorPage() {
     })
       .then(res => res.json())
       .then(updatedTicket => {
-        // Actualiza el estado local de los tickets
         setTickets(prevTickets =>
           prevTickets.map(ticket =>
             ticket.ticket_id === updatedTicket.ticket_id ? updatedTicket : ticket
@@ -83,57 +75,53 @@ function AdministradorPage() {
       .catch(err => console.error("Error al rechazar el ticket:", err));
   };
 
-
-  // Función para crear un sorteo
+  // Función para crear un sorteo usando FormData para subir el archivo
   const handleSorteoSubmit = async (e) => {
     e.preventDefault();
-  
-    // Construir el objeto del nuevo sorteo.
-    // Nota: Se debe obtener el id del administrador (por ejemplo, desde el contexto o la sesión).
-    const newSorteo = {
-      admin_id: 1, 
-      // Para simplificar, se usa el nombre del archivo; en producción se puede usar FormData y un manejador de carga.
-      imagen: sorteo.imagen.name,  
-      fecha_finalizacion: sorteo.fechaFinalizacion,
-      descripcion: sorteo.descripcion,
-      precio_boleto: sorteo.precioBoleto,
-      total_tickets: sorteo.cantidadBoletos,
-    };
-  
+
+    // Crear el objeto FormData y agregar los campos requeridos
+    const formData = new FormData();
+    formData.append('admin_id', 1); // Se debe obtener este id de la sesión o contexto
+    formData.append('imagen', sorteo.imagen); // Archivo de imagen
+    formData.append('fecha_finalizacion', sorteo.fechaFinalizacion);
+    formData.append('descripcion', sorteo.descripcion);
+    formData.append('precio_boleto', sorteo.precioBoleto);
+    formData.append('total_tickets', sorteo.cantidadBoletos);
+
     // Enviar solicitud inicial
-    let response = await fetch('/api/sorteo', {
+    let response = await fetch('http://localhost:3001/api/sorteo', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(newSorteo)
+      body: formData
     });
-  
+
     let data = await response.json();
-  
-    // Si la respuesta es 400 y hay advertencia, solicitar confirmación al usuario
+
+    // Si hay advertencia por sorteo activo, solicitar confirmación al usuario
     if (response.status === 400 && data.warning) {
       const confirmed = window.confirm(data.warning);
       if (!confirmed) return;
-  
-      // Si el usuario confirma, se reenvía la solicitud con confirmación
-      newSorteo.confirm = true;
-      response = await fetch('/api/sorteo', {
+
+      // Reenviar la solicitud con confirmación
+      const formDataConfirm = new FormData();
+      formDataConfirm.append('admin_id', 1);
+      formDataConfirm.append('imagen', sorteo.imagen);
+      formDataConfirm.append('fecha_finalizacion', sorteo.fechaFinalizacion);
+      formDataConfirm.append('descripcion', sorteo.descripcion);
+      formDataConfirm.append('precio_boleto', sorteo.precioBoleto);
+      formDataConfirm.append('total_tickets', sorteo.cantidadBoletos);
+      formDataConfirm.append('confirm', 'true');
+
+      response = await fetch('http://localhost:3001/api/sorteo', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(newSorteo)
+        body: formDataConfirm
       });
       data = await response.json();
     }
-  
+
     alert(data.message);
   };
 
-
-
-  // Handlers para actualizar métodos de pago
+  // Handlers para métodos de pago
   const handleMetodoTransferencias = (e) => {
     e.preventDefault();
     alert("Método Transferencias y Cajero actualizado");
@@ -151,7 +139,6 @@ function AdministradorPage() {
 
   return (
     <div className="admin-panel">
-      
       <h2>Panel de Administrador</h2>
       <nav className="admin-nav">
         <button>Crear Sorteo</button>
@@ -162,7 +149,7 @@ function AdministradorPage() {
       {/* Sección para crear un sorteo */}
       <section className="sorteo-section">
         <h3>Crear Sorteo</h3>
-        <form onSubmit={handleSorteoSubmit}>
+        <form onSubmit={handleSorteoSubmit} encType="multipart/form-data">
           <label>Imagen del sorteo:</label>
           <input 
             type="file" 
@@ -173,27 +160,27 @@ function AdministradorPage() {
           <input 
             type="date" 
             value={sorteo.fechaFinalizacion} 
-            onChange={(e)=> setSorteo({ ...sorteo, fechaFinalizacion: e.target.value })}
+            onChange={(e) => setSorteo({ ...sorteo, fechaFinalizacion: e.target.value })}
             required 
           />
           <label>Descripción:</label>
           <textarea 
             value={sorteo.descripcion} 
-            onChange={(e)=> setSorteo({ ...sorteo, descripcion: e.target.value })}
+            onChange={(e) => setSorteo({ ...sorteo, descripcion: e.target.value })}
             required
           ></textarea>
           <label>Precio del boleto:</label>
           <input 
             type="number" 
             value={sorteo.precioBoleto} 
-            onChange={(e)=> setSorteo({ ...sorteo, precioBoleto: e.target.value })}
+            onChange={(e) => setSorteo({ ...sorteo, precioBoleto: e.target.value })}
             required 
           />
           <label>Cantidad de boletos:</label>
           <input 
             type="number" 
             value={sorteo.cantidadBoletos} 
-            onChange={(e)=> setSorteo({ ...sorteo, cantidadBoletos: e.target.value })}
+            onChange={(e) => setSorteo({ ...sorteo, cantidadBoletos: e.target.value })}
             required 
           />
           <button type="submit">Crear Sorteo</button>
@@ -235,7 +222,6 @@ function AdministradorPage() {
         </div>
         <p>*Revise las solicitudes y actúe en consecuencia.</p>
       </section>
-
 
       {/* Sección para métodos de pago */}
       <section className="metodos-pago">

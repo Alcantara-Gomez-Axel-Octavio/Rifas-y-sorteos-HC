@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import HeaderArea from '../HeaderArea/HeaderArea';
+import SorteoInfo from './SorteoInfo.jsx';
 import "./ComprarBoletosPage.css";
 import Suerte from "../assets/Suerte.gif";
 
@@ -30,6 +31,8 @@ function ComprarBoletosPage() {
       setSelectedTickets([...selectedTickets, ticket]);
     }
   };
+
+
 
   // Función para mostrar el GIF temporalmente
   const mostrarGifTemporalmente = () => {
@@ -91,16 +94,19 @@ function ComprarBoletosPage() {
   };
 
   return (
-    <div className="Contenido_Todo_Tutoriales">
+    <div className="contenedor__todo_Home">
       <div className="Header">
         <HeaderArea />
       </div>
   
+      
+
       <div className="Texto-Principal">
         <h1>Compra de boletos</h1>
         <p>
           En esta sección podrás comprar boletos para participar en el sorteo de la rifa de la fábrica de la suerte.
         </p>
+        <SorteoInfo />
       </div>
   
       <div className="CuadroBlanco">
@@ -158,7 +164,16 @@ function ComprarBoletosPage() {
         </div>
       </div>
 
-
+      <div className="Presentacion-contenedor-1">
+        <div className="Presentacion-contenedor-2">
+          <h1>Empresa comprometida y dedicada.</h1>
+          <p>
+            Gracias por visitar nuestro sitio. Aquí encontrarás información relevante sobre nuestros productos y servicios. 
+            Si tienes alguna pregunta o necesitas más detalles, no dudes en contactarnos.
+          </p>
+          <a href="#contacto" className="boton-contacto">Contactar</a>
+        </div>
+      </div>
 
       {showModal && (
         <div className="modal">
@@ -173,22 +188,7 @@ function ComprarBoletosPage() {
                   <option value="" disabled>Selecciona número de boletos</option>
                   <option value="1">1</option>
                   <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                  <option value="6">6</option>
-                  <option value="7">7</option>
-                  <option value="8">8</option>
-                  <option value="9">9</option>
-                  <option value="10">10</option>
-                  <option value="20">20</option>
-                  <option value="30">30</option>
-                  <option value="40">40</option>
-                  <option value="50">50</option>
-                  <option value="60">60</option>
-                  <option value="70">70</option>
-                  <option value="80">80</option>
-                  <option value="90">90</option>
+                  {/* ... demás opciones */}
                   <option value="100">100</option>
                 </select>
               </div>

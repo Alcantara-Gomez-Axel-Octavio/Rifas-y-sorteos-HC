@@ -489,3 +489,10 @@ margin-top: 20px; /* Añadimos un margen superior */
 }
 
 
+.sorteo-imagen {
+  width: 100%;       /* Ocupa el 100% del contenedor */
+  max-width: 400px;  /* Ancho máximo deseado */
+  height: auto;      /* Mantiene la proporción original */
+  display: block;    /* Elimina espacios extra debajo de la imagen */
+  margin: 0 auto;    /* Centra la imagen en su contenedor */
+}
