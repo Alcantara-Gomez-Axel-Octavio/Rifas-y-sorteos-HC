@@ -83,12 +83,7 @@ function ComprarBoletosPage() {
       .catch(error => console.error("Error al obtener tickets:", error));
   }, []);
 
-  const mostrarGifTemporalmente = () => {
-    setMostrarGif(true);
-    setTimeout(() => {
-      setMostrarGif(false);
-    }, 3000);
-  };
+ 
 
   // Función para actualizar los tickets (marcarlos como "apartado")
   const updateTickets = async (usuario_id) => {
