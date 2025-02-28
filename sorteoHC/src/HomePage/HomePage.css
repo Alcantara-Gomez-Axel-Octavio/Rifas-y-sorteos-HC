@@ -7,179 +7,117 @@
 }
 
 .contenedor__todo_Home{
-  width: 100%;
-  height: 100%;
+  min-height: 100vh; /* Se asegura de ocupar al menos el 100% de la pantalla */
+  width: 100%;   /* Ocupa el 100% del ancho de la ventana */
+  display: flex;           /* Usamos flexbox para el diseño */
+  flex-direction: column;  /* Los elementos dentro se dispondrán en columna */
+  background-image: url('../assets/MODEL-S.jpg'); /* Usamos la imagen como fondo */
+  background-size: cover;  /* Asegura que la imagen cubra todo el fondo */
+  background-position: center; /* Centra la imagen en la página */
+  background-repeat: no-repeat; /* Evita que la imagen se repita */
+  background-attachment: fixed; /* Hace que la imagen de fondo no se mueva cuando se hace scroll */
+}
+
+
+
+
+.CuadroBlanco1 {
+  background-color: rgba(255, 255, 255, 0.9); /* 0.7 es la opacidad, puedes ajustarlo según lo desees */
+  width: 90%;
+  height: auto;
+  min-height: 100px;
+  max-height: auto;
+  padding-top: auto;
   position: relative;
-  background: url('https://digitalassets.tesla.com/tesla-contents/image/upload/f_auto,q_auto/Model-S-Main-Hero-Desktop-NA.png') no-repeat center center fixed;
-  background-size: cover;  /* Ajusta la imagen al tamaño de la pantalla */
-
-}
-
-
-
-.BotonAgregar{
-  height: auto;
-  width: auto;
+  z-index: 1;
+  text-align: center;
+  color: #000;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.4);
+  border-radius: 25px;
   display: flex;
-  justify-content: center;
-}
-
-.FormaBoton {
-  background-color: #0f98f8; /* Color de fondo del botón */
-  color: #fff; /* Color del texto */
-  border: none; /* Sin borde */
-  border-radius: 5px; /* Bordes redondeados */
-  padding: 10px 20px; /* Espaciado interno */
-  cursor: pointer; /* Cursor de puntero */
-  margin: 5px 0px 42px 50px;
-  font-family: sans-serif;
-  font-size: 20px; /* Se corrige px */
-  font-weight: bold;
-  width: 50%;
-  height: 6vh;
-  transition: all 1200ms;
-}
-
-.FormaBoton:hover {
-  background: #0f98f8;
-  color: #ffffff;
-}
-
-.BotonEliminarEspacio{
-  align-items: center;
-  margin: auto;
-  margin-top: 50px;
-}
-
-.botonEliminar{
-  background-color: #ff0000; /* Color de fondo del botón */
-  color: #ffffff; /* Color del texto */
-  border: none; /* Sin borde */
-  border-radius: 5px; /* Bordes redondeados */
-  cursor: pointer; /* Cursor de puntero */
-  font-family: sans-serif;
-  font-size: 20px; /* Se corrige px */
-  font-weight: bold;
-  transition: all 1200ms;
-  width: 200px;
-  height: 40px;
-}
-
-.Presentacion-contenedor-1 {
-  padding-top: 60vh;
-  background-size: auto;
-  height: 80vh;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  justify-content: center; /* Centra los elementos hijos horizontalmente */
-  font-size: 20px;
-
-}
-
-.Presentacion-contenedor-2 {
-min-width: 80%; /* Aumenta el ancho para un mayor impacto visual */
-background-color: rgba(255, 255, 255, 0.85); /* Fondo blanco con transparencia */
-padding: 2rem;
-border-radius: 10px; /* Bordes redondeados para suavizar el contenedor */
-box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Sombra sutil para dar profundidad */
-text-align: center; /* Centra el contenido para un look más moderno */
-margin: 1rem; /* Un margen para separarlo del resto si es necesario */
-}
-
-.Presentacion-contenedor-2 h1 {
-font-size: 2.5em;
-color: #0f98f8;
-margin-bottom: 20px;
-text-shadow: 1px 1px 3px rgba(0,0,0,0.2); 
-}
-
-.Presentacion-contenedor-2 h2 {
-font-size: 1.4em;
-color: #0f98f8;
-margin-bottom: 20px;
-text-shadow: 1px 1px 3px rgba(0,0,0,0.2); 
-}
-
-.Presentacion-contenedor-2 p {
-font-size: 1.2em;
-color: #333;
-margin-bottom: 20px;
-}
-
-
-.boton-contacto {
-  display: inline-block;
-  font-size: 1em;
-  color: #0f98f8;
-  text-decoration: none;
-  border: 1px solid #0f98f8;
-  padding: 10px 20px;
-  border-radius: 5px;
-  transition: background-color 0.3s, color 0.3s;
-}
-
-.boton-contacto:hover {
-  background-color: #0f98f8;
-  color: #fff;
-}
-
-.Presentacion-contenedor-3 img {
-  position: left;
-  max-width: 60vh;
-  height: auto;
-}
-
-
-.Acerca-de-nosotros-contenedor {
-  margin-top: 20vh;
-}
-
-.Acerca-de-nosotros-info {
-  margin: 10vh auto;
-  padding: 2rem;
-  max-width: 800px;
-  background-color: rgba(255, 255, 255, 0.9);
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  display: flex;
-  justify-content: center;
-  align-items: center;
   flex-direction: column;
-}
-
-.Acerca-de-nosotros-titulo {
-  color: #007bff;
-  font-family: sans-serif;
-  font-size: 2.5rem;
-  margin-bottom: 1rem;
-}
-
-.Acerca-de-nosotros-desc {
-  font-size: 1.2rem;
-  color: #333;
-  margin-bottom: 2rem;
-}
-
-.Acerca-de-nosotros-redes {
-  display: flex;
   justify-content: center;
-  gap: 1.5rem;
-  margin-bottom: 2rem;
+  align-items: flex-start;
+  margin: 0 auto;
+  margin-top: 400px; /* Añadimos un margen superior */
+  flex-grow: 1; /* Esto hará que el CuadroBlanco1 ocupe el espacio restante */
+  }
+
+.CuadroBlanco1 h1{
+  font-size: 40px;
+  font-family: sans-serif;
+  font-weight: bold;
+  margin: 10px;
+  color: #8800ff;
 }
 
-.Acerca-de-nosotros-redes a img {
-  width: 10vh;
-  height: 10vh;
-  transition: transform 0.3s;
+.CuadroBlanco1 p{
+  font-size: 20px;
+  font-family: sans-serif;
+  font-weight: bold;
+  margin: 10px;
+  color: #000000;
 }
 
-.Acerca-de-nosotros-redes a:hover img {
-  transform: scale(1.1);
+.CuadroBlanco1 h2{
+  font-size: 30px;
+  font-family: sans-serif;
+  font-weight: bold;
+  margin: 10px;
+  color: #8800ff;
 }
 
-.Acerca-de-nosotros-contacto p {
-  font-size: 1.1rem;
-  color: #333;
-  margin: 0.5rem 0;
+.CuadroBlanco2 {
+  background-color: rgba(255, 255, 255, 0.7);
+  width: 30%;
+  min-width: 350px;
+  height: auto;
+  min-height: 100px;
+  max-height: auto;
+  padding-top: auto;
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  color: #000;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.4);
+  border-radius: 25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  margin-top: 200px;
+  flex-grow: 1;
+  overflow: hidden;
+}
+
+.CuadroBlanco2 h1 {
+  font-size: 40px;
+  font-family: sans-serif;
+  font-weight: bold;
+  margin: 10px;
+  color: #8800ff;
+}
+
+.CuadroBlanco2 p {
+  font-size: 20px;
+  font-family: sans-serif;
+  font-weight: bold;
+  margin: 10px;
+  color: #000000;
+}
+
+.Contacto__redes_Imagenes {
+  display: flex; /* Usamos Flexbox para el layout */
+  justify-content: center; /* Centra las imágenes horizontalmente */
+  gap: 20px; /* Ajusta este valor según el espacio deseado entre las imágenes */
+}
+
+.Contacto__redes_Imagenes a {
+  display: inline-block; /* Asegura que cada imagen sea un bloque en línea */
+}
+
+.Contacto__redes_Imagenes img {
+  width: 50px; /* Ajusta el tamaño de las imágenes según lo necesites */
+  height: auto;
 }
