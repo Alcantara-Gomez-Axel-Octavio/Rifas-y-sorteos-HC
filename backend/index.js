@@ -140,25 +140,31 @@ function insertTicketsInBatches(sorteoId, numTickets, batchSize = 1000) {
   return insertBatch();
 }
 
-// Endpoint para crear sorteo y generar tickets (incluye subida de imagen)
 app.post('/api/sorteo', upload.single('imagen'), (req, res) => {
   const { admin_id, fecha_finalizacion, descripcion, precio_boleto, total_tickets, confirm } = req.body;
-  // Se obtiene la ruta de la imagen subida
   const imagenPath = req.file ? req.file.path : '';
 
-  // Consulta si ya existe un sorteo activo
   pool.query('SELECT * FROM sorteos ORDER BY created_at DESC LIMIT 1', (err, results) => {
     if (err) {
       console.error('Error consultando sorteo:', err);
       return res.status(500).json({ message: "Error en el servidor", error: err.message });
     }
 
-    // Si existe un sorteo y no se ha enviado confirmación
     if (results.length > 0 && !confirm) {
       return res.status(400).json({ warning: "Ya existe un sorteo activo. Al crear uno nuevo, se eliminará el sorteo anterior. ¿Desea continuar?" });
     }
 
-    // Función interna para insertar el nuevo sorteo y generar tickets
+    // Función para truncar la tabla de tickets y reiniciar los IDs
+    function truncateTickets(callback) {
+      pool.query('TRUNCATE TABLE tickets', (errTrunc) => {
+        if (errTrunc) {
+          console.error('Error truncando tabla de tickets:', errTrunc);
+          return res.status(500).json({ message: "Error truncando tabla de tickets", error: errTrunc.message });
+        }
+        callback();
+      });
+    }
+
     function insertNewSorteo() {
       const query = 'INSERT INTO sorteos (admin_id, imagen, fecha_finalizacion, descripcion, precio_boleto, total_tickets) VALUES (?, ?, ?, ?, ?, ?)';
       pool.query(query, [admin_id, imagenPath, fecha_finalizacion, descripcion, precio_boleto, total_tickets || 60000], (err3, insertResult) => {
@@ -170,7 +176,6 @@ app.post('/api/sorteo', upload.single('imagen'), (req, res) => {
         const sorteoId = insertResult.insertId;
         const numTickets = total_tickets || 60000;
 
-        // Insertar los tickets en lotes
         insertTicketsInBatches(sorteoId, numTickets)
           .then(() => {
             res.json({ message: "Sorteo y tickets creados exitosamente", sorteo_id: sorteoId });
@@ -182,26 +187,36 @@ app.post('/api/sorteo', upload.single('imagen'), (req, res) => {
       });
     }
 
-    // Si ya existe sorteo y se confirmó, se elimina el sorteo anterior (y por ON DELETE CASCADE se eliminarán automáticamente los registros asociados)
     if (results.length > 0 && confirm) {
       const previousSorteoId = results[0].sorteo_id;
-      pool.query('DELETE FROM sorteos WHERE sorteo_id = ?', [previousSorteoId], (err2, deleteResult) => {
+      pool.query('DELETE FROM sorteos WHERE sorteo_id = ?', [previousSorteoId], (err2) => {
         if (err2) {
           console.error('Error al borrar sorteo anterior:', err2);
           return res.status(500).json({ message: "Error al borrar sorteo anterior", error: err2.message });
         }
+        // Primero se trunca la tabla de tickets y luego se inserta el nuevo sorteo
+        truncateTickets(() => {
+          insertNewSorteo();
+        });
+      });
+    } else if (results.length === 0) {
+      // Si no existe sorteo activo, igualmente truncamos la tabla antes de insertar
+      truncateTickets(() => {
         insertNewSorteo();
       });
-    } else {
-      // Si no existe sorteo previo, simplemente crea uno nuevo
-      insertNewSorteo();
     }
   });
 });
 
+
 // Endpoint para obtener todos los tickets
 app.get('/api/tickets', (req, res) => {
-  pool.query('SELECT * FROM tickets', (error, results) => {
+  const query = `
+    SELECT t.*, u.nombre, u.telefono
+    FROM tickets t
+    LEFT JOIN usuarios u ON t.usuario_id = u.usuario_id
+  `;
+  pool.query(query, (error, results) => {
     if (error) {
       return res.status(500).json({ error });
     }

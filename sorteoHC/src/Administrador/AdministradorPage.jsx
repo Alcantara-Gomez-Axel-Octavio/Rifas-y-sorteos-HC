@@ -191,34 +191,34 @@ function AdministradorPage() {
       <section className="tickets-matriz">
         <h3>Solicitudes de Tickets Apartados</h3>
         <div className="matrix">
-          {tickets.filter(ticket => ticket.estado === "apartado").length > 0 ? (
-            tickets
-              .filter(ticket => ticket.estado === "apartado")
-              .map((ticket, index) => (
-                <div 
-                  key={ticket.ticket_id || index} 
-                  className="ticket ticket-apartado"
-                >
-                  <span>Ticket #{ticket.numero_ticket}</span>
-                  <div className="botones-accion">
-                    <button 
-                      className="btn-aceptar" 
-                      onClick={() => handleAcceptTicket(ticket.ticket_id)}
-                    >
-                      Aceptar
-                    </button>
-                    <button 
-                      className="btn-rechazar" 
-                      onClick={() => handleRejectTicket(ticket.ticket_id)}
-                    >
-                      Rechazar
-                    </button>
-                  </div>
+        {tickets.filter(ticket => ticket.estado === "apartado").length > 0 ? (
+          tickets
+            .filter(ticket => ticket.estado === "apartado")
+            .map((ticket, index) => (
+              <div key={ticket.ticket_id || index} className="ticket ticket-apartado">
+                <span>Ticket #{ticket.numero_ticket}</span>
+                <p>Usuario: {ticket.nombre || "Sin asignar"}</p>
+                <p>Teléfono: {ticket.telefono || "Sin asignar"}</p>
+                <div className="botones-accion">
+                  <button 
+                    className="btn-aceptar" 
+                    onClick={() => handleAcceptTicket(ticket.ticket_id)}
+                  >
+                    Aceptar
+                  </button>
+                  <button 
+                    className="btn-rechazar" 
+                    onClick={() => handleRejectTicket(ticket.ticket_id)}
+                  >
+                    Rechazar
+                  </button>
                 </div>
-              ))
-          ) : (
-            <p>No hay tickets apartados.</p>
-          )}
+              </div>
+            ))
+        ) : (
+          <p>No hay tickets apartados.</p>
+        )}
+
         </div>
         <p>*Revise las solicitudes y actúe en consecuencia.</p>
       </section>
