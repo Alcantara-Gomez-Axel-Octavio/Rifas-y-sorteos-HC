@@ -177,6 +177,9 @@ app.get('/api/tickets', (req, res) => {
 
 
 
+
+
+
 app.post('/api/registroUsuarios', (req, res) => {
   const { nombre, email, numero } = req.body;
 
@@ -215,6 +218,9 @@ app.post('/api/apartarTickets', (req, res) => {
     res.json({ message: 'Tickets apartados exitosamente' });
   });
 });
+
+
+
 
 
 // Función para aceptar un ticket (cambia el estado a "vendido")

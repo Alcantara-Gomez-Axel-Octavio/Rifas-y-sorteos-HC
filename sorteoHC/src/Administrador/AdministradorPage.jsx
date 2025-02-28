@@ -3,6 +3,10 @@ import HeaderArea from '../HeaderArea/HeaderArea';
 import "./AdministradorPage.css";
 
 function AdministradorPage() {
+
+
+  
+
   // Estado para el sorteo (se mantiene la lógica para crear un sorteo)
   const [sorteo, setSorteo] = useState({
     imagen: null,
@@ -30,6 +34,8 @@ function AdministradorPage() {
 
   // Estado para los tickets (los datos se extraen de la BD)
   const [tickets, setTickets] = useState([]);
+
+  
 
   // Se consulta el endpoint de tickets al cargar el componente
   useEffect(() => {

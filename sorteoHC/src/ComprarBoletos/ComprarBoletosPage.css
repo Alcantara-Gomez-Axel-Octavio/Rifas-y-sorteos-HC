@@ -44,6 +44,7 @@ align-items: flex-start;
 margin: 0 auto;
 margin-top: 40px; /* Añadimos un margen superior */
 overflow: hidden; /* Evita que el contenido se desborde */
+overflow-y: auto; /* Muestra barra de desplazamiento solo si es necesario */
 }
 
 .DentrodeBlancoBoton{
