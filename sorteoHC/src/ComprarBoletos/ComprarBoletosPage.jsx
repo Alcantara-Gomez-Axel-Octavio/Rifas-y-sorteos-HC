@@ -19,6 +19,32 @@ function ComprarBoletosPage() {
   const openModal = () => setShowModal(!showModal);
   const openModal2 = () => setShowModal2(!showModal2);
 
+  const [cantidad, setCantidad] = useState(1);
+
+
+
+
+  // Función para generar boletos aleatorios
+const generarBoletosAleatorios = () => {
+  const boletosDisponibles = tickets.filter(ticket => ticket.estado === "disponible");
+  if (boletosDisponibles.length === 0) return;
+
+  // Seleccionar boletos aleatorios sin repetir
+  const cantidadGenerar = Math.min(cantidad, boletosDisponibles.length);
+  const boletosAleatorios = [];
+  while (boletosAleatorios.length < cantidadGenerar) {
+    const randomIndex = Math.floor(Math.random() * boletosDisponibles.length);
+    const boletoSeleccionado = boletosDisponibles[randomIndex];
+
+    if (!boletosAleatorios.includes(boletoSeleccionado)) {
+      boletosAleatorios.push(boletoSeleccionado);
+    }
+  }
+
+  setSelectedTickets(boletosAleatorios);
+  mostrarGifTemporalmente();
+};
+
   // Función para seleccionar/deseleccionar tickets
   const toggleTicketSelection = (ticket) => {
     if (ticket.estado !== "disponible") return; // solo se pueden seleccionar los disponibles
@@ -183,44 +209,70 @@ function ComprarBoletosPage() {
         </div>
       </div>
 
-      <div className="Presentacion-contenedor-1">
-        <div className="Presentacion-contenedor-2">
-          <h1>Empresa comprometida y dedicada.</h1>
-          <p>
-            Gracias por visitar nuestro sitio. Aquí encontrarás información relevante sobre nuestros productos y servicios. 
-            Si tienes alguna pregunta o necesitas más detalles, no dudes en contactarnos.
-          </p>
-          <a href="#contacto" className="boton-contacto">Contactar</a>
+
+      {showModal && (
+  <div className="modal">
+    <div className="ModalContenido">
+      <span className="CerrarModal" onClick={openModal}>X</span>
+      <div className='contenedorSeleccion'>
+        <div className='contenedorTextoGenerar'>
+          BOLETOS A GENERAR:
+        </div>
+        <div className='ContenedorSelect'>
+          <select 
+            className='SelectGenerar' 
+            value={cantidad} 
+            onChange={e => setCantidad(parseInt(e.target.value, 10))}
+          >
+            <option value="" disabled>Selecciona número de boletos</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+            <option value="20">20</option>
+            <option value="30">30</option>
+            <option value="40">40</option>
+            <option value="50">50</option>
+            <option value="60">60</option>
+            <option value="70">70</option>
+            <option value="80">80</option>
+            <option value="90">90</option>
+            <option value="100">100</option>
+          </select>
         </div>
       </div>
 
-      {showModal && (
-        <div className="modal">
-          <div className="ModalContenido">
-            <span className="CerrarModal" onClick={openModal}>X</span>
-            <div className='contenedorSeleccion'>
-              <div className='contenedorTextoGenerar'>
-                BOLETOS A GENERAR:
-              </div>
-              <div className='ContenedorSelect'>
-                <select className='SelectGenerar'>
-                  <option value="" disabled>Selecciona número de boletos</option>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  {/* ... demás opciones */}
-                  <option value="100">100</option>
-                </select>
-              </div>
+      <div className='Botonaleatorio' onClick={generarBoletosAleatorios}>
+        Generar aleatorio
+      </div>
+
+      <div className='ContenedorMisboletosAleatorios'>
+        {mostrarGif && <img src={Suerte} alt="Suerte" />}
+        
+
+        {!mostrarGif && selectedTickets.length > 0 ? (
+          selectedTickets.map(ticket => (
+            <div key={ticket.ticket_id} className="ticket-seleccionado">
+              Ticket #{ticket.numero_ticket}
             </div>
-            <div className='Botonaleatorio' onClick={mostrarGifTemporalmente}>
-              Generar aleatorio
-            </div>
-            <div className='ContenedorMisboletosAleatorios'>
-              {mostrarGif && <img src={Suerte} alt="Suerte" />}
-            </div>
-          </div>
-        </div>
-      )}
+          ))
+        ) : (
+          null
+        )}
+      </div>
+
+
+      
+    </div>
+  </div>
+)}
+
 
       {showModal2 && (
         <div className="modal2">
