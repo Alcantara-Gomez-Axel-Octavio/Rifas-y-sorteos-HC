@@ -171,6 +171,7 @@ color: #ffffff;
   background-color: #f0f0f0;
   border-radius: 5px;
   text-align: center;
+
 }
 
 /* Estilo para cada ticket */
@@ -182,6 +183,8 @@ color: #ffffff;
   margin: 10px;
   transition: transform 0.2s ease, background-color 0.2s ease;
   font-weight: bold;
+  cursor: pointer;
+  user-select: none; /* Evita la selección de texto */
 }
 
 /* Efecto hover para dar interacción */
