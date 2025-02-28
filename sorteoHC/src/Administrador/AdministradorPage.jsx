@@ -30,14 +30,19 @@ function AdministradorPage() {
   // Estado para los tickets (datos extraídos de la BD)
   const [tickets, setTickets] = useState([]);
 
-  // Consulta de tickets al cargar el componente
-  useEffect(() => {
-    fetch('http://localhost:3001/api/tickets')
+
+  // Se consulta el endpoint de tickets al cargar el componente
+  const fetchTickets = () => {
+    fetch('/api/tickets')
       .then(response => response.json())
-      .then(data => {
-        setTickets(data);
-      })
+      .then(data => setTickets(data))
       .catch(err => console.error("Error al obtener tickets:", err));
+  };
+
+  useEffect(() => {
+    fetchTickets();
+    const interval = setInterval(fetchTickets, 5000); // Actualiza cada 5 segundos
+    return () => clearInterval(interval); // Limpia el intervalo cuando el componente se desmonta
   }, []);
 
   // Función para aceptar la compra de un ticket

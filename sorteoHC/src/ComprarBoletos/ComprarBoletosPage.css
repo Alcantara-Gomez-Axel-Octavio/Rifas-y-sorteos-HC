@@ -324,7 +324,7 @@ cursor: pointer;
     flex-direction: row; /* Cambié esto a fila */
     flex-wrap: wrap; /* Permite que los elementos se acomoden en filas */
     justify-content: flex-start; /* Alinea los elementos al inicio de la fila */
-    align-items: flex-start; /* Alinea los elementos en la parte superior */
+    align-items: center; /* Alinea los elementos en la parte superior */
     margin: 0 auto;
     margin-top: 20px; /* Añadimos un margen superior */
     overflow-y: auto; /* Habilita el scroll vertical si el contenido excede el tamaño */
