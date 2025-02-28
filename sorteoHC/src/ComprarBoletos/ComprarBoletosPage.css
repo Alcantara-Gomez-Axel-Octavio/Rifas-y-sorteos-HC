@@ -213,7 +213,6 @@ top: 0;
 left: 0;
 width: 100%;
 min-width: 200px;
-
 height: 100%;
 min-width: 500px;
 background-color: rgba(0, 0, 0, 0.5); /* Fondo oscuro */
@@ -277,7 +276,7 @@ margin-left: 10px;
 color: #000;
 font-family: sans-serif;
 font-weight: bold;
-font-size: 20px;
+font-size: 10px;
 overflow: hidden;
 
 
@@ -511,5 +510,19 @@ cursor: pointer;
   height: auto;      /* Mantiene la proporción original */
   display: block;    /* Elimina espacios extra debajo de la imagen */
   margin: 0 auto;    /* Centra la imagen en su contenedor */
+}
+
+
+@media (max-width: 600px) {
+  .modal {
+    min-width: 100%; /* Asegura que el modal cubra la pantalla */
+  }
+
+  .ModalContenido {
+    width: 90%;  /* Ajusta el tamaño para que no quede muy pequeño */
+    min-width: auto; /* Evita restricciones en pantallas pequeñas */
+    font-size: 14px; /* Un tamaño fijo para mejor legibilidad */
+    max-height: 80vh; /* Limita la altura */
+  }
 }
 
