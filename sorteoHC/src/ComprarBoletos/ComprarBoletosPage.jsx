@@ -1,7 +1,7 @@
 import HeaderArea from '../HeaderArea/HeaderArea';
 import "./ComprarBoletosPage.css";
 import { useState } from 'react';
-import Axios from 'axios';
+
 
 
 import Suerte from "../assets/Suerte.gif";
