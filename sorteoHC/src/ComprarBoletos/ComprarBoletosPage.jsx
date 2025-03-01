@@ -115,13 +115,13 @@ const generarBoletosAleatorios = () => {
         const ticketPrice = 100; 
         const totalPrice = cantidad * ticketPrice;
         const mensaje = `Compra de boletos:
-        Tickets: ${ticketNumbers}
-        Cantidad: ${cantidad}
-        Precio unitario: $${ticketPrice}
+  Tickets: ${ticketNumbers}
+  Cantidad: ${cantidad}
+  Precio unitario: $${ticketPrice}
         Total: $${totalPrice}
-        Nombre: ${nombre}
-        Correo: ${email}
-        Número: ${numero}`;
+Nombre: ${nombre}
+Correo: ${email}
+Número: ${numero}`;
         
         // Crear URL para WhatsApp (se usa encodeURIComponent para formatear correctamente el mensaje)
         const whatsappUrl = `https://api.whatsapp.com/send?phone=3311800657&text=${encodeURIComponent(mensaje)}`;
@@ -291,9 +291,9 @@ const generarBoletosAleatorios = () => {
               )}
             </div>
           
-            <input type="number" placeholder="Número" className="InputNumero" onChange={e => setNumero(e.target.value)}/>
-            <input type="text" placeholder="Nombre" className="InputNombre" onChange={e => setNombre(e.target.value)}/>
-            <input type="email" placeholder="Correo" className="InputCorreo" onChange={e => setEmail(e.target.value)} />
+            <input type="number" placeholder="Número telefonico" className="InputNumero" onChange={e => setNumero(e.target.value)}/>
+            <input type="text" placeholder="Nombre completo" className="InputNombre" onChange={e => setNombre(e.target.value)}/>
+            <input type="email" placeholder="Correo electronico" className="InputCorreo" onChange={e => setEmail(e.target.value)} />
             <button
               className="BotonApartar"
               onClick={apartarUsuarioYTickets}

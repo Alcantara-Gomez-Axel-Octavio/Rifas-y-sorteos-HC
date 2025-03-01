@@ -22,7 +22,7 @@ function MetodosDePago(){
 
             <div className="ContenedorInformacion">
                 <h2>Debes realizar el pago por alguna de éstas opciones y enviar tu comprobante de pago <p>al
-                Whatsapp (614) 362 2916</p></h2>
+                Whatsapp (614) 184 6333</p></h2>
             </div>
 
             
@@ -30,12 +30,12 @@ function MetodosDePago(){
             <div className="ContenedorMetodo">
                 <img src={metodosDePago} alt="Metodos de pago" className="Imagen_Pago"/>
                 <a 
-                    href="https://wa.me/3311754333" 
+                    href="https://wa.me/6141846333" 
                     target="_blank" 
                     rel="noopener noreferrer"
                     className="BotonDescargar"
                 >
-                    Pregunta en el WhatsApp (614) 362 2916
+                    Pregunta en el WhatsApp (614) 184 6333
                 </a>
             </div>
                 
