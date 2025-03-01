@@ -228,6 +228,31 @@ function AdministradorPage() {
         <p>*Revise las solicitudes y actúe en consecuencia.</p>
       </section>
 
+      <section  className="tickets-matriz">
+       <h3>Lista de vendidos</h3>
+       <div className="matrix">
+        {tickets.filter(ticket => ticket.estado === "vendido").length > 0 ? (
+          tickets
+            .filter(ticket => ticket.estado === "vendido")
+            .map((ticket, index) => (
+              <div key={ticket.ticket_id || index} className="ticket ticket-apartado">
+                <span>Ticket #{ticket.numero_ticket}</span>
+                <p>Usuario: {ticket.nombre || "Sin asignar"}</p>
+                <p>Teléfono: {ticket.telefono || "Sin asignar"}</p>
+                <div className="botones-accion">
+              
+                </div>
+              </div>
+            ))
+        ) : (
+          <p>No hay tickets apartados.</p>
+        )}
+
+        </div>
+
+
+      </section>
+
 
     </div>
   );

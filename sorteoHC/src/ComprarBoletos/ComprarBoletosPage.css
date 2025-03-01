@@ -147,7 +147,7 @@ color: #ffffff;
   background-color: #fff;
   max-width: 800px;
   min-width: 70%;
-  max-height: 800px;
+  max-height: 300px;
   width: auto;
   height: auto;
   padding: 20px;
@@ -160,6 +160,8 @@ color: #ffffff;
   align-items: center;
   text-align: center;
   color: #000;
+  overflow-y: auto; /* Habilita el scroll vertical si el contenido excede el tamaño */
+  overflow-x: hidden; /* Oculta el scroll horizontal */
   
 }
 
@@ -202,9 +204,20 @@ color: #ffffff;
   }
   
   .ContenedorMisboletos {
+    flex: 0 0 30%; /* Los elementos ocupan el 30% del ancho del contenedor */
+    margin: 5px; /* Espacio entre los elementos */
+    box-sizing: border-box;
     padding: 15px;
-    width: auto;
-    height: auto;
+    background-color: #f0f0f0;
+    border-radius: 5px;
+    text-align: center;
+    overflow: hidden;
+    min-height: 25px;
+    max-height: 80px;
+    overflow-y: auto; /* Habilita el scroll vertical si el contenido excede el tamaño */
+    overflow-x: hidden; /* Oculta el scroll horizontal */
+    
+   
   }
 }
 
@@ -444,9 +457,7 @@ cursor: pointer;
   top: 0;
   left: 0;
   width: 100%;
- max-height: 500px;
   height: 100%;
-
   background-color: rgba(0, 0, 0, 0.5); /* Fondo oscuro */
   display: flex;
   justify-content: center;
@@ -455,7 +466,6 @@ cursor: pointer;
 }
 
 .ModalContenido2{
-  display: flex;
   background-color: white; /* Fondo blanco */
   padding: 20px;
   border-radius: 5px;
@@ -467,6 +477,9 @@ cursor: pointer;
   gap: 10px;
   justify-content: center;
   align-items: center;
+  max-width: 600px;  /* Limita el tamaño máximo */
+  min-width: 350px;  /* Limita el tamaño mínimo */
+  overflow: hidden;
 }
 .ModalContenido2 input{
   width: 90%;
