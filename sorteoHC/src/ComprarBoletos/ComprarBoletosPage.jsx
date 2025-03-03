@@ -10,6 +10,9 @@ function ComprarBoletosPage() {
   const [mostrarGif, setMostrarGif] = useState(false);
   const [tickets, setTickets] = useState([]);
   const [selectedTickets, setSelectedTickets] = useState([]); // estado para los tickets seleccionados
+  const [loading, setLoading] = useState(true);
+
+
 
   const [nombre, setNombre] = useState(""); 
   const [email, setEmail] = useState("");
@@ -68,11 +71,19 @@ const generarBoletosAleatorios = () => {
 
   // Obtener tickets de la API
   useEffect(() => {
+    setLoading(true); // Activa el estado de carga antes de la petición
     fetch('http://localhost:3001/api/tickets')
       .then(response => response.json())
-      .then(data => setTickets(data))
-      .catch(error => console.error("Error al obtener tickets:", error));
+      .then(data => {
+        setTickets(data);
+        setLoading(false); // Desactiva el estado de carga cuando los datos están listos
+      })
+      .catch(error => {
+        console.error("Error al obtener tickets:", error);
+        setLoading(false); // Asegurar que la carga se detiene incluso si hay un error
+      });
   }, []);
+  
 
   // Función para actualizar los tickets (marcarlos como "apartado")
   const updateTickets = async (usuario_id) => {
@@ -147,16 +158,21 @@ Número: ${numero}`;
       
 
       <div className="Texto-Principal">
-        <h1>Compra de boletos</h1>
-        <p>
-          En esta sección podrás comprar boletos para participar en el sorteo de la rifa de la fábrica de la suerte.
-        </p>
-        <SorteoInfo />
-      </div>
-  
-      <div className="CuadroBlanco">
+              <h1>Compra de boletos</h1>
+              <p>
+                En esta sección podrás comprar boletos para participar en el sorteo de la rifa de la fábrica de la suerte.
+              </p>
+              <SorteoInfo />
+            </div>
+        
+            <div className="CuadroBlanco">
         <div className="DentrodeBlancoBoton">
-          {tickets.length > 0 ? (
+          {loading ? (
+            <div className="loading">
+              <div className="spinner"></div>
+              <p className="loading-text">Cargando boletos...</p>
+            </div>
+          ) : tickets.length > 0 ? (
             tickets.map((ticket) => {
               const estadoClase =
                 ticket.estado === "disponible"
@@ -166,7 +182,6 @@ Número: ${numero}`;
                   : ticket.estado === "vendido"
                   ? "estado-vendido"
                   : "";
-              // Agregamos clase 'selected' si el ticket está en la lista de seleccionados
               const isSelected = selectedTickets.find(t => t.ticket_id === ticket.ticket_id);
               return (
                 <button 
@@ -183,6 +198,7 @@ Número: ${numero}`;
           )}
         </div>
       </div>
+
 
       <div className="ContenedorBoton">
         <div className='BotonGenerar' onClick={openModal}>

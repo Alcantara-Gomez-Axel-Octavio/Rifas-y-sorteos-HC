@@ -297,5 +297,38 @@ app.put('/api/tickets/:ticketId/reject', (req, res) => {
   });
 });
 
+
+// Endpoint para actualizar la fecha de finalización de un sorteo
+app.put('/api/sorteos/:sorteoId/updateFecha', (req, res) => {
+  const { sorteoId } = req.params;
+  const { fecha_finalizacion } = req.body; // Se espera recibir la nueva fecha en el body
+
+  if (!fecha_finalizacion) {
+    return res.status(400).json({ message: "La fecha de finalización es requerida." });
+  }
+
+  const query = `
+    UPDATE sorteos 
+    SET fecha_finalizacion = ? 
+    WHERE sorteo_id = ?
+  `;
+
+  pool.query(query, [fecha_finalizacion, sorteoId], (err, result) => {
+    if (err) {
+      console.error("Error al actualizar la fecha de finalización:", err);
+      return res.status(500).json({ message: "Error al actualizar la fecha de finalización", error: err.message });
+    }
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ message: "Sorteo no encontrado." });
+    }
+
+    res.json({ sorteo_id: sorteoId, fecha_finalizacion, message: "Fecha de finalización actualizada correctamente." });
+  });
+});
+
+
+
+
 // Servidor corriendo en el puerto 3001
 app.listen(3001, () => console.log('Servidor en puerto 3001'));

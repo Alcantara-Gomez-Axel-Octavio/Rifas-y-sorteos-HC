@@ -45,6 +45,37 @@ function AdministradorPage() {
     return () => clearInterval(interval); // Limpia el intervalo cuando el componente se desmonta
   }, []);
 
+
+  const handleUpdateFechaSorteo = async (sorteoId, nuevaFecha) => {
+    try {
+      const response = await fetch(`http://localhost:3001/api/sorteos/${sorteoId}/updateFecha`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ fecha_finalizacion: nuevaFecha })
+      });
+  
+      const data = await response.json();
+  
+      if (!response.ok) {
+        throw new Error(data.message || "Error al actualizar la fecha del sorteo.");
+      }
+  
+      alert(data.message);
+      // Aquí podrías actualizar el estado local si es necesario
+      setSorteo((prevSorteo) => ({
+        ...prevSorteo,
+        fechaFinalizacion: nuevaFecha
+      }));
+  
+    } catch (error) {
+      console.error("Error al actualizar la fecha:", {sorteoId},error);
+      alert("Hubo un problema al actualizar la fecha del sorteo.");
+    }
+  };
+
+
   // Función para aceptar la compra de un ticket
   const handleAcceptTicket = (ticketId) => {
     fetch(`http://localhost:3001/api/tickets/${ticketId}/accept`, {
@@ -192,37 +223,27 @@ function AdministradorPage() {
         </form>
       </section>
 
+      <section className="tickets-matriz">
+  <h3>Actualizar fecha de finalización</h3>
+  <div className="matrix">
+    <label htmlFor="fecha">Nueva fecha:</label>
+    <input 
+      type="date" 
+      id="fecha" 
+      name="fecha"
+      value={sorteo.fechaFinalizacion} 
+      onChange={(e) => setSorteo({ ...sorteo, fechaFinalizacion: e.target.value })} 
+      required
+    />
+    <button onClick={() => handleUpdateFechaSorteo(1, sorteo.fechaFinalizacion)}>Actualizar</button>
+  </div>
+</section>
+
       {/* Sección para gestionar solicitudes de tickets apartados */}
       <section className="tickets-matriz">
         <h3>Solicitudes de Tickets Apartados</h3>
         <div className="matrix">
-        {tickets.filter(ticket => ticket.estado === "apartado").length > 0 ? (
-          tickets
-            .filter(ticket => ticket.estado === "apartado")
-            .map((ticket, index) => (
-              <div key={ticket.ticket_id || index} className="ticket ticket-apartado">
-                <span>Ticket #{ticket.numero_ticket}</span>
-                <p>Usuario: {ticket.nombre || "Sin asignar"}</p>
-                <p>Teléfono: {ticket.telefono || "Sin asignar"}</p>
-                <div className="botones-accion">
-                  <button 
-                    className="btn-aceptar" 
-                    onClick={() => handleAcceptTicket(ticket.ticket_id)}
-                  >
-                    Aceptar
-                  </button>
-                  <button 
-                    className="btn-rechazar" 
-                    onClick={() => handleRejectTicket(ticket.ticket_id)}
-                  >
-                    Rechazar
-                  </button>
-                </div>
-              </div>
-            ))
-        ) : (
-          <p>No hay tickets apartados.</p>
-        )}
+        
 
         </div>
         <p>*Revise las solicitudes y actúe en consecuencia.</p>
