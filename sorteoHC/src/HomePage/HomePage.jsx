@@ -105,7 +105,7 @@ function HomePage() {
               <strong>Teléfono/WhatsApp:</strong> 614 184 6333
             </p>
             <p>
-              <strong>Email:</strong> HCsorteos@gmail.com
+              <strong>Email:</strong> hcsorteos@gmail.com
             </p>
 
 
