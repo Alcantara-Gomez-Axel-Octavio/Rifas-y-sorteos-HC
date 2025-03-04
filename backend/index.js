@@ -144,69 +144,153 @@ app.post('/api/sorteo', upload.single('imagen'), (req, res) => {
   const { admin_id, fecha_finalizacion, descripcion, precio_boleto, total_tickets, confirm } = req.body;
   const imagenPath = req.file ? req.file.path : '';
 
+  // Primero se consulta si hay un sorteo activo.
   pool.query('SELECT * FROM sorteos ORDER BY created_at DESC LIMIT 1', (err, results) => {
     if (err) {
       console.error('Error consultando sorteo:', err);
       return res.status(500).json({ message: "Error en el servidor", error: err.message });
     }
-
     if (results.length > 0 && !confirm) {
-      return res.status(400).json({ warning: "Ya existe un sorteo activo. Al crear uno nuevo, se eliminará el sorteo anterior. ¿Desea continuar?" });
+      return res.status(400).json({ warning: "Ya existe un sorteo activo. Al crear uno nuevo se eliminarán el sorteo anterior, todos los usuarios y los tickets. ¿Desea continuar?" });
     }
 
-    // Función para truncar la tabla de tickets y reiniciar los IDs
-    function truncateTickets(callback) {
-      pool.query('TRUNCATE TABLE tickets', (errTrunc) => {
-        if (errTrunc) {
-          console.error('Error truncando tabla de tickets:', errTrunc);
-          return res.status(500).json({ message: "Error truncando tabla de tickets", error: errTrunc.message });
-        }
-        callback();
-      });
-    }
-
-    function insertNewSorteo() {
-      const query = 'INSERT INTO sorteos (admin_id, imagen, fecha_finalizacion, descripcion, precio_boleto, total_tickets) VALUES (?, ?, ?, ?, ?, ?)';
-      pool.query(query, [admin_id, imagenPath, fecha_finalizacion, descripcion, precio_boleto, total_tickets || 60000], (err3, insertResult) => {
-        if (err3) {
-          console.error('Error al crear sorteo:', err3);
-          return res.status(500).json({ message: "Error al crear sorteo", error: err3.message });
+    // Obtener una conexión del pool para ejecutar todas las queries en la misma sesión.
+    pool.getConnection((err, connection) => {
+      if (err) {
+        console.error("Error al obtener conexión:", err);
+        return res.status(500).json({ message: "Error al obtener conexión", error: err.message });
+      }
+      // Iniciar transacción
+      connection.beginTransaction(err => {
+        if (err) {
+          connection.release();
+          console.error("Error al iniciar la transacción:", err);
+          return res.status(500).json({ message: "Error al iniciar la transacción", error: err.message });
         }
 
-        const sorteoId = insertResult.insertId;
-        const numTickets = total_tickets || 60000;
+        // Desactivar verificaciones de claves foráneas
+        connection.query('SET FOREIGN_KEY_CHECKS = 0', err => {
+          if (err) {
+            return connection.rollback(() => {
+              connection.release();
+              console.error("Error al desactivar claves foráneas:", err);
+              res.status(500).json({ message: "Error al desactivar claves foráneas", error: err.message });
+            });
+          }
 
-        insertTicketsInBatches(sorteoId, numTickets)
-          .then(() => {
-            res.json({ message: "Sorteo y tickets creados exitosamente", sorteo_id: sorteoId });
-          })
-          .catch(errTickets => {
-            console.error('Error al generar tickets en lotes:', errTickets);
-            res.status(500).json({ message: "Error al generar tickets", error: errTickets.message });
+          // Eliminar registros de tickets
+          connection.query('DELETE FROM tickets', err => {
+            if (err) {
+              return connection.rollback(() => {
+                connection.release();
+                console.error("Error eliminando tickets:", err);
+                res.status(500).json({ message: "Error eliminando tickets", error: err.message });
+              });
+            }
+            // Reiniciar AUTO_INCREMENT de tickets
+            connection.query('ALTER TABLE tickets AUTO_INCREMENT = 1', err => {
+              if (err) {
+                return connection.rollback(() => {
+                  connection.release();
+                  console.error("Error reiniciando AUTO_INCREMENT en tickets:", err);
+                  res.status(500).json({ message: "Error reiniciando AUTO_INCREMENT en tickets", error: err.message });
+                });
+              }
+              // Eliminar registros de sorteos
+              connection.query('DELETE FROM sorteos', err => {
+                if (err) {
+                  return connection.rollback(() => {
+                    connection.release();
+                    console.error("Error eliminando sorteos:", err);
+                    res.status(500).json({ message: "Error eliminando sorteos", error: err.message });
+                  });
+                }
+                // Reiniciar AUTO_INCREMENT de sorteos
+                connection.query('ALTER TABLE sorteos AUTO_INCREMENT = 1', err => {
+                  if (err) {
+                    return connection.rollback(() => {
+                      connection.release();
+                      console.error("Error reiniciando AUTO_INCREMENT en sorteos:", err);
+                      res.status(500).json({ message: "Error reiniciando AUTO_INCREMENT en sorteos", error: err.message });
+                    });
+                  }
+                  // Eliminar registros de usuarios
+                  connection.query('DELETE FROM usuarios', err => {
+                    if (err) {
+                      return connection.rollback(() => {
+                        connection.release();
+                        console.error("Error eliminando usuarios:", err);
+                        res.status(500).json({ message: "Error eliminando usuarios", error: err.message });
+                      });
+                    }
+                    // Reiniciar AUTO_INCREMENT de usuarios
+                    connection.query('ALTER TABLE usuarios AUTO_INCREMENT = 1', err => {
+                      if (err) {
+                        return connection.rollback(() => {
+                          connection.release();
+                          console.error("Error reiniciando AUTO_INCREMENT en usuarios:", err);
+                          res.status(500).json({ message: "Error reiniciando AUTO_INCREMENT en usuarios", error: err.message });
+                        });
+                      }
+                      // Reactivar verificaciones de claves foráneas
+                      connection.query('SET FOREIGN_KEY_CHECKS = 1', err => {
+                        if (err) {
+                          return connection.rollback(() => {
+                            connection.release();
+                            console.error("Error al reactivar claves foráneas:", err);
+                            res.status(500).json({ message: "Error al reactivar claves foráneas", error: err.message });
+                          });
+                        }
+
+                        // Insertar el nuevo sorteo
+                        const query = 'INSERT INTO sorteos (admin_id, imagen, fecha_finalizacion, descripcion, precio_boleto, total_tickets) VALUES (?, ?, ?, ?, ?, ?)';
+                        connection.query(query, [admin_id, imagenPath, fecha_finalizacion, descripcion, precio_boleto, total_tickets || 60000], (errInsert, insertResult) => {
+                          if (errInsert) {
+                            return connection.rollback(() => {
+                              connection.release();
+                              console.error("Error al crear sorteo:", errInsert);
+                              res.status(500).json({ message: "Error al crear sorteo", error: errInsert.message });
+                            });
+                          }
+
+                          const sorteoId = insertResult.insertId;
+                          const numTickets = total_tickets || 60000;
+
+                          // Hacer commit de la transacción
+                          connection.commit(err => {
+                            if (err) {
+                              return connection.rollback(() => {
+                                connection.release();
+                                console.error("Error al hacer commit:", err);
+                                res.status(500).json({ message: "Error al hacer commit", error: err.message });
+                              });
+                            }
+                            connection.release();
+                            // Ahora, con el sorteo insertado y las tablas limpias, se insertan los tickets.
+                            // La función insertTicketsInBatches puede usar otra conexión si lo requiere.
+                            insertTicketsInBatches(sorteoId, numTickets)
+                              .then(() => {
+                                res.json({ message: "Sorteo y tickets creados exitosamente", sorteo_id: sorteoId });
+                              })
+                              .catch(errTickets => {
+                                console.error("Error al generar tickets en lotes:", errTickets);
+                                res.status(500).json({ message: "Error al generar tickets", error: errTickets.message });
+                              });
+                          });
+                        });
+                      });
+                    });
+                  });
+                });
+              });
+            });
           });
-      });
-    }
-
-    if (results.length > 0 && confirm) {
-      const previousSorteoId = results[0].sorteo_id;
-      pool.query('DELETE FROM sorteos WHERE sorteo_id = ?', [previousSorteoId], (err2) => {
-        if (err2) {
-          console.error('Error al borrar sorteo anterior:', err2);
-          return res.status(500).json({ message: "Error al borrar sorteo anterior", error: err2.message });
-        }
-        // Primero se trunca la tabla de tickets y luego se inserta el nuevo sorteo
-        truncateTickets(() => {
-          insertNewSorteo();
         });
       });
-    } else if (results.length === 0) {
-      // Si no existe sorteo activo, igualmente truncamos la tabla antes de insertar
-      truncateTickets(() => {
-        insertNewSorteo();
-      });
-    }
+    });
   });
 });
+
 
 
 // Endpoint para obtener todos los tickets

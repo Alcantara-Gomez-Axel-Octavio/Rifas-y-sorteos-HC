@@ -176,11 +176,7 @@ function AdministradorPage() {
   return (
     <div className="admin-panel">
       <h2>Panel de Administrador</h2>
-      <nav className="admin-nav">
-        <button>Crear Sorteo</button>
-        <button>Ver Tickets</button>
-        <button>Métodos de Pago</button>
-      </nav>
+ 
 
       {/* Sección para crear un sorteo */}
       <section className="sorteo-section">
@@ -224,19 +220,7 @@ function AdministradorPage() {
       </section>
 
       <section className="tickets-matriz">
-  <h3>Actualizar fecha de finalización</h3>
-  <div className="matrix">
-    <label htmlFor="fecha">Nueva fecha:</label>
-    <input 
-      type="date" 
-      id="fecha" 
-      name="fecha"
-      value={sorteo.fechaFinalizacion} 
-      onChange={(e) => setSorteo({ ...sorteo, fechaFinalizacion: e.target.value })} 
-      required
-    />
-    <button onClick={() => handleUpdateFechaSorteo(1, sorteo.fechaFinalizacion)}>Actualizar</button>
-  </div>
+ 
 </section>
 
       {/* Sección para gestionar solicitudes de tickets apartados */}
