@@ -107,11 +107,23 @@ app.get('/api/sorteos', (req, res) => {
       return res.status(404).json({ message: "No hay sorteo activo" });
     }
     const sorteo = results[0];
-    // Construir la URL absoluta usando el protocolo y el host de la petición
-    const imagenUrl = `${req.protocol}://${req.get('host')}/${sorteo.imagen.replace(/\\/g, '/')}`;
-    res.json({ ...sorteo, imagen: imagenUrl });
+
+    // Construir las URLs absolutas para cada imagen, si existen
+    const imagen1 = sorteo.imagen1 ? `${req.protocol}://${req.get('host')}/${sorteo.imagen1.replace(/\\/g, '/')}` : null;
+    const imagen2 = sorteo.imagen2 ? `${req.protocol}://${req.get('host')}/${sorteo.imagen2.replace(/\\/g, '/')}` : null;
+    const imagen3 = sorteo.imagen3 ? `${req.protocol}://${req.get('host')}/${sorteo.imagen3.replace(/\\/g, '/')}` : null;
+    const imagen4 = sorteo.imagen4 ? `${req.protocol}://${req.get('host')}/${sorteo.imagen4.replace(/\\/g, '/')}` : null;
+
+    res.json({
+      ...sorteo,
+      imagen1,
+      imagen2,
+      imagen3,
+      imagen4,
+    });
   });
 });
+
 
 
 // Función para insertar tickets en lotes
@@ -140,142 +152,160 @@ function insertTicketsInBatches(sorteoId, numTickets, batchSize = 1000) {
   return insertBatch();
 }
 
-app.post('/api/sorteo', upload.single('imagen'), (req, res) => {
-  const { admin_id, fecha_finalizacion, descripcion, precio_boleto, total_tickets, confirm } = req.body;
-  const imagenPath = req.file ? req.file.path : '';
 
-  // Primero se consulta si hay un sorteo activo.
-  pool.query('SELECT * FROM sorteos ORDER BY created_at DESC LIMIT 1', (err, results) => {
-    if (err) {
-      console.error('Error consultando sorteo:', err);
-      return res.status(500).json({ message: "Error en el servidor", error: err.message });
-    }
-    if (results.length > 0 && !confirm) {
-      return res.status(400).json({ warning: "Ya existe un sorteo activo. Al crear uno nuevo se eliminarán el sorteo anterior, todos los usuarios y los tickets. ¿Desea continuar?" });
-    }
-
-    // Obtener una conexión del pool para ejecutar todas las queries en la misma sesión.
-    pool.getConnection((err, connection) => {
+//Crear sorteos
+app.post('/api/sorteo', 
+  upload.fields([
+    { name: 'imagen1', maxCount: 1 },
+    { name: 'imagen2', maxCount: 1 },
+    { name: 'imagen3', maxCount: 1 },
+    { name: 'imagen4', maxCount: 1 }
+  ]), 
+  (req, res) => {
+    const { admin_id, titulo, fecha_finalizacion, descripcion, precio_boleto, total_tickets, confirm } = req.body;
+    
+    // Extraer las rutas de las imágenes subidas
+    const imagen1 = req.files['imagen1'] ? req.files['imagen1'][0].path : '';
+    const imagen2 = req.files['imagen2'] ? req.files['imagen2'][0].path : null;
+    const imagen3 = req.files['imagen3'] ? req.files['imagen3'][0].path : null;
+    const imagen4 = req.files['imagen4'] ? req.files['imagen4'][0].path : null;
+    
+    // Primero se consulta si hay un sorteo activo.
+    pool.query('SELECT * FROM sorteos ORDER BY created_at DESC LIMIT 1', (err, results) => {
       if (err) {
-        console.error("Error al obtener conexión:", err);
-        return res.status(500).json({ message: "Error al obtener conexión", error: err.message });
+        console.error('Error consultando sorteo:', err);
+        return res.status(500).json({ message: "Error en el servidor", error: err.message });
       }
-      // Iniciar transacción
-      connection.beginTransaction(err => {
-        if (err) {
-          connection.release();
-          console.error("Error al iniciar la transacción:", err);
-          return res.status(500).json({ message: "Error al iniciar la transacción", error: err.message });
-        }
+      if (results.length > 0 && !confirm) {
+        return res.status(400).json({ warning: "Ya existe un sorteo activo. Al crear uno nuevo se eliminarán el sorteo anterior, todos los usuarios y los tickets. ¿Desea continuar?" });
+      }
 
-        // Desactivar verificaciones de claves foráneas
-        connection.query('SET FOREIGN_KEY_CHECKS = 0', err => {
+      // Obtener una conexión del pool para ejecutar todas las queries en la misma sesión.
+      pool.getConnection((err, connection) => {
+        if (err) {
+          console.error("Error al obtener conexión:", err);
+          return res.status(500).json({ message: "Error al obtener conexión", error: err.message });
+        }
+        // Iniciar transacción
+        connection.beginTransaction(err => {
           if (err) {
-            return connection.rollback(() => {
-              connection.release();
-              console.error("Error al desactivar claves foráneas:", err);
-              res.status(500).json({ message: "Error al desactivar claves foráneas", error: err.message });
-            });
+            connection.release();
+            console.error("Error al iniciar la transacción:", err);
+            return res.status(500).json({ message: "Error al iniciar la transacción", error: err.message });
           }
 
-          // Eliminar registros de tickets
-          connection.query('DELETE FROM tickets', err => {
+          // Desactivar verificaciones de claves foráneas
+          connection.query('SET FOREIGN_KEY_CHECKS = 0', err => {
             if (err) {
               return connection.rollback(() => {
                 connection.release();
-                console.error("Error eliminando tickets:", err);
-                res.status(500).json({ message: "Error eliminando tickets", error: err.message });
+                console.error("Error al desactivar claves foráneas:", err);
+                res.status(500).json({ message: "Error al desactivar claves foráneas", error: err.message });
               });
             }
-            // Reiniciar AUTO_INCREMENT de tickets
-            connection.query('ALTER TABLE tickets AUTO_INCREMENT = 1', err => {
+
+            // Eliminar registros de tickets
+            connection.query('DELETE FROM tickets', err => {
               if (err) {
                 return connection.rollback(() => {
                   connection.release();
-                  console.error("Error reiniciando AUTO_INCREMENT en tickets:", err);
-                  res.status(500).json({ message: "Error reiniciando AUTO_INCREMENT en tickets", error: err.message });
+                  console.error("Error eliminando tickets:", err);
+                  res.status(500).json({ message: "Error eliminando tickets", error: err.message });
                 });
               }
-              // Eliminar registros de sorteos
-              connection.query('DELETE FROM sorteos', err => {
+              // Reiniciar AUTO_INCREMENT de tickets
+              connection.query('ALTER TABLE tickets AUTO_INCREMENT = 1', err => {
                 if (err) {
                   return connection.rollback(() => {
                     connection.release();
-                    console.error("Error eliminando sorteos:", err);
-                    res.status(500).json({ message: "Error eliminando sorteos", error: err.message });
+                    console.error("Error reiniciando AUTO_INCREMENT en tickets:", err);
+                    res.status(500).json({ message: "Error reiniciando AUTO_INCREMENT en tickets", error: err.message });
                   });
                 }
-                // Reiniciar AUTO_INCREMENT de sorteos
-                connection.query('ALTER TABLE sorteos AUTO_INCREMENT = 1', err => {
+                // Eliminar registros de sorteos
+                connection.query('DELETE FROM sorteos', err => {
                   if (err) {
                     return connection.rollback(() => {
                       connection.release();
-                      console.error("Error reiniciando AUTO_INCREMENT en sorteos:", err);
-                      res.status(500).json({ message: "Error reiniciando AUTO_INCREMENT en sorteos", error: err.message });
+                      console.error("Error eliminando sorteos:", err);
+                      res.status(500).json({ message: "Error eliminando sorteos", error: err.message });
                     });
                   }
-                  // Eliminar registros de usuarios
-                  connection.query('DELETE FROM usuarios', err => {
+                  // Reiniciar AUTO_INCREMENT de sorteos
+                  connection.query('ALTER TABLE sorteos AUTO_INCREMENT = 1', err => {
                     if (err) {
                       return connection.rollback(() => {
                         connection.release();
-                        console.error("Error eliminando usuarios:", err);
-                        res.status(500).json({ message: "Error eliminando usuarios", error: err.message });
+                        console.error("Error reiniciando AUTO_INCREMENT en sorteos:", err);
+                        res.status(500).json({ message: "Error reiniciando AUTO_INCREMENT en sorteos", error: err.message });
                       });
                     }
-                    // Reiniciar AUTO_INCREMENT de usuarios
-                    connection.query('ALTER TABLE usuarios AUTO_INCREMENT = 1', err => {
+                    // Eliminar registros de usuarios
+                    connection.query('DELETE FROM usuarios', err => {
                       if (err) {
                         return connection.rollback(() => {
                           connection.release();
-                          console.error("Error reiniciando AUTO_INCREMENT en usuarios:", err);
-                          res.status(500).json({ message: "Error reiniciando AUTO_INCREMENT en usuarios", error: err.message });
+                          console.error("Error eliminando usuarios:", err);
+                          res.status(500).json({ message: "Error eliminando usuarios", error: err.message });
                         });
                       }
-                      // Reactivar verificaciones de claves foráneas
-                      connection.query('SET FOREIGN_KEY_CHECKS = 1', err => {
+                      // Reiniciar AUTO_INCREMENT de usuarios
+                      connection.query('ALTER TABLE usuarios AUTO_INCREMENT = 1', err => {
                         if (err) {
                           return connection.rollback(() => {
                             connection.release();
-                            console.error("Error al reactivar claves foráneas:", err);
-                            res.status(500).json({ message: "Error al reactivar claves foráneas", error: err.message });
+                            console.error("Error reiniciando AUTO_INCREMENT en usuarios:", err);
+                            res.status(500).json({ message: "Error reiniciando AUTO_INCREMENT en usuarios", error: err.message });
                           });
                         }
-
-                        // Insertar el nuevo sorteo
-                        const query = 'INSERT INTO sorteos (admin_id, imagen, fecha_finalizacion, descripcion, precio_boleto, total_tickets) VALUES (?, ?, ?, ?, ?, ?)';
-                        connection.query(query, [admin_id, imagenPath, fecha_finalizacion, descripcion, precio_boleto, total_tickets || 60000], (errInsert, insertResult) => {
-                          if (errInsert) {
+                        // Reactivar verificaciones de claves foráneas
+                        connection.query('SET FOREIGN_KEY_CHECKS = 1', err => {
+                          if (err) {
                             return connection.rollback(() => {
                               connection.release();
-                              console.error("Error al crear sorteo:", errInsert);
-                              res.status(500).json({ message: "Error al crear sorteo", error: errInsert.message });
+                              console.error("Error al reactivar claves foráneas:", err);
+                              res.status(500).json({ message: "Error al reactivar claves foráneas", error: err.message });
                             });
                           }
 
-                          const sorteoId = insertResult.insertId;
-                          const numTickets = total_tickets || 60000;
-
-                          // Hacer commit de la transacción
-                          connection.commit(err => {
-                            if (err) {
+                          // Insertar el nuevo sorteo con los nuevos campos
+                          const query = `
+                            INSERT INTO sorteos 
+                            (admin_id, titulo, imagen1, imagen2, imagen3, imagen4, fecha_finalizacion, descripcion, precio_boleto, total_tickets) 
+                            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                          `;
+                          connection.query(query, [admin_id, titulo, imagen1, imagen2, imagen3, imagen4, fecha_finalizacion, descripcion, precio_boleto, total_tickets || 60000], (errInsert, insertResult) => {
+                            if (errInsert) {
                               return connection.rollback(() => {
                                 connection.release();
-                                console.error("Error al hacer commit:", err);
-                                res.status(500).json({ message: "Error al hacer commit", error: err.message });
+                                console.error("Error al crear sorteo:", errInsert);
+                                res.status(500).json({ message: "Error al crear sorteo", error: errInsert.message });
                               });
                             }
-                            connection.release();
-                            // Ahora, con el sorteo insertado y las tablas limpias, se insertan los tickets.
-                            // La función insertTicketsInBatches puede usar otra conexión si lo requiere.
-                            insertTicketsInBatches(sorteoId, numTickets)
-                              .then(() => {
-                                res.json({ message: "Sorteo y tickets creados exitosamente", sorteo_id: sorteoId });
-                              })
-                              .catch(errTickets => {
-                                console.error("Error al generar tickets en lotes:", errTickets);
-                                res.status(500).json({ message: "Error al generar tickets", error: errTickets.message });
-                              });
+
+                            const sorteoId = insertResult.insertId;
+                            const numTickets = total_tickets || 60000;
+
+                            // Hacer commit de la transacción
+                            connection.commit(err => {
+                              if (err) {
+                                return connection.rollback(() => {
+                                  connection.release();
+                                  console.error("Error al hacer commit:", err);
+                                  res.status(500).json({ message: "Error al hacer commit", error: err.message });
+                                });
+                              }
+                              connection.release();
+                              // Insertar tickets en lotes
+                              insertTicketsInBatches(sorteoId, numTickets)
+                                .then(() => {
+                                  res.json({ message: "Sorteo y tickets creados exitosamente", sorteo_id: sorteoId });
+                                })
+                                .catch(errTickets => {
+                                  console.error("Error al generar tickets en lotes:", errTickets);
+                                  res.status(500).json({ message: "Error al generar tickets", error: errTickets.message });
+                                });
+                            });
                           });
                         });
                       });
@@ -288,8 +318,8 @@ app.post('/api/sorteo', upload.single('imagen'), (req, res) => {
         });
       });
     });
-  });
 });
+
 
 
 

@@ -2,9 +2,36 @@ import React, { useState, useEffect } from 'react';
 import "./AdministradorPage.css";
 
 function AdministradorPage() {
-  // Estado para el sorteo
+
+  const [currentSorteoId, setCurrentSorteoId] = useState(null);
+  
+  useEffect(() => {
+    const fetchSorteoActivo = () => {
+      fetch('/api/sorteos')
+        .then(response => response.json())
+        .then(data => {
+          if (data.sorteo_id) {
+            setCurrentSorteoId(data.sorteo_id);
+            // Opcional: Actualizar la fecha en el estado del sorteo
+            setSorteo(prev => ({
+              ...prev,
+              fechaFinalizacion: data.fecha_finalizacion.split("T")[0]  // Ajusta según el formato que recibas
+            }));
+          }
+        })
+        .catch(err => console.error("Error al obtener sorteo activo:", err));
+    };
+  
+    fetchSorteoActivo();
+  }, []);
+
+  // Estado para el sorteo, ahora incluye título y 4 imágenes
   const [sorteo, setSorteo] = useState({
-    imagen: null,
+    titulo: "",
+    imagen1: null,
+    imagen2: null,
+    imagen3: null,
+    imagen4: null,
     fechaFinalizacion: "",
     descripcion: "",
     precioBoleto: "",
@@ -30,7 +57,6 @@ function AdministradorPage() {
   // Estado para los tickets (datos extraídos de la BD)
   const [tickets, setTickets] = useState([]);
 
-
   // Se consulta el endpoint de tickets al cargar el componente
   const fetchTickets = () => {
     fetch('/api/tickets')
@@ -44,7 +70,6 @@ function AdministradorPage() {
     const interval = setInterval(fetchTickets, 5000); // Actualiza cada 5 segundos
     return () => clearInterval(interval); // Limpia el intervalo cuando el componente se desmonta
   }, []);
-
 
   const handleUpdateFechaSorteo = async (sorteoId, nuevaFecha) => {
     try {
@@ -63,18 +88,17 @@ function AdministradorPage() {
       }
   
       alert(data.message);
-      // Aquí podrías actualizar el estado local si es necesario
+      // Actualizar el estado local si es necesario
       setSorteo((prevSorteo) => ({
         ...prevSorteo,
         fechaFinalizacion: nuevaFecha
       }));
   
     } catch (error) {
-      console.error("Error al actualizar la fecha:", {sorteoId},error);
+      console.error("Error al actualizar la fecha:", { sorteoId }, error);
       alert("Hubo un problema al actualizar la fecha del sorteo.");
     }
   };
-
 
   // Función para aceptar la compra de un ticket
   const handleAcceptTicket = (ticketId) => {
@@ -111,14 +135,22 @@ function AdministradorPage() {
       .catch(err => console.error("Error al rechazar el ticket:", err));
   };
 
-  // Función para crear un sorteo usando FormData para subir el archivo
+  // Función para crear un sorteo usando FormData para subir archivos
   const handleSorteoSubmit = async (e) => {
     e.preventDefault();
 
     // Crear el objeto FormData y agregar los campos requeridos
     const formData = new FormData();
     formData.append('admin_id', 1); // Se debe obtener este id de la sesión o contexto
-    formData.append('imagen', sorteo.imagen); // Archivo de imagen
+    
+    // Agregar las 4 imágenes (la primera es obligatoria)
+    formData.append('imagen1', sorteo.imagen1);
+    if (sorteo.imagen2) formData.append('imagen2', sorteo.imagen2);
+    if (sorteo.imagen3) formData.append('imagen3', sorteo.imagen3);
+    if (sorteo.imagen4) formData.append('imagen4', sorteo.imagen4);
+
+    // Agregar el título y demás campos
+    formData.append('titulo', sorteo.titulo);
     formData.append('fecha_finalizacion', sorteo.fechaFinalizacion);
     formData.append('descripcion', sorteo.descripcion);
     formData.append('precio_boleto', sorteo.precioBoleto);
@@ -140,7 +172,11 @@ function AdministradorPage() {
       // Reenviar la solicitud con confirmación
       const formDataConfirm = new FormData();
       formDataConfirm.append('admin_id', 1);
-      formDataConfirm.append('imagen', sorteo.imagen);
+      formDataConfirm.append('imagen1', sorteo.imagen1);
+      if (sorteo.imagen2) formDataConfirm.append('imagen2', sorteo.imagen2);
+      if (sorteo.imagen3) formDataConfirm.append('imagen3', sorteo.imagen3);
+      if (sorteo.imagen4) formDataConfirm.append('imagen4', sorteo.imagen4);
+      formDataConfirm.append('titulo', sorteo.titulo);
       formDataConfirm.append('fecha_finalizacion', sorteo.fechaFinalizacion);
       formDataConfirm.append('descripcion', sorteo.descripcion);
       formDataConfirm.append('precio_boleto', sorteo.precioBoleto);
@@ -177,16 +213,37 @@ function AdministradorPage() {
     <div className="admin-panel">
       <h2>Panel de Administrador</h2>
  
-
       {/* Sección para crear un sorteo */}
       <section className="sorteo-section">
         <h3>Crear Sorteo</h3>
         <form onSubmit={handleSorteoSubmit} encType="multipart/form-data">
-          <label>Imagen del sorteo:</label>
+          <label>Título del sorteo:</label>
+          <input 
+            type="text" 
+            value={sorteo.titulo}
+            onChange={(e) => setSorteo({ ...sorteo, titulo: e.target.value })}
+            required
+          />
+          <label>Imagen 1:</label>
           <input 
             type="file" 
-            onChange={(e) => setSorteo({ ...sorteo, imagen: e.target.files[0] })}
+            onChange={(e) => setSorteo({ ...sorteo, imagen1: e.target.files[0] })}
             required
+          />
+          <label>Imagen 2:</label>
+          <input 
+            type="file" 
+            onChange={(e) => setSorteo({ ...sorteo, imagen2: e.target.files[0] })}
+          />
+          <label>Imagen 3:</label>
+          <input 
+            type="file" 
+            onChange={(e) => setSorteo({ ...sorteo, imagen3: e.target.files[0] })}
+          />
+          <label>Imagen 4:</label>
+          <input 
+            type="file" 
+            onChange={(e) => setSorteo({ ...sorteo, imagen4: e.target.files[0] })}
           />
           <label>Fecha de finalización:</label>
           <input 
@@ -195,6 +252,16 @@ function AdministradorPage() {
             onChange={(e) => setSorteo({ ...sorteo, fechaFinalizacion: e.target.value })}
             required 
           />
+          {currentSorteoId && (
+            <div className='BotonActualizar'>
+              <button 
+                type="button" 
+                onClick={() => handleUpdateFechaSorteo(currentSorteoId, sorteo.fechaFinalizacion)}
+              >
+                Actualizar Fecha
+              </button>
+            </div>
+          )}
           <label>Descripción:</label>
           <textarea 
             value={sorteo.descripcion} 
@@ -219,46 +286,36 @@ function AdministradorPage() {
         </form>
       </section>
 
-      <section className="tickets-matriz">
- 
-</section>
-
       {/* Sección para gestionar solicitudes de tickets apartados */}
       <section className="tickets-matriz">
         <h3>Solicitudes de Tickets Apartados</h3>
         <div className="matrix">
-        
-
+          {/* Aquí puedes renderizar los tickets según corresponda */}
         </div>
         <p>*Revise las solicitudes y actúe en consecuencia.</p>
       </section>
 
-      <section  className="tickets-matriz">
-       <h3>Lista de vendidos</h3>
-       <div className="matrix">
-        {tickets.filter(ticket => ticket.estado === "vendido").length > 0 ? (
-          tickets
-            .filter(ticket => ticket.estado === "vendido")
-            .map((ticket, index) => (
-              <div key={ticket.ticket_id || index} className="ticket ticket-apartado">
-                <span>Ticket #{ticket.numero_ticket}</span>
-                <p>Usuario: {ticket.nombre || "Sin asignar"}</p>
-                <p>Teléfono: {ticket.telefono || "Sin asignar"}</p>
-                <div className="botones-accion">
-              
+      <section className="tickets-matriz">
+        <h3>Lista de vendidos</h3>
+        <div className="matrix">
+          {tickets.filter(ticket => ticket.estado === "vendido").length > 0 ? (
+            tickets
+              .filter(ticket => ticket.estado === "vendido")
+              .map((ticket, index) => (
+                <div key={ticket.ticket_id || index} className="ticket ticket-apartado">
+                  <span>Ticket #{ticket.numero_ticket}</span>
+                  <p>Usuario: {ticket.nombre || "Sin asignar"}</p>
+                  <p>Teléfono: {ticket.telefono || "Sin asignar"}</p>
+                  <div className="botones-accion">
+                    {/* Acciones si es necesario */}
+                  </div>
                 </div>
-              </div>
-            ))
-        ) : (
-          <p>No hay tickets apartados.</p>
-        )}
-
+              ))
+          ) : (
+            <p>No hay tickets apartados.</p>
+          )}
         </div>
-
-
       </section>
-
-
     </div>
   );
 }

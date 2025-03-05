@@ -277,5 +277,14 @@
     color: var(--primary-color);
   }
 
+  .BotonActualizar button{
+    background-color: #001aff;
+  }
+
+  .BotonActualizar button:hover {
+    background-color: #0036e9;
+    transform: scale(1.03);
+  }
+
  
   
