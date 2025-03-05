@@ -272,13 +272,16 @@ function AdministradorPage() {
           <input 
             type="number" 
             value={sorteo.precioBoleto} 
+            onWheelCapture={(e) => e.target.blur()}
             onChange={(e) => setSorteo({ ...sorteo, precioBoleto: e.target.value })}
             required 
           />
+
           <label>Cantidad de boletos:</label>
           <input 
             type="number" 
             value={sorteo.cantidadBoletos} 
+            onWheelCapture={(e) => e.target.blur()}
             onChange={(e) => setSorteo({ ...sorteo, cantidadBoletos: e.target.value })}
             required 
           />

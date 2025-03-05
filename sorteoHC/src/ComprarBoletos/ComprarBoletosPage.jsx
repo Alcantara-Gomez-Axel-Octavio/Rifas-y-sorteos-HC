@@ -120,24 +120,29 @@ const generarBoletosAleatorios = () => {
         // Actualizar tickets con el usuario_id recibido
         await updateTickets(data.usuario_id);
         
-        // Generar mensaje para WhatsApp
+        // Generar mensaje para WhatsApp con el formato requerido
         const ticketNumbers = selectedTickets.map(ticket => ticket.numero_ticket).join(', ');
         const cantidad = selectedTickets.length;
         const ticketPrice = 100; 
         const totalPrice = cantidad * ticketPrice;
-        const mensaje = `Compra de boletos:
-  Tickets: ${ticketNumbers}
-  Cantidad: ${cantidad}
-  Precio unitario: $${ticketPrice}
-        Total: $${totalPrice}
-Nombre: ${nombre}
-Correo: ${email}
-Número: ${numero}`;
+        
+        const mensaje = `Chevrolet Camaro SS 🚗
+
+  Me interesa participar por el auto!
+
+  Nombre: ${nombre}
+
+  ⚠ *FOLIO: ${data.usuario_id}*
+  Boletos: ${ticketNumbers}
+
+  *Costo: $${totalPrice}*
+
+📌El siguiente paso es realizar tu pago y enviarnos tu comprobante de pago por aquí`;
         
         // Crear URL para WhatsApp (se usa encodeURIComponent para formatear correctamente el mensaje)
-        const whatsappUrl = `https://api.whatsapp.com/send?phone=3311800657&text=${encodeURIComponent(mensaje)}`;
+        const whatsappUrl = `https://api.whatsapp.com/send?phone=6141846333&text=${encodeURIComponent(mensaje)}`;
         window.open(whatsappUrl, '_blank');
-  
+    
         // Opcional: limpiar selección de boletos
         setSelectedTickets([]);
       } else {
@@ -148,6 +153,7 @@ Número: ${numero}`;
     }
     openModal2(); // Cerrar modal
   };
+
 
   return (
     <div className="contenedor__todo_Home">
@@ -306,8 +312,11 @@ Número: ${numero}`;
                 <p>No has seleccionado boletos.</p>
               )}
             </div>
-          
-            <input type="number" placeholder="Número telefonico" className="InputNumero" onChange={e => setNumero(e.target.value)}/>
+            <p>
+              Aviso: Si modificas el mensaje preestablecido de WhatsApp, tu registro no será válido y se tomará únicamente la información que aparece en la página. Si deseas cancelar el proceso, envía un mensaje a través de WhatsApp.
+            </p>
+
+            <input type="number" placeholder="Número telefonico" className="InputNumero" onWheelCapture={(e) => e.target.blur()} onChange={e => setNumero(e.target.value)} />
             <input type="text" placeholder="Nombre completo" className="InputNombre" onChange={e => setNombre(e.target.value)}/>
             <input type="email" placeholder="Correo electronico" className="InputCorreo" onChange={e => setEmail(e.target.value)} />
             <button
