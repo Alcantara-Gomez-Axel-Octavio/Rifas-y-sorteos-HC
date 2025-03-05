@@ -109,50 +109,60 @@ const generarBoletosAleatorios = () => {
   // Función para registrar usuario y luego actualizar tickets
   const apartarUsuarioYTickets = async () => {
     try {
+      // Obtener título del sorteo desde la API
+      const sorteoResponse = await fetch("http://localhost:3001/api/sorteos");
+      if (!sorteoResponse.ok) throw new Error("Error al obtener el sorteo");
+      const sorteoData = await sorteoResponse.json();
+      const titulo = sorteoData.titulo; // Extraer el título
+  
+      // Registrar usuario
       const response = await fetch("http://localhost:3001/api/registroUsuarios", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ nombre, email, numero })
       });
+  
       if (response.ok) {
         const data = await response.json();
         console.log("Usuario registrado exitosamente", data);
+  
         // Actualizar tickets con el usuario_id recibido
         await updateTickets(data.usuario_id);
-        
-        // Generar mensaje para WhatsApp con el formato requerido
-        const ticketNumbers = selectedTickets.map(ticket => ticket.numero_ticket).join(', ');
+  
+        // Generar mensaje para WhatsApp
+        const ticketNumbers = selectedTickets.map(ticket => ticket.numero_ticket).join(", ");
         const cantidad = selectedTickets.length;
-        const ticketPrice = 100; 
+        const ticketPrice = 100;
         const totalPrice = cantidad * ticketPrice;
-        
-        const mensaje = `Chevrolet Camaro SS 🚗
-
+  
+        const mensaje = `${titulo} 🚗
+  
   Me interesa participar por el auto!
-
+  
   Nombre: ${nombre}
-
+  
   ⚠ *FOLIO: ${data.usuario_id}*
   Boletos: ${ticketNumbers}
-
+  
   *Costo: $${totalPrice}*
-
+  
 📌El siguiente paso es realizar tu pago y enviarnos tu comprobante de pago por aquí`;
-        
-        // Crear URL para WhatsApp (se usa encodeURIComponent para formatear correctamente el mensaje)
+  
+        // Crear URL para WhatsApp
         const whatsappUrl = `https://api.whatsapp.com/send?phone=6141846333&text=${encodeURIComponent(mensaje)}`;
-        window.open(whatsappUrl, '_blank');
-    
+        window.open(whatsappUrl, "_blank");
+  
         // Opcional: limpiar selección de boletos
         setSelectedTickets([]);
       } else {
         console.error("Error al registrar usuario:", response.statusText);
       }
     } catch (error) {
-      console.error("Error al registrar usuario:", error);
+      console.error("Error:", error);
     }
     openModal2(); // Cerrar modal
   };
+  
 
 
   return (

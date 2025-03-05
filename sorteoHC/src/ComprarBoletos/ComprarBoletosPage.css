@@ -1,31 +1,30 @@
-/* Estilos Generales */
 .Contenido_Todo_Tutoriales {
-  min-height: 100vh; /* Ocupa al menos el 100% de la pantalla */
-  width: 100%;   /* Ocupa el 100% del ancho */
-  display: flex;
-  flex-direction: column;
-  background-image: url('../assets/MODEL-S.jpg');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
+  min-height: 100vh; /* Se asegura de ocupar al menos el 100% de la pantalla */
+  width: 100%;   /* Ocupa el 100% del ancho de la ventana */
+  display: flex;           /* Usamos flexbox para el diseño */
+  flex-direction: column;  /* Los elementos dentro se dispondrán en columna */
+  background-image: url('../assets/MODEL-S.jpg'); /* Usamos la imagen como fondo */
+  background-size: cover;  /* Asegura que la imagen cubra todo el fondo */
+  background-position: center; /* Centra la imagen en la página */
+  background-repeat: no-repeat; /* Evita que la imagen se repita */
+  background-attachment: fixed; /* Hace que la imagen de fondo no se mueva cuando se hace scroll */
 }
 
 .Texto-Principal {
-  background-color: #3562a6;
-  width: 100%;
-  padding-top: 100px; /* Espacio si el header es fijo */
-  position: relative;
-  z-index: 1;
-  text-align: center;
-  color: #fff;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.4);
-  border-radius: 25px;
+background-color: #3562a6;
+width: 100%;
+padding-top: 100px; /* Da espacio suficiente si el header tiene un tamaño fijo */
+position: relative;
+z-index: 1; /* Asegura que el texto no quede detrás del Header */
+text-align: center;
+color: #fff;
+box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.4); /* Sombra hacia abajo */
+border-radius: 25px;
 }
 
 .Texto-Principal p {
-  font-size: 25px;
-  margin-bottom: 20px;
+font-size: 25px;
+margin-bottom: 20px;
 }
 
 .CuadroBlanco {
@@ -33,7 +32,7 @@
   width: 70%;
   height: auto;
   max-height: 800px;
-  padding: 20px;
+  padding: 20px; /* Ajusta el espacio interno */
   position: relative;
   z-index: 1;
   text-align: center;
@@ -42,101 +41,104 @@
   border-radius: 25px;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: flex-start; /* Permite que el contenido crezca hacia abajo */
   align-items: flex-start;
-  margin: 40px auto 0 auto;
-  overflow-y: auto;
-  overflow-x: hidden;
+  margin: 40px auto 0 auto; /* Margen superior y centrado */
+  overflow-y: auto; /* Muestra barra de desplazamiento vertical si es necesario */
+  overflow-x: hidden; /* Oculta el desplazamiento horizontal */
 }
 
-.DentrodeBlancoBoton {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 10px;
-  max-height: 700px;
-  overflow-y: auto;
-  width: 100%;
-  padding: 10px;
+.DentrodeBlancoBoton{
+display: flex;
+flex-wrap: wrap;
+justify-content: center;
+gap: 10px;
+max-height: 700px; /* Ajusta según sea necesario */
+overflow-y: auto; /* Permite hacer scroll si hay muchos botones */
+width: 100%;
+padding: 10px;
 }
-
 .BotonNumero {
-  background-color: #3562a6;
-  color: white;
-  border: none;
-  border-radius: 10px;
-  padding: 10px 15px;
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: bold;
-  width: 100px;
-  text-align: center;
-  transition: background 0.3s;
+background-color: #3562a6;
+color: white;
+border: none;
+border-radius: 10px;
+padding: 10px 15px;
+cursor: pointer;
+font-size: 16px;
+font-weight: bold;
+width: 100px; /* Ajusta el ancho para que se acomoden bien */
+text-align: center;
+transition: background 0.3s;
 }
 
 .BotonNumero:hover {
-  background: #1c39df;
-  color: #ffffff;
+background-color: #1cdf40;
 }
 
-.ContenedorBoton {
-  margin-top: 20px;
-  width: 100%;
-  height: auto;
+.ContenedorBoton{
+margin-top: 20px;
+width: 100%;
+height: auto;
 }
-
 .BotonGenerar {
-  background-color: #ffffff;
-  color: #000000;
-  border: none;
-  border-radius: 50px;
-  padding: 30px 20px;
-  cursor: pointer;
-  font-family: sans-serif;
-  font-size: 20px;
-  font-weight: bold;
-  width: 10%;
-  min-width: 200px;
-  height: auto;
-  transition: all 1200ms;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin-top: 40px;
-  margin: 0 auto;
+background-color: #ffffff;
+color: #000000;
+border: none;
+border-radius: 50px;
+padding: 30px 20px;
+cursor: pointer;
+font-family: sans-serif;
+font-size: 20px;
+font-weight: bold;
+width: 10%;
+min-width: 200px;
+height: auto;
+transition: all 1200ms;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+margin-top: 40px; /* Aumentamos el margen superior aquí */
+margin: 0 auto;
 }
+
+
 
 .BotonGenerar:hover {
-  background: #1c39df;
-  color: #ffffff;
+background: #1c39df;
+color: #ffffff;
 }
+
+
 
 .Botonaleatorio {
-  background-color: #0091ff;
-  color: #000000;
-  border: none;
-  border-radius: 50px;
-  padding: 30px 20px;
-  cursor: pointer;
-  font-family: sans-serif;
-  font-size: 20px;
-  font-weight: bold;
-  width: 10%;
-  min-width: 200px;
-  height: auto;
-  transition: all 1200ms;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin-top: 40px;
-  margin: 0 auto;
+background-color: #0091ff;
+color: #000000;
+border: none;
+border-radius: 50px;
+padding: 30px 20px;
+cursor: pointer;
+font-family: sans-serif;
+font-size: 20px;
+font-weight: bold;
+width: 10%;
+min-width: 200px;
+height: auto;
+transition: all 1200ms;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+margin-top: 40px; /* Aumentamos el margen superior aquí */
+margin: 0 auto;
 }
 
+
+
 .Botonaleatorio:hover {
-  background: #1c39df;
-  color: #ffffff;
+background: #1c39df;
+color: #ffffff;
 }
 
 .ContenedorMisboletos {
@@ -156,20 +158,23 @@
   align-items: center;
   text-align: center;
   color: #000;
-  overflow-y: auto;
-  overflow-x: hidden;
+  overflow-y: auto; /* Habilita el scroll vertical si el contenido excede el tamaño */
+  overflow-x: hidden; /* Oculta el scroll horizontal */
+  
 }
 
 .ContenedorMisboletosAleatorios .ticket-seleccionado {
-  flex: 0 0 30%;
-  margin: 5px;
+  flex: 0 0 30%; /* Los elementos ocupan el 30% del ancho del contenedor */
+  margin: 5px; /* Espacio entre los elementos */
   box-sizing: border-box;
   padding: 10px;
   background-color: #f0f0f0;
   border-radius: 5px;
   text-align: center;
+
 }
 
+/* Estilo para cada ticket */
 .ticket-seleccionado {
   background-color: #f2f2f2;
   border: 1px solid #ccc;
@@ -179,157 +184,196 @@
   transition: transform 0.2s ease, background-color 0.2s ease;
   font-weight: bold;
   cursor: pointer;
-  user-select: none;
+  user-select: none; /* Evita la selección de texto */
 }
 
+/* Efecto hover para dar interacción */
 .ticket-seleccionado:hover {
   transform: scale(1.05);
   background-color: #e6e6e6;
 }
 
-/* Modal para el contenido principal */
-.modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  min-width: 200px;
-  height: 100%;
-  min-width: 500px;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
+/* Ajustes responsivos para pantallas pequeñas */
+@media (max-width: 600px) {
+  .ticket-seleccionado {
+    padding: 8px 12px;
+    margin: 8px;
+    font-size: 0.9rem;
+  }
+  
+  .ContenedorMisboletos {
+    flex: 0 0 30%; /* Los elementos ocupan el 30% del ancho del contenedor */
+    margin: 5px; /* Espacio entre los elementos */
+    box-sizing: border-box;
+    padding: 15px;
+    background-color: #f0f0f0;
+    border-radius: 5px;
+    text-align: center;
+    overflow: hidden;
+    min-height: 25px;
+    max-height: 80px;
+    overflow-y: auto; /* Habilita el scroll vertical si el contenido excede el tamaño */
+    overflow-x: hidden; /* Oculta el scroll horizontal */
+    
+   
+  }
 }
 
-.ModalContenido {
-  background-color: white;
-  padding: 20px;
-  border-radius: 5px;
-  height: auto;
-  width: 30vw;
-  max-height: 700px;
-  min-width: 350px;
-  font-size: 0.9vw;
-  overflow: hidden;
+
+
+.modal{
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+min-width: 200px;
+height: 100%;
+min-width: 500px;
+background-color: rgba(0, 0, 0, 0.5); /* Fondo oscuro */
+display: flex;
+justify-content: center;
+align-items: center;
+z-index: 1000; /* Asegura que quede por encima de otros elementos */
 }
 
-.CerrarModal {
-  color: #aaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-  cursor: pointer;
+.ModalContenido{
+background-color: white; /* Fondo blanco */
+padding: 20px;
+border-radius: 5px;
+height: auto;
+width: 30vw;
+max-height: 700px;
+min-width: 350px;
+
+font-size: .9vw;
+overflow: hidden;
 }
 
+.CerrarModal{
+color: #aaa;
+float: right;
+font-size: 28px;
+font-weight: bold;
+cursor: pointer;
+}
 .close:hover,
 .close:focus {
-  color: black;
-  text-decoration: none;
-  cursor: pointer;
+color: black;
+text-decoration: none;
+cursor: pointer;
 }
 
-/* Contenedores internos */
-.contenedorSeleccion {
-  width: 80%;
-  min-width: 200px;
-  height: 100px;
-  padding-top: 20px;
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
-  margin: 50px auto;
-  border-radius: 20px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.4);
-  overflow: hidden;
+.contenedorSeleccion{
+width: 80%;
+min-width: 200px;
+height: 100px;
+padding-top: 20px;
+display: flex;
+flex-direction: row;
+gap:10px;
+margin:  50px auto;
+border-radius: 20px;
+box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.4);
+overflow: hidden;
+
 }
 
-.contenedorTextoGenerar {
-  width: 30%;
-  max-width: 30%;
-  height: 70%;
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-left: 10px;
-  color: #000;
-  font-family: sans-serif;
-  font-weight: bold;
-  font-size: 10px;
-  overflow: hidden;
+.contenedorTextoGenerar{
+width: 30%;
+max-width: 30%;
+height: 70%;
+align-items: center;
+display: flex;
+flex-direction: column;
+gap: 10px;
+margin-left: 10px;
+color: #000;
+font-family: sans-serif;
+font-weight: bold;
+font-size: 10px;
+overflow: hidden;
+
+
 }
 
-.ContenedorSelect {
-  background-color: blue;
-  width: 60%;
-  max-width: 60%;
-  height: 25px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-right: 10px;
-}
+.ContenedorSelect{
+background-color: blue;
+width: 60%;
+max-width: 60%;
+height: 25px;
+display: flex;
+justify-content: center;
+align-items: center;
+margin-right: 10px;
 
-.SelectGenerar {
-  width: 100%;
-  height: 35px;
-  border-radius: 5px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.4);
-  background-color: rgb(255, 255, 255);
-  font-size: 16px;
-  color: #333;
-  cursor: pointer;
+
+}
+.SelectGenerar{
+width: 100%;
+height: 35px;
+border-radius: 5px;
+box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.4);
+background-color: rgb(255, 255, 255);
+font-size: 16px;
+color: #333;
+cursor: pointer;
 }
 
 .ContenedorMisboletosAleatorios {
-  background-color: #fff;
-  width: 90%;
-  height: auto;
-  min-height: 100px;
-  max-height: 300px;
-  padding-top: 10px;
-  position: relative;
-  z-index: 1;
-  text-align: center;
-  color: #000;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.4);
-  border-radius: 25px;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  align-items: center;
-  margin: 0 auto;
-  margin-top: 20px;
-  overflow-y: auto;
-  overflow-x: hidden;
+  
+    background-color: #fff;
+    width: 90%;
+    height: auto;
+    min-height: 100px;
+    max-height: 300px; /* Limita la altura máxima */
+    padding-top: 10px; /* Ajusta el padding superior */
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    color: #000;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.4);
+    border-radius: 25px;
+    display: flex;
+    flex-direction: row; /* Cambié esto a fila */
+    flex-wrap: wrap; /* Permite que los elementos se acomoden en filas */
+    justify-content: flex-start; /* Alinea los elementos al inicio de la fila */
+    align-items: center; /* Alinea los elementos en la parte superior */
+    margin: 0 auto;
+    margin-top: 20px; /* Añadimos un margen superior */
+    overflow-y: auto; /* Habilita el scroll vertical si el contenido excede el tamaño */
+    overflow-x: hidden; /* Oculta el scroll horizontal */
+  
 }
 
-/* Sección de Presentación */
+
 .Presentacion-contenedor-1 {
+
   background-size: auto;
   height: 200vh;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
+  justify-content: center; /* Centra los elementos hijos horizontalmente */
   font-size: 20px;
+
 }
 
 .Presentacion-contenedor-2 {
   max-width: 25%;
   align-items: center;
   text-align: left;
+  
 }
 
 .Presentacion-contenedor-2 h1 {
   font-size: 2.5em;
   color: #0f98f8;
   margin-bottom: 20px;
+  
 }
 
 .Presentacion-contenedor-2 p {
+  
   font-size: 1.2em;
   color: #333;
   margin-bottom: 20px;
@@ -357,58 +401,96 @@
   height: auto;
 }
 
-.sorteo-imagen {
-  width: 100%;
-  max-width: 400px;
-  height: auto;
-  display: block;
-  margin: 0 auto;
+
+
+
+.BotonNumero {
+  background-color: #3562a6; /* color base para disponibles */
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  width: 100px;
+  text-align: center;
+  transition: background 0.3s;
 }
 
-/* Modal2 y contenido del modal (para registro y boletos) */
-.modal2 {
+/* Estado "disponible": azul sin cambio en hover */
+.estado-disponible {
+  background-color: #3562a6;
+  color: white;
+}
+
+.estado-disponible:hover {
+  background-color: #5b91e4;
+}
+
+/* Estado "apartado": amarillo sin cambio en hover */
+.estado-apartado {
+  background-color: rgb(255, 145, 0);
+  color: black;
+}
+
+.estado-apartado:hover {
+  background-color: rgb(255, 167, 52);
+}
+
+/* Estado "vendido": rojo sin cambio en hover */
+.estado-vendido {
+  background-color: rgb(201, 0, 0);
+  color: white;
+}
+
+.estado-vendido:hover {
+  background-color: red;
+}
+
+
+
+.modal2{
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.5); /* Fondo oscuro */
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
+  z-index: 1000; /* Asegura que quede por encima de otros elementos */
 }
 
-.ModalContenido2 {
-  background-color: white;
+.ModalContenido2{
+  background-color: white; /* Fondo blanco */
   padding: 20px;
   border-radius: 5px;
   height: auto;
   width: 30vw;
   min-width: 350px;
-  font-size: 0.9vw;
-  display: flex;
+  font-size: .9vw;
   flex-direction: column;
   gap: 10px;
   justify-content: center;
   align-items: center;
-  max-width: 600px;
+  max-width: 600px;  /* Limita el tamaño máximo */
+  min-width: 350px;  /* Limita el tamaño mínimo */
   overflow: hidden;
 }
-
-.ModalContenido2 input {
+.ModalContenido2 input{
   width: 90%;
   height: 35px;
   border-radius: 15px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.4);
-  background-color: #fff;
+  background-color: rgb(255, 255, 255);
   font-size: 16px;
   color: #333;
-  margin-bottom: 10px;
+  
 }
 
-/* Botón para apartar boletos */
-.BotonApartar {
+.BotonApartar{
   background-color: #0091ff;
   color: #000000;
   border: none;
@@ -426,30 +508,25 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: 40px;
+  margin-top: 40px; /* Aumentamos el margen superior aquí */
   margin: 0 auto;
+
+
 }
 
 .BotonApartar:hover {
   background: #1c39df;
   color: #ffffff;
 }
-
-/* Inputs adicionales para teléfono, nombre y correo */
-.InputNumero,
-.InputNombre,
-.InputCorreo {
-  width: 90%;
-  height: 35px;
-  border-radius: 15px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.4);
-  background-color: #fff;
-  font-size: 16px;
-  color: #333;
-  margin-bottom: 10px;
+.sorteo-imagen {
+  width: 100%;       /* Ocupa el 100% del contenedor */
+  max-width: 400px;  /* Ancho máximo deseado */
+  height: auto;      /* Mantiene la proporción original */
+  display: block;    /* Elimina espacios extra debajo de la imagen */
+  margin: 0 auto;    /* Centra la imagen en su contenedor */
 }
 
-/* Media Queries para dispositivos pequeños */
+
 @media (max-width: 600px) {
   /* Aseguramos que los modales ocupen el ancho completo de la pantalla */
   .modal,
@@ -495,4 +572,36 @@
   .SelectGenerar {
     font-size: 14px;
   }
+}
+
+
+/* Contenedor de carga */
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+}
+
+/* Estilos para el spinner */
+.spinner {
+  border: 4px solid #f3f3f3; /* Fondo gris claro */
+  border-top: 4px solid #3498db; /* Borde superior azul */
+  border-radius: 50%; /* Forma circular */
+  width: 30px;
+  height: 30px;
+  animation: spin 1s linear infinite; /* Animación de giro */
+  margin-right: 10px;
+}
+
+/* Animación de rotación */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Estilos para el texto de carga */
+.loading-text {
+  font-size: 16px;
+  color: #3498db; /* Color azul para el texto */
 }
