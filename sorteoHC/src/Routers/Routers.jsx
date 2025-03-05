@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "../AuthContext/AuthContext.jsx";
 import HomePage from "../HomePage/HomePage";
+import EstatusDeBoleto from "../EstatusDeBoleto/EstatusDeBoletoPage.jsx";
 import MetodosDePago from "../MetodosDePago/MetodosDePagoPage";
 import ComprarBoletos from "../ComprarBoletos/ComprarBoletosPage.jsx";
 import Login from "../Login/LoginPage.jsx";
@@ -13,6 +14,7 @@ export function MyRoutes() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<HomePage />} />
+          <Route path="/EstatusDeBoleto" element={<EstatusDeBoleto />} />
           <Route path="/MetodosDePago" element={<MetodosDePago />} />
           <Route path="/ComprarBoletos" element={<ComprarBoletos />} />
           <Route path="/Login" element={<Login />} />

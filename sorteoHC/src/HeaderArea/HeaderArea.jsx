@@ -56,6 +56,9 @@ function HeaderArea() {
             <li>
               <Link to="/ComprarBoletos">Comprar boletos</Link>
             </li>
+            <li>
+              <Link to="/EstatusDeBoleto">Estatus de boletos</Link>
+            </li>
           </ul>
         </nav>
       </div>

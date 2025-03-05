@@ -285,6 +285,11 @@
     background-color: #0036e9;
     transform: scale(1.03);
   }
+  .BotonAceptar{
+    background: #28a745;
+  }
+  .BotonRechazar{
+    background: #ff0000;
+  }
 
- 
-  
+

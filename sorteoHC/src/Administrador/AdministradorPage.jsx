@@ -5,6 +5,9 @@ function AdministradorPage() {
 
   const [currentSorteoId, setCurrentSorteoId] = useState(null);
   
+
+
+  
   useEffect(() => {
     const fetchSorteoActivo = () => {
       fetch('/api/sorteos')
@@ -21,6 +24,17 @@ function AdministradorPage() {
         })
         .catch(err => console.error("Error al obtener sorteo activo:", err));
     };
+
+    const fetchTickets = () => {
+      fetch('/api/tickets')
+        .then(response => response.json())
+        .then(data => {
+          console.log("🎟️ Tickets recibidos desde API:", data); // 🔍 Verifica qué datos llegan
+          setTickets(data);
+        })
+        .catch(err => console.error("❌ Error al obtener tickets:", err));
+    };
+    
   
     fetchSorteoActivo();
   }, []);
@@ -293,10 +307,26 @@ function AdministradorPage() {
       <section className="tickets-matriz">
         <h3>Solicitudes de Tickets Apartados</h3>
         <div className="matrix">
-          {/* Aquí puedes renderizar los tickets según corresponda */}
+          {tickets.filter(ticket => ticket.estado === "apartado").length > 0 ? (
+            tickets
+              .filter(ticket => ticket.estado === "apartado")
+              .map((ticket, index) => (
+                <div key={ticket.ticket_id || index} className="ticket ticket-pendiente">
+                  <span>Ticket #{ticket.numero_ticket}</span>
+                  <p>Usuario: {ticket.nombre || "Sin asignar"}</p>
+                  <p>Teléfono: {ticket.telefono || "Sin asignar"}</p>
+                  <div className="botones-accion">
+                    <button className= "BotonAceptar" onClick={() => handleAcceptTicket(ticket.ticket_id)}>Aceptar</button>
+                    <button className= "BotonRechazar" onClick={() => handleRejectTicket(ticket.ticket_id)}>Rechazar</button>
+                  </div>
+                </div>
+              ))
+          ) : (
+            <p>No hay solicitudes de tickets apartados.</p>
+          )}
         </div>
-        <p>*Revise las solicitudes y actúe en consecuencia.</p>
       </section>
+
 
       <section className="tickets-matriz">
         <h3>Lista de vendidos</h3>
