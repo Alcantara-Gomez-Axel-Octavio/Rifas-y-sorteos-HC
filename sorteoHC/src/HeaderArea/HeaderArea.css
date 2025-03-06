@@ -23,10 +23,36 @@
   background-color: #212121;
   display: flex;
   align-items: center;
-  justify-content: flex-end;  /* Alinea los elementos a la derecha */
+  justify-content: space-between;  /* Alinea logo a la izquierda y menú a la derecha */
+  padding: 0 20px;  /* Agrega algo de espacio */
+}
+
+.nav-bar .logo-container {
+  display: flex;
+  align-items: center;
+}
+
+.nav-bar .logo {
+  max-width: 60px;
+  max-height: 60px;
+  width: auto;
+  height: auto;
+}
+
+/* Estilos para el logo como botón */
+.logo-button {
+  background: none; /* Sin fondo */
+  border: none;     /* Sin borde */
+  padding: 0;       /* Sin padding */
+  cursor: pointer;  /* Muestra un cursor de puntero */
+}
+
+.logo-button:focus {
+  outline: none; /* Evitar contorno al hacer click */
 }
 
 .nav-bar .menu-toggle {
+  
   display: none;  /* Oculto por defecto */
   font-size: 2rem;
   color: #fff;
@@ -36,12 +62,14 @@
 }
 
 .nav-list {
+
   list-style: none;
   display: flex;
   justify-content: flex-end;  /* Alinea los enlaces a la derecha */
   align-items: center;
   margin: 0;
   padding: 0 2rem;
+  padding-top: 5vh;
 }
 
 .nav-bar li {

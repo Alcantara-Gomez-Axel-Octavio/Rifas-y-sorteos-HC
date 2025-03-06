@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import "./HeaderArea.css";
+import Logo from "../assets/Logo.png"; // Ruta del logo
 
 function HeaderArea() {
   const [menuOpen, setMenuOpen] = useState(false);  // Estado para controlar el menú desplegable
@@ -10,10 +11,8 @@ function HeaderArea() {
   const handleScrollTo = (e, sectionId) => {
     e.preventDefault();
     if (location.pathname !== "/") {
-      // Si no estás en la home, navega a "/" y agrega el hash deseado
       navigate(`/#${sectionId}`);
     } else {
-      // Si ya estás en la home, realiza el scroll de forma suave
       const element = document.getElementById(sectionId);
       if (element) {
         element.scrollIntoView({ behavior: "smooth" });
@@ -23,10 +22,21 @@ function HeaderArea() {
 
   const toggleMenu = () => setMenuOpen(!menuOpen);  // Función para alternar el estado del menú
 
+  // Función para navegar al home
+  const goToHome = () => {
+    navigate("/"); // Redirige al home
+  };
+
   return (
     <header className="header-container">
       <div className="top-bar">
         <nav className="nav-bar">
+          <div className="logo-container">
+            {/* Imagen como botón para redirigir al home */}
+            <button className="logo-button" onClick={goToHome}>
+              <img src={Logo} alt="Logo" className="logo" />
+            </button>
+          </div>
           <button className="menu-toggle" onClick={toggleMenu}>
             &#9776; {/* Icono del menú */}
           </button>
