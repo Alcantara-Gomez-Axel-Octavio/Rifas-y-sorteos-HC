@@ -178,8 +178,11 @@ const generarBoletosAleatorios = () => {
               <p>
                 En esta sección podrás comprar boletos para participar en el sorteo de la rifa de la fábrica de la suerte.
               </p>
-              <SorteoInfo />
+             
             </div>
+            <div className="CuadroBlancoInfo">
+            <SorteoInfo />
+            </ div>
         
             <div className="CuadroBlanco">
         <div className="DentrodeBlancoBoton">
