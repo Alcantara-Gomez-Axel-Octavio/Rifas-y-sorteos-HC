@@ -47,6 +47,27 @@ margin-bottom: 20px;
   overflow-y: auto; /* Muestra barra de desplazamiento vertical si es necesario */
   overflow-x: hidden; /* Oculta el desplazamiento horizontal */
 }
+.CuadroBlancoInfo {
+  background-color: rgba(255, 255, 255, 0.9); /* 0.7 es la opacidad, puedes ajustarlo según lo desees */
+  width: 50%;
+  height: auto;
+  max-height: 800px;
+  padding: 20px;
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  color: #000;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.4);
+  border-radius: 25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Centra el contenido verticalmente */
+  align-items: center; /* Centra el contenido horizontalmente */
+  margin: 40px auto 0 auto;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
 
 .DentrodeBlancoBoton{
 display: flex;
@@ -605,3 +626,74 @@ cursor: pointer;
   font-size: 16px;
   color: #3498db; /* Color azul para el texto */
 }
+
+.carousel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 80%;
+  max-width: 600px;
+  margin: auto;
+  overflow: hidden;
+}
+
+.carousel-container {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.carousel-image {
+  position: absolute;
+  width: 200px; /* Tamaño base para imágenes laterales */
+  height: auto;
+  transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out, filter 0.5s ease-in-out;
+  opacity: 0.5;
+  filter: blur(5px);
+}
+
+.carousel-image.active {
+  width: 300px; /* Imagen central más grande */
+  opacity: 1;
+  filter: blur(0);
+  transform: scale(1.2);
+  z-index: 2;
+}
+
+.carousel-image.prev {
+  transform: translateX(-150px) scale(0.8);
+}
+
+.carousel-image.next {
+  transform: translateX(150px) scale(0.8);
+}
+
+.carousel-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-size: 20px;
+  z-index: 3;
+  transition: background-color 0.3s;
+}
+
+.carousel-button:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.prev {
+  left: 10px;
+}
+
+.next {
+  right: 10px;
+}
+

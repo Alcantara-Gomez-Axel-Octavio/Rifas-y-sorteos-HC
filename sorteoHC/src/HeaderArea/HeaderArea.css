@@ -105,13 +105,21 @@
 @media (max-width: 768px) {
   .nav-list {
     display: none;  /* Oculta el menú por defecto */
-    width: 100%;
+    position: absolute;
+    top: 100%; /* Hace que el menú aparezca debajo de la barra de navegación */
+    right: 0; /* Alinea el menú a la derecha */
+    width: 50%; /* Ajusta el ancho del menú */
     flex-direction: column;
     background-color: #212121;
+    z-index: 1000;
   }
 
   .nav-list.open {
     display: flex;  /* Muestra el menú cuando se abre */
+  }
+
+  .nav-bar {
+    position: relative; /* Asegura que el menú desplegable se posicione correctamente */
   }
 
   .nav-bar .menu-toggle {
@@ -127,11 +135,5 @@
   .nav-bar li:not(:last-child)::after {
     display: none;  /* Oculta los separadores en pantallas pequeñas */
   }
-
-  /* Ocultar enlaces en pantallas pequeñas */
-  .nav-bar li a[href="#contacto-section"],
-  .nav-bar li a[href="#faq-section"],
-  .nav-bar li a[href="/"] {
-    display: none;  /* Oculta 'Contacto', 'Preguntas frecuentes' e 'Inicio' */
-  }
 }
+
