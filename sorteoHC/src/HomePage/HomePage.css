@@ -11,7 +11,7 @@
   width: 100%;   /* Ocupa el 100% del ancho de la ventana */
   display: flex;           /* Usamos flexbox para el diseño */
   flex-direction: column;  /* Los elementos dentro se dispondrán en columna */
-  background-image: url('../assets/MODEL-S.jpg'); /* Usamos la imagen como fondo */
+  background-image: url('../assets/Fondo.png'); /* Usamos la imagen como fondo */
   background-size: cover;  /* Asegura que la imagen cubra todo el fondo */
   background-position: center; /* Centra la imagen en la página */
   background-repeat: no-repeat; /* Evita que la imagen se repita */
