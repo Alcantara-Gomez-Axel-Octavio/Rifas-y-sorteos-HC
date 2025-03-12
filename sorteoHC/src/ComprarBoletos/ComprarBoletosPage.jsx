@@ -132,7 +132,7 @@ const generarBoletosAleatorios = () => {
         // Generar mensaje para WhatsApp
         const ticketNumbers = selectedTickets.map(ticket => ticket.numero_ticket).join(", ");
         const cantidad = selectedTickets.length;
-        const ticketPrice = 100;
+        const ticketPrice = sorteoData.precio_boleto;
         const totalPrice = cantidad * ticketPrice;
   
         const mensaje = `${titulo} 🚗
