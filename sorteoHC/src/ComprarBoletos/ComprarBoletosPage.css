@@ -550,19 +550,47 @@ cursor: pointer;
 
 @media (max-width: 600px) {
   /* Aseguramos que los modales ocupen el ancho completo de la pantalla */
-  .modal,
+  .modal {
+    
+      width: 70vw; /* Ajusta el ancho */
+      max-width: 100%; /* Evita que supere la pantalla */
+      left: 50%; /* Centra el modal */
+      transform: translateX(-50%); /* Evita que se desborde */
+      overflow-x: hidden; /* Previene desplazamiento horizontal */
+  }
+
+  .modal img {
+    max-width: 100%; /* Hace que el GIF no supere el ancho del modal */
+    height: auto; /* Mantiene la proporción */
+    display: block; /* Evita espacios extra */
+    margin: 0 auto; /* Lo centra */
+  }
   .modal2 {
     width: 100%;
   }
   
-  /* Ajustamos el contenido de los modales para mayor legibilidad */
-  .ModalContenido,
+  /* Ajustamos el contenido dentro del modal */
+  .ModalContenido {
+    width: 70%;
+    max-width: 100%;
+    font-size: 14px;
+    max-height: 80vh;
+    padding: 15px;
+    box-sizing: border-box; /* Asegura que padding no haga más grande el contenedor */
+  }
+
+  /* Evita que los elementos dentro del modal se salgan */
+  .ModalContenido * {
+    max-width: 100%;
+    overflow-wrap: break-word; /* Evita que el texto largo desborde */
+  }
   .ModalContenido2 {
     width: 90%;
     min-width: auto;
     font-size: 14px;
     max-height: 80vh;
     padding: 15px;
+  
   }
   
   /* Inputs se adaptan a la pantalla pequeña */
