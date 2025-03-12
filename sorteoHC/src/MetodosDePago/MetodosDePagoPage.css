@@ -55,9 +55,10 @@
     margin: 0 auto;
 }
 
-.Imagen_Pago{
-    width: auto;
-    height: auto;
+.Imagen_Pago {
+    max-width: 100%;  /* La imagen nunca será más grande que su contenedor */
+    height: auto;  /* Mantiene la proporción de la imagen */
+    display: block; /* Elimina espacios adicionales debajo de la imagen */
 }
 
 .BotonDescargar{

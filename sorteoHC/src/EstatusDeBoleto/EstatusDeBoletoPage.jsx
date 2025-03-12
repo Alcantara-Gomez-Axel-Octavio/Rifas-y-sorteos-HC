@@ -67,7 +67,9 @@ function EstatusDeBoletoPage() {
           )}
         </div>
       ) : search !== "" ? (
-        <p>Pulse "buscar" para mostrar la informacion del boleto: {search}.</p>
+        <div className='ticket-info'> 
+          <p>Pulse "buscar" para mostrar la informacion del boleto: {search}.</p>
+        </div>
       ) : null}
     </div>
   );

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import "./HeaderArea.css";
-import Logo from "../assets/Logo.jpeg"; // Ruta del logo
+import Logo from "../assets/Logo.png"; // Ruta del logo
 
 function HeaderArea() {
   const [menuOpen, setMenuOpen] = useState(false);  // Estado para controlar el menú desplegable
