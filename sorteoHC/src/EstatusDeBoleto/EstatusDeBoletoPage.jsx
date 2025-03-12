@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import HeaderArea from '../HeaderArea/HeaderArea.jsx';
 import "./EstatusDeBoletoPage.css";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
+
 function EstatusDeBoletoPage() {
   const [tickets, setTickets] = useState([]);
   const [search, setSearch] = useState("");
@@ -9,7 +12,7 @@ function EstatusDeBoletoPage() {
 
   useEffect(() => {
     const fetchTickets = () => {
-      fetch('/api/tickets')
+      fetch(`${API_URL}/api/tickets`)
         .then(response => response.json())
         .then(data => {
           console.log("Tickets recibidos:", data);

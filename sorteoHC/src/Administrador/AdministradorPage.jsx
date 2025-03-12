@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import "./AdministradorPage.css";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
+
 function AdministradorPage() {
 
   const [currentSorteoId, setCurrentSorteoId] = useState(null);
@@ -10,7 +13,7 @@ function AdministradorPage() {
   
   useEffect(() => {
     const fetchSorteoActivo = () => {
-      fetch('/api/sorteos')
+      fetch(`${API_URL}/api/sorteos`)
         .then(response => response.json())
         .then(data => {
           if (data.sorteo_id) {
@@ -26,7 +29,7 @@ function AdministradorPage() {
     };
 
     const fetchTickets = () => {
-      fetch('/api/tickets')
+      fetch(`${API_URL}/api/tickets`)
         .then(response => response.json())
         .then(data => {
           console.log("🎟️ Tickets recibidos desde API:", data); // 🔍 Verifica qué datos llegan
@@ -73,7 +76,7 @@ function AdministradorPage() {
 
   // Se consulta el endpoint de tickets al cargar el componente
   const fetchTickets = () => {
-    fetch('/api/tickets')
+    fetch(`${API_URL}/api/tickets`)
       .then(response => response.json())
       .then(data => setTickets(data))
       .catch(err => console.error("Error al obtener tickets:", err));
@@ -87,7 +90,7 @@ function AdministradorPage() {
 
   const handleUpdateFechaSorteo = async (sorteoId, nuevaFecha) => {
     try {
-      const response = await fetch(`http://localhost:3001/api/sorteos/${sorteoId}/updateFecha`, {
+      const response = await fetch(`${API_URL}/api/sorteos/${sorteoId}/updateFecha`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
@@ -116,7 +119,7 @@ function AdministradorPage() {
 
   // Función para aceptar la compra de un ticket
   const handleAcceptTicket = (ticketId) => {
-    fetch(`http://localhost:3001/api/tickets/${ticketId}/accept`, {
+    fetch(`${API_URL}/api/tickets/${ticketId}/accept`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
     })
@@ -134,7 +137,7 @@ function AdministradorPage() {
 
   // Función para rechazar un ticket
   const handleRejectTicket = (ticketId) => {
-    fetch(`http://localhost:3001/api/tickets/${ticketId}/reject`, {
+    fetch(`${API_URL}/api/tickets/${ticketId}/reject`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
     })
@@ -171,7 +174,7 @@ function AdministradorPage() {
     formData.append('total_tickets', sorteo.cantidadBoletos);
 
     // Enviar solicitud inicial
-    let response = await fetch('http://localhost:3001/api/sorteo', {
+    let response = await fetch(`${API_URL}/api/sorteo`, {
       method: 'POST',
       body: formData
     });
@@ -197,7 +200,7 @@ function AdministradorPage() {
       formDataConfirm.append('total_tickets', sorteo.cantidadBoletos);
       formDataConfirm.append('confirm', 'true');
 
-      response = await fetch('http://localhost:3001/api/sorteo', {
+      response = await fetch(`${API_URL}/api/sorteo`, {
         method: 'POST',
         body: formDataConfirm
       });

@@ -4,6 +4,8 @@ import SorteoInfo from './SorteoInfo.jsx';
 import "./ComprarBoletosPage.css";
 import Suerte from "../assets/Suerte.gif";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 function ComprarBoletosPage() {
   const [showModal, setShowModal] = useState(false);
   const [showModal2, setShowModal2] = useState(false);
@@ -72,7 +74,7 @@ const generarBoletosAleatorios = () => {
   // Obtener tickets de la API
   useEffect(() => {
     setLoading(true); // Activa el estado de carga antes de la petición
-    fetch('http://localhost:3001/api/tickets')
+    fetch(`${API_URL}/api/tickets`)
       .then(response => response.json())
       .then(data => {
         setTickets(data);
@@ -88,7 +90,7 @@ const generarBoletosAleatorios = () => {
   // Función para actualizar los tickets (marcarlos como "apartado")
   const updateTickets = async (usuario_id) => {
     try {
-      const response = await fetch("http://localhost:3001/api/apartarTickets", {
+      const response = await fetch(`${API_URL}/api/apartarTickets`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -110,13 +112,13 @@ const generarBoletosAleatorios = () => {
   const apartarUsuarioYTickets = async () => {
     try {
       // Obtener título del sorteo desde la API
-      const sorteoResponse = await fetch("http://localhost:3001/api/sorteos");
+      const sorteoResponse = await fetch(`${API_URL}/api/sorteos`);
       if (!sorteoResponse.ok) throw new Error("Error al obtener el sorteo");
       const sorteoData = await sorteoResponse.json();
       const titulo = sorteoData.titulo; // Extraer el título
   
       // Registrar usuario
-      const response = await fetch("http://localhost:3001/api/registroUsuarios", {
+      const response = await fetch(`${API_URL}/api/registroUsuarios`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ nombre, email, numero })

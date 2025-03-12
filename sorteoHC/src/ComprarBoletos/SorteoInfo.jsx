@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import "./ComprarBoletosPage.css";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 function SorteoInfo() {
   const [sorteo, setSorteo] = useState(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   useEffect(() => {
-    fetch('http://localhost:3001/api/sorteos')
+    fetch(`${API_URL}/api/sorteos`)
       .then(response => response.json())
       .then(data => setSorteo(data))
       .catch(error => console.error("Error al obtener sorteo:", error));
